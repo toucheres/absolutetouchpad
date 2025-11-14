@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
     // RIDEV_INPUTSINK can target this window (receives input even when not focused)
     HWND hwnd = (HWND)mainWindow.winId();
 
-    RawInputFilter *filter = new RawInputFilter(hwnd);
+    TouchPadRawInputFilter *filter = new TouchPadRawInputFilter(hwnd);
     qApp->installNativeEventFilter(filter);
 
     qDebug() << "Raw input filter installed.";

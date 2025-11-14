@@ -170,7 +170,7 @@ static std::vector<std::string> listHidApiDevices()
     return foundPaths;
 }
 
-RawInputFilter::RawInputFilter(HWND target)
+TouchPadRawInputFilter::TouchPadRawInputFilter(HWND target)
     : m_target(target)
 {
     // List devices so user can inspect UsagePage/Usage for their touchpad
@@ -187,14 +187,14 @@ RawInputFilter::RawInputFilter(HWND target)
     registerRawInput();
 }
 
-RawInputFilter::~RawInputFilter()
+TouchPadRawInputFilter::~TouchPadRawInputFilter()
 {
     unregisterRawInput();
     // cleanup hidapi
     hid_exit();
 }
 
-void RawInputFilter::registerRawInput()
+void TouchPadRawInputFilter::registerRawInput()
 {
     // Register both mouse and digitizer (touchpad) pages.
     // Many precision touchpads report under UsagePage = 0x0D (Digitizers)
@@ -225,7 +225,7 @@ void RawInputFilter::registerRawInput()
         qWarning() << "RegisterRawInputDevices failed:" << err;
         if (err == ERROR_INVALID_PARAMETER) {
             qWarning() << "Invalid parameter when registering raw input devices."
-                       << "If you constructed RawInputFilter without a valid HWND,"
+                       << "If you constructed TouchPadRawInputFilter without a valid HWND,"
                        << "try passing a window handle or allow registration without RIDEV_INPUTSINK.";
         }
 
@@ -248,7 +248,7 @@ void RawInputFilter::registerRawInput()
     }
 }
 
-void RawInputFilter::unregisterRawInput()
+void TouchPadRawInputFilter::unregisterRawInput()
 {
     RAWINPUTDEVICE rid;
     rid.usUsagePage = 0x01;
@@ -272,7 +272,7 @@ void RawInputFilter::unregisterRawInput()
     RegisterRawInputDevices(&rid3, 1, sizeof(rid3));
 }
 
-bool RawInputFilter::nativeEventFilter(const QByteArray &eventType, void *message, qintptr *result)
+bool TouchPadRawInputFilter::nativeEventFilter(const QByteArray &eventType, void *message, qintptr *result)
 {
     if (eventType != "windows_generic_MSG" && eventType != "windows_dispatcher_MSG")
         return false;
