@@ -13,7 +13,7 @@ endif()
 # set(CMAKE_AUTOMOC ON)
 # set(CMAKE_AUTOUIC ON)
 # set(CMAKE_AUTORCC ON)
-# set(CMAKE_PREFIX_PATH $ENV{QTDIR})
+set(CMAKE_PREFIX_PATH C:/Qt/6.7.3/msvc2022_64/lib/cmake)
 
 find_package(Qt6Core REQUIRED)
 find_package(Qt6Widgets REQUIRED)
@@ -74,5 +74,23 @@ target_include_directories(absolutetouchpad PRIVATE ${SOURCE_DIR})
 
 #===================== LINKING LIBRARIES =======================#
 
-target_link_libraries(absolutetouchpad Qt6::Widgets Qt6::Multimedia Qt6::Core5Compat)
+# Add hidapi third-party library (local copy under 3rd/hidapi)
+add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/3rd/hidapi")
+# Ensure the hidapi headers are available for compilation
+target_include_directories(absolutetouchpad PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/3rd/hidapi/hidapi")
+target_link_libraries(absolutetouchpad Qt6::Widgets Qt6::Multimedia Qt6::Core5Compat hidapi::hidapi)
 
+add_custom_command(TARGET absolutetouchpad POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "${CMAKE_CURRENT_SOURCE_DIR}/setting.txt"
+        $<TARGET_FILE_DIR:absolutetouchpad>
+)
+
+# Copy hidapi runtime artifact (DLL) next to the executable so it's available at run-time.
+# Use the target file of the hidapi target; if hidapi is built as shared library this will be the DLL.
+add_custom_command(TARGET absolutetouchpad POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E echo "Copying hidapi runtime to output directory"
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        $<TARGET_FILE:hidapi::hidapi>
+        $<TARGET_FILE_DIR:absolutetouchpad>
+)
