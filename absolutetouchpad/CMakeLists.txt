@@ -80,6 +80,10 @@ add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/3rd/hidapi")
 target_include_directories(absolutetouchpad PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/3rd/hidapi/hidapi")
 target_link_libraries(absolutetouchpad Qt6::Widgets Qt6::Multimedia Qt6::Core5Compat hidapi::hidapi)
 
+if (WIN32)
+    target_link_libraries(absolutetouchpad hid)
+endif()
+
 add_custom_command(TARGET absolutetouchpad POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
         "${CMAKE_CURRENT_SOURCE_DIR}/setting.txt"

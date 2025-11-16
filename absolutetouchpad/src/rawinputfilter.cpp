@@ -1,454 +1,409 @@
-#include <rawinputfilter.h>
-#include <QDebug>
+// Implements TouchPadRawInputFilter for processing precision touchpad RAWINPUT events.
+#include "rawinputfilter.h"
 
 #ifdef Q_OS_WIN
-#include <Windows.h>
-#include <cstring>
-#include <hidapi.h>
-#include <vector>
-#include <string>
-#include <algorithm>
+
+#include <QDebug>
+#include <QByteArray>
+#include <QString>
 #include <QStringList>
+#include <QLatin1Char>
 
-static void invokeLogCallback(const std::function<void(const QString&)> &cb, const QString &msg);
+#include <algorithm>
+#include <optional>
+#include <unordered_map>
+#include <vector>
 
-static quint16 readLe16(const QByteArray &data, int offset)
+#include <hidsdi.h>
+#include <hidusage.h>
+
+namespace
 {
-    if (offset < 0 || offset + 1 >= data.size()) return 0;
-    const unsigned char *ptr = reinterpret_cast<const unsigned char*>(data.constData());
-    return static_cast<quint16>(ptr[offset] | (ptr[offset + 1] << 8));
-}
-
-// Decode key Precision Touchpad (PTP) fields using heuristics gathered from observed reports.
-static void parsePtpReport(const QByteArray &report, const std::function<void(const QString&)> &cb)
+QString formatSystemError(DWORD errorCode)
 {
-    constexpr int kMaxContacts = 5;
-    constexpr int kCoordBytesPerContact = 4;  // two little-endian 16-bit values (X, Y)
-    constexpr int kExtraBytesPerContact = 2;  // per-contact metadata (flags + contact id)
-    constexpr int kHeaderBytes = 4;           // report id + count + timeline (2 bytes)
-    constexpr int kMinBytes = kHeaderBytes + (kMaxContacts * (kCoordBytesPerContact + kExtraBytesPerContact));
+	if (errorCode == 0)
+	{
+		return QStringLiteral("no error");
+	}
 
-    if (report.isEmpty() || static_cast<quint8>(report[0]) != 0x54) return;
+	LPWSTR buffer = nullptr;
+	const DWORD flags = FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS;
+	const DWORD written = ::FormatMessageW(flags,
+										   nullptr,
+										   errorCode,
+										   MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+										   reinterpret_cast<LPWSTR>(&buffer),
+										   0,
+										   nullptr);
 
-    if (report.size() < kMinBytes) {
-        const QString msg = QStringLiteral("PTP report shorter than expected: %1 bytes (expected >= %2)")
-                                 .arg(report.size())
-                                 .arg(kMinBytes);
-        qWarning() << msg;
-        invokeLogCallback(cb, msg);
-        return;
-    }
+	QString message = written && buffer ? QString::fromWCharArray(buffer, written).trimmed()
+										: QStringLiteral("unknown error");
+	if (buffer)
+	{
+		::LocalFree(buffer);
+	}
 
-    const auto asHex = [](quint8 value) {
-        return QString::number(value, 16).rightJustified(2, QChar('0')).toUpper();
-    };
-
-    const auto byteAt = [&](int offset) -> quint8 {
-        if (offset < 0 || offset >= report.size()) return 0;
-        return static_cast<quint8>(report[offset]);
-    };
-
-    const quint8 reportId = byteAt(0);
-    const quint8 rawCountField = byteAt(1);
-    const int contactCount = static_cast<int>(rawCountField);
-    const quint16 timeline = readLe16(report, 2);
-    const int boundedCount = qBound(0, contactCount, kMaxContacts);
-
-    const int coordBase = kHeaderBytes;
-    const int extraBase = coordBase + (kMaxContacts * kCoordBytesPerContact);
-    const int tailBase = extraBase + (kMaxContacts * kExtraBytesPerContact);
-
-    QStringList lines;
-    lines << QStringLiteral("PTP: id=0x%1 rawCount=0x%2 contacts=%3 timeline=%4")
-                 .arg(asHex(reportId))
-                 .arg(asHex(rawCountField))
-                 .arg(boundedCount)
-                 .arg(timeline);
-
-    for (int idx = 0; idx < kMaxContacts; ++idx) {
-        const int coordOffset = coordBase + (idx * kCoordBytesPerContact);
-        const quint16 x = readLe16(report, coordOffset);
-        const quint16 y = readLe16(report, coordOffset + 2);
-
-        const int metaOffset = extraBase + (idx * kExtraBytesPerContact);
-        const quint8 flags = byteAt(metaOffset);
-        const quint8 contactId = byteAt(metaOffset + 1);
-
-        const bool tipSwitch = (flags & 0x01) != 0;
-        const bool inRange = (flags & 0x02) != 0;
-        const bool primary = (flags & 0x04) != 0;
-        const bool confidence = (flags & 0x20) != 0;
-
-        QStringList flagHints;
-        if (tipSwitch) flagHints << QStringLiteral("tip");
-        if (inRange) flagHints << QStringLiteral("inRange");
-        if (primary) flagHints << QStringLiteral("primary");
-        if (confidence) flagHints << QStringLiteral("confidence");
-        if (flagHints.isEmpty()) flagHints << QStringLiteral("idle");
-
-        const bool contactActive = (idx < boundedCount) && (tipSwitch || inRange);
-        QString line = QStringLiteral("  Contact %1: id=%2 flags=0x%3 (%4) x=%5 y=%6")
-                    .arg(idx + 1)
-                    .arg(contactId)
-                    .arg(asHex(flags))
-                    .arg(flagHints.join(QLatin1Char(',')))
-                    .arg(x)
-                    .arg(y);
-        if (contactActive) line.append(QStringLiteral(" *active*"));
-        lines << line;
-    }
-
-    if (tailBase < report.size()) {
-        QStringList tailParts;
-        for (int i = tailBase; i < report.size(); ++i) {
-            tailParts << asHex(byteAt(i));
-        }
-        lines << QStringLiteral("      tail bytes=%1").arg(tailParts.join(QLatin1Char(' ')));
-    }
-
-    for (const auto &line : lines) {
-        qDebug().noquote() << line;
-        invokeLogCallback(cb, line);
-    }
+	return message;
 }
 
-static void logDeviceName(HANDLE hDevice)
+void logWin32Failure(const QString &context)
 {
-    UINT nameSize = 0;
-    GetRawInputDeviceInfoA(hDevice, RIDI_DEVICENAME, NULL, &nameSize);
-    if (nameSize > 0) {
-        std::string name;
-        name.resize(nameSize);
-        GetRawInputDeviceInfoA(hDevice, RIDI_DEVICENAME, &name[0], &nameSize);
-        qDebug() << "Device name:" << QString::fromStdString(name);
-        // if a log callback is set, emit as well
-        // (we can't access member callback here; caller will log via other points)
-    }
+	const DWORD error = ::GetLastError();
+	qWarning().noquote() << QStringLiteral("%1: %2 (code %3)")
+								 .arg(context)
+								 .arg(formatSystemError(error))
+								 .arg(error);
 }
 
-static void logDeviceInfo(HANDLE hDevice)
+USHORT firstUsage(const HIDP_VALUE_CAPS &cap)
 {
-    RID_DEVICE_INFO info;
-    UINT cbSize = sizeof(info);
-    memset(&info, 0, sizeof(info));
-    info.cbSize = cbSize;
-    if (GetRawInputDeviceInfo(hDevice, RIDI_DEVICEINFO, &info, &cbSize) == (UINT)-1) {
-        qWarning() << "GetRawInputDeviceInfo failed";
-        return;
-    }
-    if (info.dwType == RIM_TYPEHID) {
-        qDebug() << "  HID: Vendor" << info.hid.dwVendorId
-                 << "Product" << info.hid.dwProductId
-                 << "UsagePage" << QString::number(info.hid.usUsagePage, 16)
-                 << "Usage" << QString::number(info.hid.usUsage, 16);
-    } else if (info.dwType == RIM_TYPEMOUSE) {
-        qDebug() << "  MOUSE device";
-    } else if (info.dwType == RIM_TYPEKEYBOARD) {
-        qDebug() << "  KEYBOARD device";
-    }
+	return cap.IsRange ? cap.Range.UsageMin : cap.NotRange.Usage;
 }
+} // namespace
 
-static void listRawInputDevices()
+TouchPadRawInputFilter::TouchPadRawInputFilter(HWND targetWindow)
+	: m_targetWindow(targetWindow)
 {
-    UINT numDevices = 0;
-    if (GetRawInputDeviceList(NULL, &numDevices, sizeof(RAWINPUTDEVICELIST)) != 0) {
-        qWarning() << "GetRawInputDeviceList failed to get count";
-        return;
-    }
-    if (numDevices == 0) {
-        qDebug() << "No raw input devices";
-        return;
-    }
-    std::vector<RAWINPUTDEVICELIST> devs(numDevices);
-    if (GetRawInputDeviceList(devs.data(), &numDevices, sizeof(RAWINPUTDEVICELIST)) == (UINT)-1) {
-        qWarning() << "GetRawInputDeviceList failed to enumerate";
-        return;
-    }
-    qDebug() << "Raw input devices count:" << numDevices;
-    for (UINT i = 0; i < numDevices; ++i) {
-        logDeviceName(devs[i].hDevice);
-        logDeviceInfo(devs[i].hDevice);
-    }
+	if (!m_targetWindow)
+	{
+		qWarning() << "TouchPadRawInputFilter requires a valid HWND.";
+		return;
+	}
+
+	if (ensurePrecisionTouchpadPresent())
+	{
+		qDebug() << "Precision touchpad detected on the system.";
+	}
+	else
+	{
+		qWarning() << "Precision touchpad not detected via RAWINPUT device list.";
+	}
+
+	m_registered = registerRawInput();
+	if (!m_registered)
+	{
+		logWin32Failure(QStringLiteral("RegisterRawInputDevices failed"));
+	}
+	else
+	{
+		qDebug() << "Precision touchpad RAWINPUT registration successful.";
+	}
 }
 
-// helper method to invoke the instance callback if available
-static void invokeLogCallback(const std::function<void(const QString&)> &cb, const QString &msg)
+TouchPadRawInputFilter::~TouchPadRawInputFilter()
 {
-    if (cb) cb(msg);
+	if (m_registered)
+	{
+		RAWINPUTDEVICE device{};
+		device.usUsagePage = 0x000D;
+		device.usUsage = 0x0005;
+		device.dwFlags = RIDEV_REMOVE;
+		device.hwndTarget = nullptr;
+
+		if (!::RegisterRawInputDevices(&device, 1, sizeof(device)))
+		{
+			logWin32Failure(QStringLiteral("Failed to unregister RAWINPUT device"));
+		}
+	}
 }
 
-// Find raw input devices whose RID_DEVICE_INFO indicates Digitizer TouchPad (UsagePage=13, Usage=5)
-static std::vector<std::pair<HANDLE, std::string>> findRawTouchpadDevices()
+bool TouchPadRawInputFilter::nativeEventFilter(const QByteArray &eventType, void *message, qintptr *result)
 {
-    std::vector<std::pair<HANDLE, std::string>> found;
-    UINT numDevices = 0;
-    if (GetRawInputDeviceList(NULL, &numDevices, sizeof(RAWINPUTDEVICELIST)) != 0) return found;
-    if (numDevices == 0) return found;
-    std::vector<RAWINPUTDEVICELIST> devs(numDevices);
-    if (GetRawInputDeviceList(devs.data(), &numDevices, sizeof(RAWINPUTDEVICELIST)) == (UINT)-1) return found;
+	Q_UNUSED(result);
 
-    for (UINT i = 0; i < numDevices; ++i) {
-        RID_DEVICE_INFO info;
-        UINT cbSize = sizeof(info);
-        memset(&info, 0, sizeof(info));
-        info.cbSize = cbSize;
-        if (GetRawInputDeviceInfo(devs[i].hDevice, RIDI_DEVICEINFO, &info, &cbSize) == (UINT)-1) continue;
-        if (info.dwType == RIM_TYPEHID) {
-            if (info.hid.usUsagePage == 0x0D && info.hid.usUsage == 0x05) {
-                // likely touchpad
-                // get device name
-                UINT nameSize = 0;
-                GetRawInputDeviceInfoA(devs[i].hDevice, RIDI_DEVICENAME, NULL, &nameSize);
-                std::string devname;
-                if (nameSize > 0) {
-                    devname.resize(nameSize);
-                    if (GetRawInputDeviceInfoA(devs[i].hDevice, RIDI_DEVICENAME, &devname[0], &nameSize) == (UINT)-1) devname.clear();
-                }
-                found.emplace_back(devs[i].hDevice, devname);
-            }
-        }
-    }
-    return found;
+	if (eventType != "windows_generic_MSG" && eventType != "windows_dispatcher_MSG")
+	{
+		return false;
+	}
+
+	MSG *msg = static_cast<MSG *>(message);
+	if (!msg || msg->message != WM_INPUT)
+	{
+		return false;
+	}
+
+	handleRawInput(reinterpret_cast<HRAWINPUT>(msg->lParam));
+	return false;
 }
 
-static bool ContainsIgnoreCase(const std::wstring &s, const std::wstring &sub) {
-    auto it = std::search(
-        s.begin(), s.end(),
-        sub.begin(), sub.end(),
-        [](wchar_t a, wchar_t b){ return towlower(a) == towlower(b); }
-    );
-    return it != s.end();
-}
-
-// Use hidapi to enumerate HID devices and try to detect likely precision touchpads
-// Returns a vector of device paths (UTF-8) that are likely touchpads
-static std::vector<std::string> listHidApiDevices()
+bool TouchPadRawInputFilter::registerRawInput()
 {
-    if (hid_init() != 0) {
-        qWarning() << "hidapi init failed";
-        return {};
-    }
+	RAWINPUTDEVICE device{};
+	device.usUsagePage = 0x000D; // Digitizer
+	device.usUsage = 0x0005;     // Touch pad
+	device.dwFlags = RIDEV_INPUTSINK;
+	device.hwndTarget = m_targetWindow;
 
-    struct hid_device_info *devs = hid_enumerate(0x0, 0x0);
-    struct hid_device_info *cur = devs;
-    qDebug() << "hidapi devices list:";
-    std::vector<std::string> foundPaths;
-    while (cur) {
-        bool likely = false;
+	if (::RegisterRawInputDevices(&device, 1, sizeof(device)))
+	{
+		return true;
+	}
 
-        // Check usage page/usage for Digitizers (0x0D)
-        if (cur->usage_page == 0x0D) {
-            if (cur->usage == 0x05 || cur->usage == 0x04) {
-                likely = true;
-            }
-        }
-
-        // Check product string or manufacturer for keywords
-        if (!likely && cur->product_string) {
-            std::wstring prod(cur->product_string);
-            const std::vector<std::wstring> keywords = { L"precision", L"touchpad", L"synaptics", L"elan", L"trackpad", L"hidi2c", L"i2c" };
-            for (auto &kw : keywords) {
-                if (ContainsIgnoreCase(prod, kw)) { likely = true; break; }
-            }
-        }
-
-        QString qpath = cur->path ? QString::fromUtf8(cur->path) : QString();
-        qDebug() << "  HID: Vendor" << cur->vendor_id
-                 << "Product" << cur->product_id
-                 << "UsagePage" << QString::number(cur->usage_page, 16)
-                 << "Usage" << QString::number(cur->usage, 16)
-                 << "Path" << qpath
-                 << "ProductStr" << (cur->product_string ? QString::fromWCharArray(cur->product_string) : QString())
-                 << (likely ? "[Likely Touchpad]" : "");
-
-        if (likely && cur->path) {
-            // store the raw device path (UTF-8)
-            foundPaths.emplace_back(cur->path);
-        }
-
-        cur = cur->next;
-    }
-    hid_free_enumeration(devs);
-    // do not call hid_exit here; keep library initialized if further opens are needed
-    return foundPaths;
+	return false;
 }
 
-RawInputFilter::RawInputFilter(HWND target)
-    : m_target(target)
+bool TouchPadRawInputFilter::ensurePrecisionTouchpadPresent()
 {
-    // List devices so user can inspect UsagePage/Usage for their touchpad
-    listRawInputDevices();
-    // Additionally enumerate via hidapi for richer info (product strings, usage_page, etc.)
-    m_touchpadPaths = listHidApiDevices();
-    // Also detect Raw Input devices directly whose device info reports UsagePage=13, Usage=5 (TouchPad)
-    auto rawFound = findRawTouchpadDevices();
-    for (auto &p : rawFound) {
-        m_touchpadDeviceHandles.push_back(p.first);
-        if (!p.second.empty()) m_touchpadPaths.push_back(p.second);
-        qDebug() << "Detected raw touchpad device handle:" << (quintptr)p.first << "name:" << QString::fromStdString(p.second);
-    }
-    registerRawInput();
+	UINT deviceCount = 0;
+	const UINT deviceSize = sizeof(RAWINPUTDEVICELIST);
+
+	if (::GetRawInputDeviceList(nullptr, &deviceCount, deviceSize) != 0)
+	{
+		logWin32Failure(QStringLiteral("GetRawInputDeviceList size query failed"));
+		return false;
+	}
+
+	if (deviceCount == 0)
+	{
+		return false;
+	}
+
+	std::vector<RAWINPUTDEVICELIST> devices(deviceCount);
+	if (::GetRawInputDeviceList(devices.data(), &deviceCount, deviceSize) == static_cast<UINT>(-1))
+	{
+		logWin32Failure(QStringLiteral("GetRawInputDeviceList enumeration failed"));
+		return false;
+	}
+
+	bool found = false;
+	for (UINT index = 0; index < deviceCount; ++index)
+	{
+		const RAWINPUTDEVICELIST &entry = devices[index];
+		if (entry.dwType != RIM_TYPEHID)
+		{
+			continue;
+		}
+
+		RID_DEVICE_INFO info{};
+		info.cbSize = sizeof(info);
+		UINT infoSize = sizeof(info);
+
+		if (::GetRawInputDeviceInfo(entry.hDevice, RIDI_DEVICEINFO, &info, &infoSize) == static_cast<UINT>(-1))
+		{
+			continue;
+		}
+
+		if (info.dwType == RIM_TYPEHID && info.hid.usUsagePage == 0x000D && info.hid.usUsage == 0x0005)
+		{
+			const QString deviceId = QStringLiteral("VID_%1&PID_%2")
+										  .arg(info.hid.dwVendorId, 4, 16, QLatin1Char('0'))
+										  .arg(info.hid.dwProductId, 4, 16, QLatin1Char('0'))
+										  .toUpper();
+			qDebug().noquote() << QStringLiteral("Found precision touchpad raw device: %1 (version %2)")
+									  .arg(deviceId)
+									  .arg(info.hid.dwVersionNumber);
+			found = true;
+			break;
+		}
+	}
+
+	return found;
 }
 
-RawInputFilter::~RawInputFilter()
+void TouchPadRawInputFilter::handleRawInput(HRAWINPUT rawInputHandle)
 {
-    unregisterRawInput();
-    // cleanup hidapi
-    hid_exit();
+	UINT requiredSize = 0;
+	if (::GetRawInputData(rawInputHandle, RID_INPUT, nullptr, &requiredSize, sizeof(RAWINPUTHEADER)) != 0)
+	{
+		logWin32Failure(QStringLiteral("GetRawInputData size query failed"));
+		return;
+	}
+
+	if (requiredSize == 0)
+	{
+		return;
+	}
+
+	std::vector<BYTE> rawInputBuffer(requiredSize);
+	if (::GetRawInputData(rawInputHandle, RID_INPUT, rawInputBuffer.data(), &requiredSize, sizeof(RAWINPUTHEADER)) != requiredSize)
+	{
+		logWin32Failure(QStringLiteral("GetRawInputData retrieval failed"));
+		return;
+	}
+
+	RAWINPUT *rawInput = reinterpret_cast<RAWINPUT *>(rawInputBuffer.data());
+	if (!rawInput || rawInput->header.dwType != RIM_TYPEHID)
+	{
+		return;
+	}
+
+	const DWORD reportSize = rawInput->data.hid.dwSizeHid * rawInput->data.hid.dwCount;
+	if (reportSize == 0)
+	{
+		return;
+	}
+
+	std::vector<BYTE> report(reportSize);
+	const BYTE *hidRawData = rawInput->data.hid.bRawData;
+	std::copy_n(hidRawData, reportSize, report.begin());
+	const ULONG reportLength = static_cast<ULONG>(report.size());
+
+	UINT preparsedSize = 0;
+	if (::GetRawInputDeviceInfo(rawInput->header.hDevice, RIDI_PREPARSEDDATA, nullptr, &preparsedSize) != 0)
+	{
+		logWin32Failure(QStringLiteral("GetRawInputDeviceInfo preparsed size failed"));
+		return;
+	}
+
+	if (preparsedSize == 0)
+	{
+		return;
+	}
+
+	std::vector<BYTE> preparsed(preparsedSize);
+	if (::GetRawInputDeviceInfo(rawInput->header.hDevice,
+								RIDI_PREPARSEDDATA,
+								preparsed.data(),
+								&preparsedSize) != preparsedSize)
+	{
+		logWin32Failure(QStringLiteral("GetRawInputDeviceInfo preparsed data failed"));
+		return;
+	}
+
+	HIDP_CAPS caps{};
+	if (::HidP_GetCaps(reinterpret_cast<PHIDP_PREPARSED_DATA>(preparsed.data()), &caps) != HIDP_STATUS_SUCCESS)
+	{
+		qWarning() << "HidP_GetCaps failed for precision touchpad report.";
+		return;
+	}
+
+	USHORT valueCapsLength = caps.NumberInputValueCaps;
+	if (valueCapsLength == 0)
+	{
+		return;
+	}
+
+	std::vector<HIDP_VALUE_CAPS> valueCaps(valueCapsLength);
+	if (::HidP_GetValueCaps(HidP_Input,
+							valueCaps.data(),
+							&valueCapsLength,
+							reinterpret_cast<PHIDP_PREPARSED_DATA>(preparsed.data())) != HIDP_STATUS_SUCCESS)
+	{
+		qWarning() << "HidP_GetValueCaps failed for precision touchpad report.";
+		return;
+	}
+	valueCaps.resize(valueCapsLength);
+
+	std::sort(valueCaps.begin(), valueCaps.end(), [](const HIDP_VALUE_CAPS &lhs, const HIDP_VALUE_CAPS &rhs) {
+		if (lhs.LinkCollection != rhs.LinkCollection)
+		{
+			return lhs.LinkCollection < rhs.LinkCollection;
+		}
+		if (lhs.UsagePage != rhs.UsagePage)
+		{
+			return lhs.UsagePage < rhs.UsagePage;
+		}
+		const USHORT lhsUsage = firstUsage(lhs);
+		const USHORT rhsUsage = firstUsage(rhs);
+		return lhsUsage < rhsUsage;
+	});
+
+	struct ContactState
+	{
+		std::optional<quint32> contactId;
+		std::optional<qint32> x;
+		std::optional<qint32> y;
+	};
+
+	std::unordered_map<USHORT, ContactState> contactStates;
+
+	quint32 scanTime = 0;
+	quint32 contactCount = 0;
+
+	for (const HIDP_VALUE_CAPS &cap : valueCaps)
+	{
+		const USHORT usagePage = cap.UsagePage;
+		const USHORT usage = firstUsage(cap);
+		ULONG value = 0;
+
+		const NTSTATUS status = ::HidP_GetUsageValue(HidP_Input,
+													 usagePage,
+													 cap.LinkCollection,
+													 usage,
+													 &value,
+													 reinterpret_cast<PHIDP_PREPARSED_DATA>(preparsed.data()),
+													 reinterpret_cast<PCHAR>(report.data()),
+													 reportLength);
+		if (status != HIDP_STATUS_SUCCESS)
+		{
+			continue;
+		}
+
+		if (cap.LinkCollection == 0)
+		{
+			if (usagePage == 0x0D && usage == 0x56)
+			{
+				scanTime = value;
+			}
+			else if (usagePage == 0x0D && usage == 0x54)
+			{
+				contactCount = value;
+			}
+			continue;
+		}
+
+		ContactState &state = contactStates[cap.LinkCollection];
+		if (usagePage == 0x0D && usage == 0x51)
+		{
+			state.contactId = value;
+		}
+		else if (usagePage == 0x01 && usage == 0x30)
+		{
+			state.x = static_cast<qint32>(value);
+		}
+		else if (usagePage == 0x01 && usage == 0x31)
+		{
+			state.y = static_cast<qint32>(value);
+		}
+	}
+
+	struct ContactLog
+	{
+		quint32 id;
+		qint32 x;
+		qint32 y;
+	};
+
+	std::vector<ContactLog> contacts;
+	contacts.reserve(contactStates.size());
+	for (const auto &entry : contactStates)
+	{
+		const ContactState &state = entry.second;
+		if (!state.contactId.has_value() || !state.x.has_value() || !state.y.has_value())
+		{
+			continue;
+		}
+
+		contacts.push_back(ContactLog{*state.contactId, *state.x, *state.y});
+	}
+
+	std::sort(contacts.begin(), contacts.end(), [](const ContactLog &lhs, const ContactLog &rhs) {
+		return lhs.id < rhs.id;
+	});
+
+	QStringList contactLines;
+	contactLines.reserve(static_cast<int>(contacts.size()));
+	for (const ContactLog &entry : contacts)
+	{
+		contactLines << QStringLiteral("id=%1 x=%2 y=%3")
+							.arg(entry.id)
+							.arg(entry.x)
+							.arg(entry.y);
+	}
+
+	if (!contactLines.isEmpty())
+	{
+		qDebug().noquote() << QStringLiteral("PTP scanTime=%1 rawContactCount=%2 -> %3")
+								  .arg(scanTime)
+								  .arg(contactCount)
+								  .arg(contactLines.join(QStringLiteral(" | ")));
+	}
+	else
+	{
+		qDebug().noquote() << QStringLiteral("PTP scanTime=%1 rawContactCount=%2 (no contacts parsed)")
+								  .arg(scanTime)
+								  .arg(contactCount);
+	}
 }
 
-void RawInputFilter::registerRawInput()
-{
-    // Register both mouse and digitizer (touchpad) pages.
-    // Many precision touchpads report under UsagePage = 0x0D (Digitizers)
-    // Adjust the usUsage value after inspecting the device list above.
-    RAWINPUTDEVICE rids[3];
-    memset(rids, 0, sizeof(rids));
-
-    // Mouse (fallback)
-    rids[0].usUsagePage = 0x01; // Generic Desktop Controls
-    rids[0].usUsage = 0x02;     // Mouse
-    rids[0].dwFlags = m_target ? RIDEV_INPUTSINK : 0;
-    rids[0].hwndTarget = m_target;
-
-    // Digitizer (touchpad) - many devices use usage 0x04 or 0x05; change if needed
-    // Register both common digitizer usages (0x04 and 0x05) to cover more devices
-    rids[1].usUsagePage = 0x0D; // Digitizers
-    rids[1].usUsage = 0x04;     // Digitizer collection (may be TouchPad/TouchScreen)
-    rids[1].dwFlags = m_target ? RIDEV_INPUTSINK : 0;
-    rids[1].hwndTarget = m_target;
-
-    rids[2].usUsagePage = 0x0D; // Digitizers
-    rids[2].usUsage = 0x05;     // Touch Pad (some devices use usage 0x05)
-    rids[2].dwFlags = m_target ? RIDEV_INPUTSINK : 0;
-    rids[2].hwndTarget = m_target;
-
-    if (!RegisterRawInputDevices(rids, 3, sizeof(RAWINPUTDEVICE))) {
-        DWORD err = GetLastError();
-        qWarning() << "RegisterRawInputDevices failed:" << err;
-        if (err == ERROR_INVALID_PARAMETER) {
-            qWarning() << "Invalid parameter when registering raw input devices."
-                       << "If you constructed RawInputFilter without a valid HWND,"
-                       << "try passing a window handle or allow registration without RIDEV_INPUTSINK.";
-        }
-
-        // Fallback: if we attempted INPUTSINK but failed, try registering without it
-        if (m_target && (rids[0].dwFlags != 0 || rids[1].dwFlags != 0 || rids[2].dwFlags != 0)) {
-            rids[0].dwFlags = 0;
-            rids[0].hwndTarget = NULL;
-            rids[1].dwFlags = 0;
-            rids[1].hwndTarget = NULL;
-            rids[2].dwFlags = 0;
-            rids[2].hwndTarget = NULL;
-            if (RegisterRawInputDevices(rids, 3, sizeof(RAWINPUTDEVICE))) {
-                qDebug() << "RegisterRawInputDevices succeeded without INPUTSINK (will receive raw input only when focused)";
-            } else {
-                qWarning() << "Fallback RegisterRawInputDevices also failed:" << GetLastError();
-            }
-        }
-    } else {
-        qDebug() << "RegisterRawInputDevices succeeded.";
-    }
-}
-
-void RawInputFilter::unregisterRawInput()
-{
-    RAWINPUTDEVICE rid;
-    rid.usUsagePage = 0x01;
-    rid.usUsage = 0x02;
-    rid.dwFlags = RIDEV_REMOVE;
-    rid.hwndTarget = NULL;
-    RegisterRawInputDevices(&rid, 1, sizeof(rid));
-
-    RAWINPUTDEVICE rid2;
-    rid2.usUsagePage = 0x0D;
-    rid2.usUsage = 0x04;
-    rid2.dwFlags = RIDEV_REMOVE;
-    rid2.hwndTarget = NULL;
-    RegisterRawInputDevices(&rid2, 1, sizeof(rid2));
-
-    RAWINPUTDEVICE rid3;
-    rid3.usUsagePage = 0x0D;
-    rid3.usUsage = 0x05;
-    rid3.dwFlags = RIDEV_REMOVE;
-    rid3.hwndTarget = NULL;
-    RegisterRawInputDevices(&rid3, 1, sizeof(rid3));
-}
-
-bool RawInputFilter::nativeEventFilter(const QByteArray &eventType, void *message, qintptr *result)
-{
-    if (eventType != "windows_generic_MSG" && eventType != "windows_dispatcher_MSG")
-        return false;
-
-    MSG *msg = static_cast<MSG*>(message);
-    if (!msg) return false;
-
-    if (msg->message == WM_INPUT)
-    {
-        HRAWINPUT hRaw = reinterpret_cast<HRAWINPUT>(msg->lParam);
-        UINT size = 0;
-        if (GetRawInputData(hRaw, RID_INPUT, NULL, &size, sizeof(RAWINPUTHEADER)) == (UINT)-1) {
-            qWarning() << "GetRawInputData size failed";
-            return false;
-        }
-        QByteArray buffer;
-        buffer.resize(size);
-        if (GetRawInputData(hRaw, RID_INPUT, buffer.data(), &size, sizeof(RAWINPUTHEADER)) != size) {
-            qWarning() << "GetRawInputData read failed";
-            return false;
-        }
-        RAWINPUT* raw = reinterpret_cast<RAWINPUT*>(buffer.data());
-        // Filter: if we have detected touchpad paths, only process input from those devices
-        // If we detected touchpad handles from Raw Input device info, prefer handle comparison (most reliable)
-        if (!m_touchpadDeviceHandles.empty()) {
-            bool matchedHandle = false;
-            for (auto h : m_touchpadDeviceHandles) {
-                if (h == raw->header.hDevice) { matchedHandle = true; break; }
-            }
-            if (!matchedHandle) {
-                // not from a touchpad handle we detected
-                return false;
-            }
-        } else if (!m_touchpadPaths.empty()) {
-            // fallback: match by device name/path strings as before
-            UINT nameSize = 0;
-            if (GetRawInputDeviceInfoA(raw->header.hDevice, RIDI_DEVICENAME, NULL, &nameSize) != (UINT)-1 && nameSize > 0) {
-                std::string devname;
-                devname.resize(nameSize);
-                if (GetRawInputDeviceInfoA(raw->header.hDevice, RIDI_DEVICENAME, &devname[0], &nameSize) != (UINT)-1) {
-                    qDebug() << "WM_INPUT from device name:" << QString::fromStdString(devname);
-                    for (const auto &p : m_touchpadPaths) qDebug() << "  candidate path:" << QString::fromStdString(p);
-                    bool matched = false;
-                    for (const auto &p : m_touchpadPaths) {
-                        if (p.empty()) continue;
-                        if (devname.find(p) != std::string::npos) { matched = true; break; }
-                        std::string pLower = p; std::string dnLower = devname;
-                        std::transform(pLower.begin(), pLower.end(), pLower.begin(), ::tolower);
-                        std::transform(dnLower.begin(), dnLower.end(), dnLower.begin(), ::tolower);
-                        if (dnLower.find(pLower) != std::string::npos) { matched = true; break; }
-                        auto pos = p.find('#');
-                        if (pos != std::string::npos) {
-                            std::string tail = p.substr(pos);
-                            if (!tail.empty() && (devname.find(tail) != std::string::npos || dnLower.find(tail) != std::string::npos)) { matched = true; break; }
-                        }
-                    }
-                    qDebug() << "  matched touchpad?" << (matched ? "YES" : "NO");
-                    if (!matched) return false;
-                }
-            }
-        }
-        if (raw->header.dwType == RIM_TYPEHID)
-        {
-            auto &hid = raw->data.hid;
-            int reportSize = static_cast<int>(hid.dwSizeHid * hid.dwCount);
-            QByteArray report(reinterpret_cast<const char*>(hid.bRawData), reportSize);
-            qDebug() << "HID report from device" << (quintptr)(raw->header.hDevice) << ":"
-                     << report.toHex(' ');
-            parsePtpReport(report, m_logCallback);
-        }
-        return false;
-    }
-    return false;
-}
-
-#endif
+#endif // Q_OS_WIN
