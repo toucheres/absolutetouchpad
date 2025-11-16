@@ -8,6 +8,109 @@
 #include <vector>
 #include <string>
 #include <algorithm>
+#include <QStringList>
+
+static void invokeLogCallback(const std::function<void(const QString&)> &cb, const QString &msg);
+
+static quint16 readLe16(const QByteArray &data, int offset)
+{
+    if (offset < 0 || offset + 1 >= data.size()) return 0;
+    const unsigned char *ptr = reinterpret_cast<const unsigned char*>(data.constData());
+    return static_cast<quint16>(ptr[offset] | (ptr[offset + 1] << 8));
+}
+
+// Decode key Precision Touchpad (PTP) fields using heuristics gathered from observed reports.
+static void parsePtpReport(const QByteArray &report, const std::function<void(const QString&)> &cb)
+{
+    constexpr int kMaxContacts = 5;
+    constexpr int kCoordBytesPerContact = 4;  // two little-endian 16-bit values (X, Y)
+    constexpr int kExtraBytesPerContact = 2;  // per-contact metadata (flags + contact id)
+    constexpr int kHeaderBytes = 4;           // report id + count + timeline (2 bytes)
+    constexpr int kMinBytes = kHeaderBytes + (kMaxContacts * (kCoordBytesPerContact + kExtraBytesPerContact));
+
+    if (report.isEmpty() || static_cast<quint8>(report[0]) != 0x54) return;
+
+    if (report.size() < kMinBytes) {
+        const QString msg = QStringLiteral("PTP report shorter than expected: %1 bytes (expected >= %2)")
+                                 .arg(report.size())
+                                 .arg(kMinBytes);
+        qWarning() << msg;
+        invokeLogCallback(cb, msg);
+        return;
+    }
+
+    const auto asHex = [](quint8 value) {
+        return QString::number(value, 16).rightJustified(2, QChar('0')).toUpper();
+    };
+
+    const auto byteAt = [&](int offset) -> quint8 {
+        if (offset < 0 || offset >= report.size()) return 0;
+        return static_cast<quint8>(report[offset]);
+    };
+
+    const quint8 reportId = byteAt(0);
+    const quint8 rawCountField = byteAt(1);
+    const int contactCount = static_cast<int>(rawCountField);
+    const quint16 timeline = readLe16(report, 2);
+    const int boundedCount = qBound(0, contactCount, kMaxContacts);
+
+    const int coordBase = kHeaderBytes;
+    const int extraBase = coordBase + (kMaxContacts * kCoordBytesPerContact);
+    const int tailBase = extraBase + (kMaxContacts * kExtraBytesPerContact);
+
+    QStringList lines;
+    lines << QStringLiteral("PTP: id=0x%1 rawCount=0x%2 contacts=%3 timeline=%4")
+                 .arg(asHex(reportId))
+                 .arg(asHex(rawCountField))
+                 .arg(boundedCount)
+                 .arg(timeline);
+
+    for (int idx = 0; idx < kMaxContacts; ++idx) {
+        const int coordOffset = coordBase + (idx * kCoordBytesPerContact);
+        const quint16 x = readLe16(report, coordOffset);
+        const quint16 y = readLe16(report, coordOffset + 2);
+
+        const int metaOffset = extraBase + (idx * kExtraBytesPerContact);
+        const quint8 flags = byteAt(metaOffset);
+        const quint8 contactId = byteAt(metaOffset + 1);
+
+        const bool tipSwitch = (flags & 0x01) != 0;
+        const bool inRange = (flags & 0x02) != 0;
+        const bool primary = (flags & 0x04) != 0;
+        const bool confidence = (flags & 0x20) != 0;
+
+        QStringList flagHints;
+        if (tipSwitch) flagHints << QStringLiteral("tip");
+        if (inRange) flagHints << QStringLiteral("inRange");
+        if (primary) flagHints << QStringLiteral("primary");
+        if (confidence) flagHints << QStringLiteral("confidence");
+        if (flagHints.isEmpty()) flagHints << QStringLiteral("idle");
+
+        const bool contactActive = (idx < boundedCount) && (tipSwitch || inRange);
+        QString line = QStringLiteral("  Contact %1: id=%2 flags=0x%3 (%4) x=%5 y=%6")
+                    .arg(idx + 1)
+                    .arg(contactId)
+                    .arg(asHex(flags))
+                    .arg(flagHints.join(QLatin1Char(',')))
+                    .arg(x)
+                    .arg(y);
+        if (contactActive) line.append(QStringLiteral(" *active*"));
+        lines << line;
+    }
+
+    if (tailBase < report.size()) {
+        QStringList tailParts;
+        for (int i = tailBase; i < report.size(); ++i) {
+            tailParts << asHex(byteAt(i));
+        }
+        lines << QStringLiteral("      tail bytes=%1").arg(tailParts.join(QLatin1Char(' ')));
+    }
+
+    for (const auto &line : lines) {
+        qDebug().noquote() << line;
+        invokeLogCallback(cb, line);
+    }
+}
 
 static void logDeviceName(HANDLE hDevice)
 {
@@ -170,7 +273,7 @@ static std::vector<std::string> listHidApiDevices()
     return foundPaths;
 }
 
-TouchPadRawInputFilter::TouchPadRawInputFilter(HWND target)
+RawInputFilter::RawInputFilter(HWND target)
     : m_target(target)
 {
     // List devices so user can inspect UsagePage/Usage for their touchpad
@@ -187,14 +290,14 @@ TouchPadRawInputFilter::TouchPadRawInputFilter(HWND target)
     registerRawInput();
 }
 
-TouchPadRawInputFilter::~TouchPadRawInputFilter()
+RawInputFilter::~RawInputFilter()
 {
     unregisterRawInput();
     // cleanup hidapi
     hid_exit();
 }
 
-void TouchPadRawInputFilter::registerRawInput()
+void RawInputFilter::registerRawInput()
 {
     // Register both mouse and digitizer (touchpad) pages.
     // Many precision touchpads report under UsagePage = 0x0D (Digitizers)
@@ -225,7 +328,7 @@ void TouchPadRawInputFilter::registerRawInput()
         qWarning() << "RegisterRawInputDevices failed:" << err;
         if (err == ERROR_INVALID_PARAMETER) {
             qWarning() << "Invalid parameter when registering raw input devices."
-                       << "If you constructed TouchPadRawInputFilter without a valid HWND,"
+                       << "If you constructed RawInputFilter without a valid HWND,"
                        << "try passing a window handle or allow registration without RIDEV_INPUTSINK.";
         }
 
@@ -248,7 +351,7 @@ void TouchPadRawInputFilter::registerRawInput()
     }
 }
 
-void TouchPadRawInputFilter::unregisterRawInput()
+void RawInputFilter::unregisterRawInput()
 {
     RAWINPUTDEVICE rid;
     rid.usUsagePage = 0x01;
@@ -272,7 +375,7 @@ void TouchPadRawInputFilter::unregisterRawInput()
     RegisterRawInputDevices(&rid3, 1, sizeof(rid3));
 }
 
-bool TouchPadRawInputFilter::nativeEventFilter(const QByteArray &eventType, void *message, qintptr *result)
+bool RawInputFilter::nativeEventFilter(const QByteArray &eventType, void *message, qintptr *result)
 {
     if (eventType != "windows_generic_MSG" && eventType != "windows_dispatcher_MSG")
         return false;
@@ -341,7 +444,7 @@ bool TouchPadRawInputFilter::nativeEventFilter(const QByteArray &eventType, void
             QByteArray report(reinterpret_cast<const char*>(hid.bRawData), reportSize);
             qDebug() << "HID report from device" << (quintptr)(raw->header.hDevice) << ":"
                      << report.toHex(' ');
-            // TODO: parse PTP HID report here
+            parsePtpReport(report, m_logCallback);
         }
         return false;
     }

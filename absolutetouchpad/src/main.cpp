@@ -1,12 +1,13 @@
-// absolutetouchpad.cpp: 定义应用程序的入口点。
+﻿// absolutetouchpad.cpp: 定义应用程序的入口点。
 #include "main.h"
 #include <QApplication>
 #include <QDebug>
+#include <QMainWindow>
 #include <hidapi.h>
 #include <rawinputfilter.h>
-#include <QMainWindow>
+#include <windows.h>
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
     QApplication app(argc, argv);
 
@@ -17,7 +18,8 @@ int main(int argc, char *argv[])
     // RIDEV_INPUTSINK can target this window (receives input even when not focused)
     HWND hwnd = (HWND)mainWindow.winId();
 
-    TouchPadRawInputFilter *filter = new TouchPadRawInputFilter(hwnd);
+    RawInputFilter* filter = new RawInputFilter(hwnd);
+
     qApp->installNativeEventFilter(filter);
 
     qDebug() << "Raw input filter installed.";

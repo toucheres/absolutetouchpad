@@ -8,11 +8,11 @@
 #include <windows.h>
 #include <functional>
 
-class TouchPadRawInputFilter : public QAbstractNativeEventFilter
+class RawInputFilter : public QAbstractNativeEventFilter
 {
 public:
-    explicit TouchPadRawInputFilter(HWND target = nullptr);
-    ~TouchPadRawInputFilter() override;
+    explicit RawInputFilter(HWND target = nullptr);
+    ~RawInputFilter() override;
     bool nativeEventFilter(const QByteArray &eventType, void *message, qintptr *result) override;
 
     // set a callback to receive textual log messages from the filter
