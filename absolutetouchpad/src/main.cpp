@@ -7,12 +7,13 @@
 #include <hidapi.h>
 #include <rawinputfilter.h>
 #include <windows.h>
-
+#include <mainwidow.h>
+// 精确式触摸板不触发touchevent, 一指视为鼠标，二指视为滚轮，3/4/5指由操作系统拦截处理
 int main(int argc, char* argv[])
 {
     QApplication app(argc, argv);
 
-    QMainWindow mainWindow;
+    Mainwindow mainWindow;
     mainWindow.show();
 
     // Ensure native window handle exists and pass it to the filter so

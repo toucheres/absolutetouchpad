@@ -7,24 +7,46 @@
 #include <QByteArray>
 #include <QtGlobal>
 #include <windows.h>
-
+#include <QRectF>
 // TouchPadRawInputFilter installs a RAWINPUT subscription for precision touchpads
 // and logs contact information extracted from HID reports.
 class TouchPadRawInputFilter : public QAbstractNativeEventFilter
 {
-public:
-	explicit TouchPadRawInputFilter(HWND targetWindow);
-	~TouchPadRawInputFilter() override;
+  public:
+    explicit TouchPadRawInputFilter(HWND targetWindow);
+    ~TouchPadRawInputFilter() override;
 
-	bool nativeEventFilter(const QByteArray &eventType, void *message, qintptr *result) override;
-	bool isRegistered() const { return m_registered; }
+    bool nativeEventFilter(const QByteArray& eventType, void* message, qintptr* result) override;
 
-private:
-	bool registerRawInput();
-	bool ensurePrecisionTouchpadPresent();
-	void handleRawInput(HRAWINPUT rawInputHandle);
+    bool isRegistered() const
+    {
+        return m_registered;
+    }
+    struct ContactLog
+    {
+        quint32 id;
+        qint32 x;
+        qint32 y;
+    };
+    enum class Mode
+    {
+        simple,
+        absmouse,
+        pen
+    };
+    Mode mode = Mode::simple;
+    QRectF absMapRect{};
+    QSizeF penMapSize{};
+    QSizeF screenSize{};
 
-	HWND m_targetWindow = nullptr;
-	bool m_registered = false;
+
+  private:
+    bool registerRawInput();
+    bool ensurePrecisionTouchpadPresent();
+    void handleRawInput(HRAWINPUT rawInputHandle);
+    void handleMode(std::vector<ContactLog> innput);
+
+    HWND m_targetWindow = nullptr;
+    bool m_registered = false;
 };
 #endif
