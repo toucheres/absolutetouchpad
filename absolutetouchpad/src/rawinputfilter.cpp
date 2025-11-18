@@ -204,6 +204,8 @@ bool TouchPadRawInputFilter::ensurePrecisionTouchpadPresent()
 
 bool TouchPadRawInputFilter::processRawInput(HRAWINPUT rawInputHandle)
 {
+    lastcontacts = contacts;
+    contacts.clear();
     UINT requiredSize = 0;
     if (::GetRawInputData(rawInputHandle, RID_INPUT, nullptr, &requiredSize,
                           sizeof(RAWINPUTHEADER)) != 0)
@@ -358,7 +360,7 @@ bool TouchPadRawInputFilter::processRawInput(HRAWINPUT rawInputHandle)
         }
     }
 
-    std::vector<ContactLog> contacts;
+    // std::vector<ContactLog> contacts;
     contacts.reserve(contactStates.size());
     for (const auto& entry : contactStates)
     {
@@ -371,46 +373,15 @@ bool TouchPadRawInputFilter::processRawInput(HRAWINPUT rawInputHandle)
         contacts.push_back(ContactLog{*state.contactId, *state.x, *state.y});
     }
 
-    std::sort(contacts.begin(), contacts.end(),
-              [](const ContactLog& lhs, const ContactLog& rhs) { return lhs.id < rhs.id; });
-
-    QStringList contactLines;
-    contactLines.reserve(static_cast<int>(contacts.size()));
-    for (const ContactLog& entry : contacts)
-    {
-        contactLines << QStringLiteral("id=%1 x=%2 y=%3").arg(entry.id).arg(entry.x).arg(entry.y);
-    }
-
-    // if (!contactLines.isEmpty())
-    // {
-    //     qDebug().noquote() << QStringLiteral("PTP scanTime=%1 rawContactCount=%2 -> %3")
-    //                               .arg(scanTime)
-    //                               .arg(contactCount)
-    //                               .arg(contactLines.join(QStringLiteral(" | ")));
-    // }
-    // else
-    // {
-    //     qDebug().noquote() << QStringLiteral(
-    //                               "PTP scanTime=%1 rawContactCount=%2 (no contacts parsed)")
-    //                               .arg(scanTime)
-    //                               .arg(contactCount);
-    // }
-    handleMode(contacts);
+    std::erase_if(contacts, [](const auto& it) { return it.x == 0 && it.y == 0; });
+    contacts.resize(contactCount);
     return !contacts.empty();
 }
 
-void TouchPadRawInputFilter::handleMode(std::vector<ContactLog> input)
+void TouchPadRawInputFilter::handleMode()
 {
-    if (mode != Mode::absmouse)
-    {
-        return;
-    }
-
-    if (input.empty())
-    {
-        return;
-    }
-
+    contacts.clear();
+    ::SetCursorPos(50, 50);
     // TODO: map contact coordinates into absolute mouse space when Mode::absmouse is enabled.
 }
 

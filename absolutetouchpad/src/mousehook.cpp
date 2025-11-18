@@ -67,7 +67,7 @@ LRESULT CALLBACK MouseHook::hookProc(int code, WPARAM wParam, LPARAM lParam)
         return ::CallNextHookEx(nullptr, code, wParam, lParam);
     }
 
-    const MSLLHOOKSTRUCT* data = reinterpret_cast<MSLLHOOKSTRUCT*>(lParam);
+    const MSLLHOOKSTRUCT* data = reinterpret_cast<const MSLLHOOKSTRUCT*>(lParam);
     if (g_activeHook && data)
     {
         if (g_activeHook->m_callback(wParam, *data))
