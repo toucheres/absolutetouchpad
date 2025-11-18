@@ -23,7 +23,8 @@ namespace
 
     long long nowMicros()
     {
-        return std::chrono::duration_cast<std::chrono::microseconds>(Clock::now().time_since_epoch())
+        return std::chrono::duration_cast<std::chrono::microseconds>(
+                   Clock::now().time_since_epoch())
             .count();
     }
 
@@ -48,16 +49,16 @@ namespace
         }
 
         const long long elapsed = nowMicros() - last;
-        const long long windowMicros = std::chrono::duration_cast<std::chrono::microseconds>(
-                                            kTouchpadSuppressDuration)
-                                            .count();
+        const long long windowMicros =
+            std::chrono::duration_cast<std::chrono::microseconds>(kTouchpadSuppressDuration)
+                .count();
         if (elapsed > windowMicros)
         {
             g_touchpadActive.store(false, std::memory_order_relaxed);
         }
     }
 
-    bool shouldBlockTouchpad()
+    bool handleTouchpadMouseEvent(WPARAM e, const MSLLHOOKSTRUCT& inf)
     {
         if (!g_touchpadActive.load(std::memory_order_relaxed))
         {
@@ -72,10 +73,10 @@ namespace
         }
 
         const long long elapsed = nowMicros() - last;
-        const long long windowMicros = std::chrono::duration_cast<std::chrono::microseconds>(
-                                            kTouchpadSuppressDuration)
-                                            .count();
-        if (elapsed <= windowMicros)
+        const long long windowMicros =
+            std::chrono::duration_cast<std::chrono::microseconds>(kTouchpadSuppressDuration)
+                .count();
+        if (elapsed <= windowMicros) // 应该被阻塞
         {
             return true;
         }
@@ -224,14 +225,14 @@ int main(int argc, char* argv[])
 
     ::ShowWindow(hwnd, SW_SHOW);
     ::UpdateWindow(hwnd);
-    MouseHook hooker{[](WPARAM, const MSLLHOOKSTRUCT& info) -> bool
+    MouseHook hooker{[](WPARAM e, const MSLLHOOKSTRUCT& info) -> bool
                      {
                          if (info.flags & LLMHF_INJECTED)
                          {
                              return false;
                          }
 
-                         return shouldBlockTouchpad();
+                         return handleTouchpadMouseEvent(e, info);
                      }};
 
     MSG msg;
