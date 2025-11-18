@@ -42,12 +42,12 @@ class TouchPadRawInputFilter : public QAbstractNativeEventFilter
     QSizeF penMapSize{};
     QSizeF screenSize{};
     QPointF mousePos{};
-
+    void handleMode();
   private:
     bool registerRawInput();
     bool ensurePrecisionTouchpadPresent();
-    void handleMode(std::vector<ContactLog> innput);
 
+    std::vector<ContactLog> contacts;
     HWND m_targetWindow = nullptr;
     bool m_registered = false;
 };

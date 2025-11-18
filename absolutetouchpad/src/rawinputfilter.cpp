@@ -358,7 +358,7 @@ bool TouchPadRawInputFilter::processRawInput(HRAWINPUT rawInputHandle)
         }
     }
 
-    std::vector<ContactLog> contacts;
+    // std::vector<ContactLog> contacts;
     contacts.reserve(contactStates.size());
     for (const auto& entry : contactStates)
     {
@@ -395,22 +395,14 @@ bool TouchPadRawInputFilter::processRawInput(HRAWINPUT rawInputHandle)
     //                               .arg(scanTime)
     //                               .arg(contactCount);
     // }
-    handleMode(contacts);
+    // handleMode(contacts);
     return !contacts.empty();
 }
 
-void TouchPadRawInputFilter::handleMode(std::vector<ContactLog> input)
+void TouchPadRawInputFilter::handleMode()
 {
-    if (mode != Mode::absmouse)
-    {
-        return;
-    }
-
-    if (input.empty())
-    {
-        return;
-    }
-
+    contacts.clear();
+    ::SetCursorPos(50, 50);
     // TODO: map contact coordinates into absolute mouse space when Mode::absmouse is enabled.
 }
 

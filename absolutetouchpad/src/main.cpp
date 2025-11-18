@@ -16,10 +16,22 @@
 namespace
 {
     using Clock = std::chrono::steady_clock;
-    constexpr auto kTouchpadSuppressDuration = std::chrono::milliseconds(30);
+
+    struct WindowContext
+    {
+        std::unique_ptr<TouchPadRawInputFilter> filter;
+    };
+    WindowContext* context;
+    constexpr auto kTouchpadSuppressDuration = std::chrono::milliseconds(12);
+    constexpr UINT WM_APP_RESTORE_CURSOR = WM_APP + 1;
 
     std::atomic_bool g_touchpadActive{false};
     std::atomic<long long> g_lastTouchpadMicros{0};
+    std::atomic_bool g_cursorSaved{false};
+    std::atomic<LONG> g_savedCursorX{0};
+    std::atomic<LONG> g_savedCursorY{0};
+    std::atomic_bool g_restorePosted{false};
+    HWND g_mainWindow = nullptr;
 
     long long nowMicros()
     {
@@ -28,12 +40,59 @@ namespace
             .count();
     }
 
+    void saveCursorIfNeeded()
+    {
+        bool expected = false;
+        if (!g_cursorSaved.compare_exchange_strong(expected, true, std::memory_order_relaxed))
+        {
+            return;
+        }
+
+        POINT pt{};
+        if (::GetCursorPos(&pt))
+        {
+            g_savedCursorX.store(pt.x, std::memory_order_relaxed);
+            g_savedCursorY.store(pt.y, std::memory_order_relaxed);
+        }
+    }
+
     void markTouchpadActive()
     {
         g_touchpadActive.store(true, std::memory_order_relaxed);
         g_lastTouchpadMicros.store(nowMicros(), std::memory_order_relaxed);
     }
 
+    void restoreCursorIfSaved()
+    {
+        if (!g_cursorSaved.exchange(false, std::memory_order_relaxed))
+        {
+            return;
+        }
+
+        const LONG x = g_savedCursorX.load(std::memory_order_relaxed);
+        const LONG y = g_savedCursorY.load(std::memory_order_relaxed);
+        qDebug() << "SetCursorPos" << x << y;
+        ::SetCursorPos(x, y);
+    }
+
+    void requestCursorRestore()
+    {
+        if (!g_cursorSaved.load(std::memory_order_relaxed))
+        {
+            return;
+        }
+
+        bool expected = false;
+        if (!g_restorePosted.compare_exchange_strong(expected, true, std::memory_order_relaxed))
+        {
+            return;
+        }
+
+        if (!g_mainWindow || !::PostMessage(g_mainWindow, WM_APP_RESTORE_CURSOR, 0, 0))
+        {
+            g_restorePosted.store(false, std::memory_order_relaxed);
+        }
+    }
     void noteMouseActivity()
     {
         if (!g_touchpadActive.load(std::memory_order_relaxed))
@@ -55,6 +114,7 @@ namespace
         if (elapsed > windowMicros)
         {
             g_touchpadActive.store(false, std::memory_order_relaxed);
+            requestCursorRestore();
         }
     }
 
@@ -62,6 +122,7 @@ namespace
     {
         if (!g_touchpadActive.load(std::memory_order_relaxed))
         {
+            requestCursorRestore();
             return false;
         }
 
@@ -69,6 +130,7 @@ namespace
         if (last == 0)
         {
             g_touchpadActive.store(false, std::memory_order_relaxed);
+            requestCursorRestore();
             return false;
         }
 
@@ -78,21 +140,22 @@ namespace
                 .count();
         if (elapsed <= windowMicros) // 应该被阻塞
         {
+            saveCursorIfNeeded();
+            {
+
+                context->filter->handleMode();
+            }
             return true;
         }
 
         g_touchpadActive.store(false, std::memory_order_relaxed);
+        requestCursorRestore();
         return false;
     }
 
-    struct WindowContext
-    {
-        std::unique_ptr<TouchPadRawInputFilter> filter;
-    };
-
     LRESULT CALLBACK RawInputWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
     {
-        auto* context = reinterpret_cast<WindowContext*>(::GetWindowLongPtr(hwnd, GWLP_USERDATA));
+        context = reinterpret_cast<WindowContext*>(::GetWindowLongPtr(hwnd, GWLP_USERDATA));
         static size_t times = 0;
         switch (message)
         {
@@ -149,6 +212,11 @@ namespace
                 {
                     markTouchpadActive();
                 }
+                else
+                {
+                    g_touchpadActive.store(false, std::memory_order_relaxed);
+                    requestCursorRestore();
+                }
             }
             else if (header.dwType == RIM_TYPEMOUSE)
             {
@@ -171,13 +239,23 @@ namespace
         }
         case WM_DESTROY:
         {
+            g_touchpadActive.store(false, std::memory_order_relaxed);
+            requestCursorRestore();
             if (context)
             {
                 context->filter.reset();
                 delete context;
                 ::SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
             }
+            g_mainWindow = nullptr;
+            g_restorePosted.store(false, std::memory_order_relaxed);
             ::PostQuitMessage(0);
+            return 0;
+        }
+        case WM_APP_RESTORE_CURSOR:
+        {
+            g_restorePosted.store(false, std::memory_order_relaxed);
+            restoreCursorIfSaved();
             return 0;
         }
         default:
@@ -225,6 +303,7 @@ int main(int argc, char* argv[])
 
     ::ShowWindow(hwnd, SW_SHOW);
     ::UpdateWindow(hwnd);
+    g_mainWindow = hwnd;
     MouseHook hooker{[](WPARAM e, const MSLLHOOKSTRUCT& info) -> bool
                      {
                          if (info.flags & LLMHF_INJECTED)
@@ -241,6 +320,8 @@ int main(int argc, char* argv[])
         ::TranslateMessage(&msg);
         ::DispatchMessageW(&msg);
     }
+
+    restoreCursorIfSaved();
 
     return static_cast<int>(msg.wParam);
 }
