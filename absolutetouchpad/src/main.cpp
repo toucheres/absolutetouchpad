@@ -8,13 +8,82 @@
 #include <QDebug>
 
 #include <Windows.h>
+#include <atomic>
+#include <chrono>
 #include <memory>
 #include <mousehook.h>
 #include <rawinputfilter.h>
-bool enable;
-bool lastistoucpad;
 namespace
 {
+    using Clock = std::chrono::steady_clock;
+    constexpr auto kTouchpadSuppressDuration = std::chrono::milliseconds(30);
+
+    std::atomic_bool g_touchpadActive{false};
+    std::atomic<long long> g_lastTouchpadMicros{0};
+
+    long long nowMicros()
+    {
+        return std::chrono::duration_cast<std::chrono::microseconds>(Clock::now().time_since_epoch())
+            .count();
+    }
+
+    void markTouchpadActive()
+    {
+        g_touchpadActive.store(true, std::memory_order_relaxed);
+        g_lastTouchpadMicros.store(nowMicros(), std::memory_order_relaxed);
+    }
+
+    void noteMouseActivity()
+    {
+        if (!g_touchpadActive.load(std::memory_order_relaxed))
+        {
+            return;
+        }
+
+        const long long last = g_lastTouchpadMicros.load(std::memory_order_relaxed);
+        if (last == 0)
+        {
+            g_touchpadActive.store(false, std::memory_order_relaxed);
+            return;
+        }
+
+        const long long elapsed = nowMicros() - last;
+        const long long windowMicros = std::chrono::duration_cast<std::chrono::microseconds>(
+                                            kTouchpadSuppressDuration)
+                                            .count();
+        if (elapsed > windowMicros)
+        {
+            g_touchpadActive.store(false, std::memory_order_relaxed);
+        }
+    }
+
+    bool shouldBlockTouchpad()
+    {
+        if (!g_touchpadActive.load(std::memory_order_relaxed))
+        {
+            return false;
+        }
+
+        const long long last = g_lastTouchpadMicros.load(std::memory_order_relaxed);
+        if (last == 0)
+        {
+            g_touchpadActive.store(false, std::memory_order_relaxed);
+            return false;
+        }
+
+        const long long elapsed = nowMicros() - last;
+        const long long windowMicros = std::chrono::duration_cast<std::chrono::microseconds>(
+                                            kTouchpadSuppressDuration)
+                                            .count();
+        if (elapsed <= windowMicros)
+        {
+            return true;
+        }
+
+        g_touchpadActive.store(false, std::memory_order_relaxed);
+        return false;
+    }
+
     struct WindowContext
     {
         std::unique_ptr<TouchPadRawInputFilter> filter;
@@ -47,15 +116,44 @@ namespace
                     qDebug() << "Precision touchpad RAWINPUT interception active.";
                 }
             }
+
+            RAWINPUTDEVICE mouseDevice{};
+            mouseDevice.usUsagePage = 0x01;
+            mouseDevice.usUsage = 0x02;
+            mouseDevice.dwFlags = RIDEV_INPUTSINK;
+            mouseDevice.hwndTarget = hwnd;
+            if (!::RegisterRawInputDevices(&mouseDevice, 1, sizeof(mouseDevice)))
+            {
+                qWarning() << "Mouse RAWINPUT registration failed.";
+            }
             return 0;
         }
         case WM_INPUT:
         {
-            if (context && context->filter)
+            RAWINPUTHEADER header{};
+            UINT headerSize = sizeof(header);
+            if (::GetRawInputData(reinterpret_cast<HRAWINPUT>(lParam), RID_HEADER, &header,
+                                  &headerSize, sizeof(RAWINPUTHEADER)) != sizeof(header))
             {
-                enable = context->filter->processRawInput(reinterpret_cast<HRAWINPUT>(lParam));
+                qWarning() << "Failed to query RAWINPUT header.";
+                break;
             }
-            // qDebug() << "times: " << times << "raw input";
+
+            if (header.dwType == RIM_TYPEHID)
+            {
+                const bool active =
+                    context && context->filter &&
+                    context->filter->processRawInput(reinterpret_cast<HRAWINPUT>(lParam));
+                if (active)
+                {
+                    markTouchpadActive();
+                }
+            }
+            else if (header.dwType == RIM_TYPEMOUSE)
+            {
+                noteMouseActivity();
+            }
+
             times++;
             return 0;
         }
@@ -126,15 +224,15 @@ int main(int argc, char* argv[])
 
     ::ShowWindow(hwnd, SW_SHOW);
     ::UpdateWindow(hwnd);
-    MouseHook hooker{[](WPARAM e, const MSLLHOOKSTRUCT& info)
+    MouseHook hooker{[](WPARAM, const MSLLHOOKSTRUCT& info) -> bool
                      {
-                         qDebug() << "enable: " << enable << "Hook" << info.pt.x << info.pt.y << e;
-                         return 0;
+                         if (info.flags & LLMHF_INJECTED)
+                         {
+                             return false;
+                         }
+
+                         return shouldBlockTouchpad();
                      }};
-    if (!hooker.install())
-    {
-        qWarning() << "Failed to install global mouse hook.";
-    }
 
     MSG msg;
     while (::GetMessageW(&msg, nullptr, 0, 0) > 0)
