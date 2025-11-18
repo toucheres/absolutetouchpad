@@ -15,6 +15,7 @@
 #include <unordered_map>
 #include <vector>
 
+#include <Windows.h>
 #include <hidsdi.h>
 #include <hidusage.h>
 
@@ -120,7 +121,7 @@ bool TouchPadRawInputFilter::nativeEventFilter(const QByteArray& eventType, void
         return false;
     }
 
-    handleRawInput(reinterpret_cast<HRAWINPUT>(msg->lParam));
+    processRawInput(reinterpret_cast<HRAWINPUT>(msg->lParam));
     return false;
 }
 
@@ -201,19 +202,19 @@ bool TouchPadRawInputFilter::ensurePrecisionTouchpadPresent()
     return found;
 }
 
-void TouchPadRawInputFilter::handleRawInput(HRAWINPUT rawInputHandle)
+bool TouchPadRawInputFilter::processRawInput(HRAWINPUT rawInputHandle)
 {
     UINT requiredSize = 0;
     if (::GetRawInputData(rawInputHandle, RID_INPUT, nullptr, &requiredSize,
                           sizeof(RAWINPUTHEADER)) != 0)
     {
         logWin32Failure(QStringLiteral("GetRawInputData size query failed"));
-        return;
+        return false;
     }
 
     if (requiredSize == 0)
     {
-        return;
+        return false;
     }
 
     std::vector<BYTE> rawInputBuffer(requiredSize);
@@ -221,19 +222,19 @@ void TouchPadRawInputFilter::handleRawInput(HRAWINPUT rawInputHandle)
                           sizeof(RAWINPUTHEADER)) != requiredSize)
     {
         logWin32Failure(QStringLiteral("GetRawInputData retrieval failed"));
-        return;
+        return false;
     }
 
     RAWINPUT* rawInput = reinterpret_cast<RAWINPUT*>(rawInputBuffer.data());
     if (!rawInput || rawInput->header.dwType != RIM_TYPEHID)
     {
-        return;
+        return false;
     }
 
     const DWORD reportSize = rawInput->data.hid.dwSizeHid * rawInput->data.hid.dwCount;
     if (reportSize == 0)
     {
-        return;
+        return false;
     }
 
     std::vector<BYTE> report(reportSize);
@@ -246,12 +247,12 @@ void TouchPadRawInputFilter::handleRawInput(HRAWINPUT rawInputHandle)
                                 &preparsedSize) != 0)
     {
         logWin32Failure(QStringLiteral("GetRawInputDeviceInfo preparsed size failed"));
-        return;
+        return false;
     }
 
     if (preparsedSize == 0)
     {
-        return;
+        return false;
     }
 
     std::vector<BYTE> preparsed(preparsedSize);
@@ -259,7 +260,7 @@ void TouchPadRawInputFilter::handleRawInput(HRAWINPUT rawInputHandle)
                                 &preparsedSize) != preparsedSize)
     {
         logWin32Failure(QStringLiteral("GetRawInputDeviceInfo preparsed data failed"));
-        return;
+        return false;
     }
 
     HIDP_CAPS caps{};
@@ -267,13 +268,13 @@ void TouchPadRawInputFilter::handleRawInput(HRAWINPUT rawInputHandle)
         HIDP_STATUS_SUCCESS)
     {
         qWarning() << "HidP_GetCaps failed for precision touchpad report.";
-        return;
+        return false;
     }
 
     USHORT valueCapsLength = caps.NumberInputValueCaps;
     if (valueCapsLength == 0)
     {
-        return;
+        return false;
     }
 
     std::vector<HIDP_VALUE_CAPS> valueCaps(valueCapsLength);
@@ -282,7 +283,7 @@ void TouchPadRawInputFilter::handleRawInput(HRAWINPUT rawInputHandle)
         HIDP_STATUS_SUCCESS)
     {
         qWarning() << "HidP_GetValueCaps failed for precision touchpad report.";
-        return;
+        return false;
     }
     valueCaps.resize(valueCapsLength);
 
@@ -394,34 +395,23 @@ void TouchPadRawInputFilter::handleRawInput(HRAWINPUT rawInputHandle)
     //                               .arg(scanTime)
     //                               .arg(contactCount);
     // }
-    // handleMode(contacts);
+    handleMode(contacts);
+    return !contacts.empty();
 }
 
-void TouchPadRawInputFilter::handleMode(std::vector<ContactLog> innput)
+void TouchPadRawInputFilter::handleMode(std::vector<ContactLog> input)
 {
-    if (mode == Mode::simple)
+    if (mode != Mode::absmouse)
     {
         return;
     }
-    QPointF pos{};
-    if (innput.size() >= 1)
+
+    if (input.empty())
     {
-        for (auto& [id, x, y] : innput)
-        {
-            if (x != 0 && y != 0)
-            {
-                pos.setX(x);
-                pos.setY(y);
-                break;
-            }
-        }
+        return;
     }
 
-    if (mode == Mode::absmouse)
-    {
-
-        // QCursor::setPos();
-    }
+    // TODO: map contact coordinates into absolute mouse space when Mode::absmouse is enabled.
 }
 
 #endif // Q_OS_WIN

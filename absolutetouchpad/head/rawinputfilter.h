@@ -18,6 +18,9 @@ class TouchPadRawInputFilter : public QAbstractNativeEventFilter
 
     bool nativeEventFilter(const QByteArray& eventType, void* message, qintptr* result) override;
 
+    // Exposes WM_INPUT parsing so non-Qt message pumps can reuse the decoder.
+    bool processRawInput(HRAWINPUT rawInputHandle);
+
     bool isRegistered() const
     {
         return m_registered;
@@ -38,12 +41,11 @@ class TouchPadRawInputFilter : public QAbstractNativeEventFilter
     QRectF absMapRect{};
     QSizeF penMapSize{};
     QSizeF screenSize{};
-
+    QPointF mousePos{};
 
   private:
     bool registerRawInput();
     bool ensurePrecisionTouchpadPresent();
-    void handleRawInput(HRAWINPUT rawInputHandle);
     void handleMode(std::vector<ContactLog> innput);
 
     HWND m_targetWindow = nullptr;
