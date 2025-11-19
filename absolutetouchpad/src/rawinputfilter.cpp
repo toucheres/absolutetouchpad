@@ -1,31 +1,28 @@
 // Implements TouchPadRawInputFilter for processing precision touchpad RAWINPUT events.
 #include "rawinputfilter.h"
 
-#ifdef Q_OS_WIN
-
-#include <QByteArray>
-#include <QCursor>
-#include <QDebug>
-#include <QLatin1Char>
-#include <QString>
-#include <QStringList>
+#ifdef _WIN32
 
 #include <algorithm>
 #include <optional>
+#include <string>
 #include <unordered_map>
 #include <vector>
 
 #include <Windows.h>
 #include <hidsdi.h>
 #include <hidusage.h>
+#include <stdio.h>
+#include <QString>
+#include <qstringliteral.h>
 
 namespace
 {
-    QString formatSystemError(DWORD errorCode)
+    std::wstring formatSystemError(DWORD errorCode)
     {
         if (errorCode == 0)
         {
-            return QStringLiteral("no error");
+            return L"no error";
         }
 
         LPWSTR buffer = nullptr;
@@ -35,23 +32,27 @@ namespace
             ::FormatMessageW(flags, nullptr, errorCode, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
                              reinterpret_cast<LPWSTR>(&buffer), 0, nullptr);
 
-        QString message = written && buffer ? QString::fromWCharArray(buffer, written).trimmed()
-                                            : QStringLiteral("unknown error");
+        std::wstring message = (written && buffer) ? std::wstring(buffer, written) : L"unknown error";
         if (buffer)
         {
             ::LocalFree(buffer);
         }
 
+        // Trim trailing whitespace
+        while (!message.empty() && (message.back() == L'\n' || message.back() == L'\r' || message.back() == L' '))
+        {
+            message.pop_back();
+        }
+
         return message;
     }
 
-    void logWin32Failure(const QString& context)
+    void logWin32Failure(const wchar_t* context)
     {
         const DWORD error = ::GetLastError();
-        qWarning().noquote() << QStringLiteral("%1: %2 (code %3)")
-                                    .arg(context)
-                                    .arg(formatSystemError(error))
-                                    .arg(error);
+        wchar_t buffer[512];
+        swprintf_s(buffer, L"%s: %s (code %lu)\n", context, formatSystemError(error).c_str(), error);
+        ::OutputDebugStringW(buffer);
     }
 
     USHORT firstUsage(const HIDP_VALUE_CAPS& cap)
@@ -64,27 +65,27 @@ TouchPadRawInputFilter::TouchPadRawInputFilter(HWND targetWindow) : m_targetWind
 {
     if (!m_targetWindow)
     {
-        qWarning() << "TouchPadRawInputFilter requires a valid HWND.";
+        ::OutputDebugStringW(L"TouchPadRawInputFilter requires a valid HWND.\n");
         return;
     }
 
     if (ensurePrecisionTouchpadPresent())
     {
-        qDebug() << "Precision touchpad detected on the system.";
+        ::OutputDebugStringW(L"Precision touchpad detected on the system.\n");
     }
     else
     {
-        qWarning() << "Precision touchpad not detected via RAWINPUT device list.";
+        ::OutputDebugStringW(L"Precision touchpad not detected via RAWINPUT device list.\n");
     }
 
     m_registered = registerRawInput();
     if (!m_registered)
     {
-        logWin32Failure(QStringLiteral("RegisterRawInputDevices failed"));
+        logWin32Failure(L"RegisterRawInputDevices failed");
     }
     else
     {
-        qDebug() << "Precision touchpad RAWINPUT registration successful.";
+        ::OutputDebugStringW(L"Precision touchpad RAWINPUT registration successful.\n");
     }
 }
 
@@ -100,29 +101,9 @@ TouchPadRawInputFilter::~TouchPadRawInputFilter()
 
         if (!::RegisterRawInputDevices(&device, 1, sizeof(device)))
         {
-            logWin32Failure(QStringLiteral("Failed to unregister RAWINPUT device"));
+            logWin32Failure(L"Failed to unregister RAWINPUT device");
         }
     }
-}
-
-bool TouchPadRawInputFilter::nativeEventFilter(const QByteArray& eventType, void* message,
-                                               qintptr* result)
-{
-    Q_UNUSED(result);
-
-    if (eventType != "windows_generic_MSG" && eventType != "windows_dispatcher_MSG")
-    {
-        return false;
-    }
-
-    MSG* msg = static_cast<MSG*>(message);
-    if (!msg || msg->message != WM_INPUT)
-    {
-        return false;
-    }
-
-    processRawInput(reinterpret_cast<HRAWINPUT>(msg->lParam));
-    return false;
 }
 
 bool TouchPadRawInputFilter::registerRawInput()
@@ -148,7 +129,7 @@ bool TouchPadRawInputFilter::ensurePrecisionTouchpadPresent()
 
     if (::GetRawInputDeviceList(nullptr, &deviceCount, deviceSize) != 0)
     {
-        logWin32Failure(QStringLiteral("GetRawInputDeviceList size query failed"));
+        logWin32Failure(L"GetRawInputDeviceList size query failed");
         return false;
     }
 
@@ -160,7 +141,7 @@ bool TouchPadRawInputFilter::ensurePrecisionTouchpadPresent()
     std::vector<RAWINPUTDEVICELIST> devices(deviceCount);
     if (::GetRawInputDeviceList(devices.data(), &deviceCount, deviceSize) == static_cast<UINT>(-1))
     {
-        logWin32Failure(QStringLiteral("GetRawInputDeviceList enumeration failed"));
+        logWin32Failure(L"GetRawInputDeviceList enumeration failed");
         return false;
     }
 
@@ -186,14 +167,10 @@ bool TouchPadRawInputFilter::ensurePrecisionTouchpadPresent()
         if (info.dwType == RIM_TYPEHID && info.hid.usUsagePage == 0x000D &&
             info.hid.usUsage == 0x0005)
         {
-            const QString deviceId = QStringLiteral("VID_%1&PID_%2")
-                                         .arg(info.hid.dwVendorId, 4, 16, QLatin1Char('0'))
-                                         .arg(info.hid.dwProductId, 4, 16, QLatin1Char('0'))
-                                         .toUpper();
-            qDebug().noquote() << QStringLiteral(
-                                      "Found precision touchpad raw device: %1 (version %2)")
-                                      .arg(deviceId)
-                                      .arg(info.hid.dwVersionNumber);
+            wchar_t buffer[256];
+            swprintf_s(buffer, L"Found precision touchpad: VID_%04X&PID_%04X (version %u)\n",
+                      info.hid.dwVendorId, info.hid.dwProductId, info.hid.dwVersionNumber);
+            ::OutputDebugStringW(buffer);
             found = true;
             break;
         }
@@ -204,13 +181,14 @@ bool TouchPadRawInputFilter::ensurePrecisionTouchpadPresent()
 
 bool TouchPadRawInputFilter::processRawInput(HRAWINPUT rawInputHandle)
 {
-    lastcontacts = contacts;
+
+    std::vector<ContactLog> contacts;
     contacts.clear();
     UINT requiredSize = 0;
     if (::GetRawInputData(rawInputHandle, RID_INPUT, nullptr, &requiredSize,
                           sizeof(RAWINPUTHEADER)) != 0)
     {
-        logWin32Failure(QStringLiteral("GetRawInputData size query failed"));
+        logWin32Failure(L"GetRawInputData size query failed");
         return false;
     }
 
@@ -223,7 +201,7 @@ bool TouchPadRawInputFilter::processRawInput(HRAWINPUT rawInputHandle)
     if (::GetRawInputData(rawInputHandle, RID_INPUT, rawInputBuffer.data(), &requiredSize,
                           sizeof(RAWINPUTHEADER)) != requiredSize)
     {
-        logWin32Failure(QStringLiteral("GetRawInputData retrieval failed"));
+        logWin32Failure(L"GetRawInputData retrieval failed");
         return false;
     }
 
@@ -248,7 +226,7 @@ bool TouchPadRawInputFilter::processRawInput(HRAWINPUT rawInputHandle)
     if (::GetRawInputDeviceInfo(rawInput->header.hDevice, RIDI_PREPARSEDDATA, nullptr,
                                 &preparsedSize) != 0)
     {
-        logWin32Failure(QStringLiteral("GetRawInputDeviceInfo preparsed size failed"));
+        logWin32Failure(L"GetRawInputDeviceInfo preparsed size failed");
         return false;
     }
 
@@ -261,7 +239,7 @@ bool TouchPadRawInputFilter::processRawInput(HRAWINPUT rawInputHandle)
     if (::GetRawInputDeviceInfo(rawInput->header.hDevice, RIDI_PREPARSEDDATA, preparsed.data(),
                                 &preparsedSize) != preparsedSize)
     {
-        logWin32Failure(QStringLiteral("GetRawInputDeviceInfo preparsed data failed"));
+        logWin32Failure(L"GetRawInputDeviceInfo preparsed data failed");
         return false;
     }
 
@@ -269,7 +247,7 @@ bool TouchPadRawInputFilter::processRawInput(HRAWINPUT rawInputHandle)
     if (::HidP_GetCaps(reinterpret_cast<PHIDP_PREPARSED_DATA>(preparsed.data()), &caps) !=
         HIDP_STATUS_SUCCESS)
     {
-        qWarning() << "HidP_GetCaps failed for precision touchpad report.";
+        ::OutputDebugStringW(L"HidP_GetCaps failed for precision touchpad report.\n");
         return false;
     }
 
@@ -284,7 +262,7 @@ bool TouchPadRawInputFilter::processRawInput(HRAWINPUT rawInputHandle)
                             reinterpret_cast<PHIDP_PREPARSED_DATA>(preparsed.data())) !=
         HIDP_STATUS_SUCCESS)
     {
-        qWarning() << "HidP_GetValueCaps failed for precision touchpad report.";
+        ::OutputDebugStringW(L"HidP_GetValueCaps failed for precision touchpad report.\n");
         return false;
     }
     valueCaps.resize(valueCapsLength);
@@ -307,15 +285,15 @@ bool TouchPadRawInputFilter::processRawInput(HRAWINPUT rawInputHandle)
 
     struct ContactState
     {
-        std::optional<quint32> contactId;
-        std::optional<qint32> x;
-        std::optional<qint32> y;
+        std::optional<uint32_t> contactId;
+        std::optional<int32_t> x;
+        std::optional<int32_t> y;
     };
 
     std::unordered_map<USHORT, ContactState> contactStates;
 
-    quint32 scanTime = 0;
-    quint32 contactCount = 0;
+    uint32_t scanTime = 0;
+    uint32_t contactCount = 0;
 
     for (const HIDP_VALUE_CAPS& cap : valueCaps)
     {
@@ -375,14 +353,12 @@ bool TouchPadRawInputFilter::processRawInput(HRAWINPUT rawInputHandle)
 
     std::erase_if(contacts, [](const auto& it) { return it.x == 0 && it.y == 0; });
     contacts.resize(contactCount);
+    m_touchpadframes.push(Touchpadframe{contacts, static_cast<int64_t>(scanTime)});
     return !contacts.empty();
 }
 
 void TouchPadRawInputFilter::handleMode()
 {
-    contacts.clear();
-    ::SetCursorPos(50, 50);
-    // TODO: map contact coordinates into absolute mouse space when Mode::absmouse is enabled.
 }
 
-#endif // Q_OS_WIN
+#endif // _WIN32

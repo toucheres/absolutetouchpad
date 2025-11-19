@@ -1,24 +1,22 @@
-// Add a native event filter to receive Raw Input HID reports on Windows
+// Pure Win32 precision touchpad RAWINPUT parser
 #pragma once
-#include <qsystemdetection.h>
 
-#ifdef Q_OS_WIN
-#include <QAbstractNativeEventFilter>
-#include <QByteArray>
-#include <QtGlobal>
+#ifdef _WIN32
 #include <windows.h>
-#include <QRectF>
+#include <atomic>
+#include <queue>
+#include <vector>
+#include <cstdint>
+
 // TouchPadRawInputFilter installs a RAWINPUT subscription for precision touchpads
-// and logs contact information extracted from HID reports.
-class TouchPadRawInputFilter : public QAbstractNativeEventFilter
+// and parses contact information from HID reports.
+class TouchPadRawInputFilter
 {
   public:
     explicit TouchPadRawInputFilter(HWND targetWindow);
-    ~TouchPadRawInputFilter() override;
+    ~TouchPadRawInputFilter();
 
-    bool nativeEventFilter(const QByteArray& eventType, void* message, qintptr* result) override;
-
-    // Exposes WM_INPUT parsing so non-Qt message pumps can reuse the decoder.
+    // Parse a single RAWINPUT HID report and update contact state
     bool processRawInput(HRAWINPUT rawInputHandle);
 
     bool isRegistered() const
@@ -27,30 +25,53 @@ class TouchPadRawInputFilter : public QAbstractNativeEventFilter
     }
     struct ContactLog
     {
-        quint32 id;
-        qint32 x;
-        qint32 y;
+        uint32_t id;
+        int32_t x;
+        int32_t y;
     };
+    
     enum class Mode
     {
         simple,
         absmouse,
         pen
     };
+    
+    struct Rect
+    {
+        double x, y, width, height;
+    };
+    
+    struct Size
+    {
+        double width, height;
+    };
+    
+    struct Point
+    {
+        double x, y;
+    };
+    
     Mode mode = Mode::simple;
-    QRectF absMapRect{};
-    QSizeF penMapSize{};
-    QSizeF screenSize{};
-    QPointF mousePos{};
+    Rect absMapRect{};
+    Size penMapSize{};
+    Size screenSize{};
+    Point mousePos{};
     void handleMode();
-    void handleMode();
+    
+    struct Touchpadframe
+    {
+        std::vector<ContactLog> contacts;
+        int64_t scantime = 0;
+    };
+
   private:
     bool registerRawInput();
     bool ensurePrecisionTouchpadPresent();
-
-    std::vector<ContactLog> contacts;
-    std::vector<ContactLog> lastcontacts;
+    
+    std::queue<Touchpadframe> m_touchpadframes;
     HWND m_targetWindow = nullptr;
     bool m_registered = false;
 };
-#endif
+
+#endif // _WIN32

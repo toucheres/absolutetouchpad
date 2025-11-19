@@ -1,278 +1,206 @@
 ﻿// absolutetouchpad.cpp: 定义应用程序的入口点。
 #include "main.h"
 
-#include <QtGlobal>
 #include <cstdlib>
 
-#ifdef Q_OS_WIN
-#include <QDebug>
-
+#ifdef _WIN32
 #include <Windows.h>
-#include <atomic>
-#include <chrono>
 #include <memory>
 #include <mousehook.h>
 #include <rawinputfilter.h>
-namespace
+#include <TouchpadStateManager.h>
+
+constexpr UINT WM_APP_RESTORE_CURSOR = WM_APP + 1;
+
+struct WindowContext
 {
-    using Clock = std::chrono::steady_clock;
+    std::unique_ptr<TouchPadRawInputFilter> filter;
+    std::unique_ptr<TouchpadStateManager> stateManager;
+    std::unique_ptr<MouseHook> mouseHook;
+    HWND hwnd = nullptr;
+};
 
-    struct WindowContext
+bool handleTouchpadMouseEvent(WindowContext* ctx, WPARAM e, const MSLLHOOKSTRUCT& inf)
+{
+    if (!ctx || !ctx->stateManager)
     {
-        std::unique_ptr<TouchPadRawInputFilter> filter;
-    };
-    WindowContext* context;
-    constexpr auto kTouchpadSuppressDuration = std::chrono::milliseconds(12);
-    constexpr UINT WM_APP_RESTORE_CURSOR = WM_APP + 1;
-
-    std::atomic_bool g_touchpadActive{false};
-    std::atomic<long long> g_lastTouchpadMicros{0};
-    std::atomic_bool g_cursorSaved{false};
-    std::atomic<LONG> g_savedCursorX{0};
-    std::atomic<LONG> g_savedCursorY{0};
-    std::atomic_bool g_restorePosted{false};
-    HWND g_mainWindow = nullptr;
-
-    long long nowMicros()
-    {
-        return std::chrono::duration_cast<std::chrono::microseconds>(
-                   Clock::now().time_since_epoch())
-            .count();
-    }
-
-    void saveCursorIfNeeded()
-    {
-        bool expected = false;
-        if (!g_cursorSaved.compare_exchange_strong(expected, true, std::memory_order_relaxed))
-        {
-            return;
-        }
-
-        POINT pt{};
-        if (::GetCursorPos(&pt))
-        {
-            g_savedCursorX.store(pt.x, std::memory_order_relaxed);
-            g_savedCursorY.store(pt.y, std::memory_order_relaxed);
-        }
-    }
-
-    void markTouchpadActive()
-    {
-        g_touchpadActive.store(true, std::memory_order_relaxed);
-        g_lastTouchpadMicros.store(nowMicros(), std::memory_order_relaxed);
-    }
-
-    void restoreCursorIfSaved()
-    {
-        if (!g_cursorSaved.exchange(false, std::memory_order_relaxed))
-        {
-            return;
-        }
-
-        const LONG x = g_savedCursorX.load(std::memory_order_relaxed);
-        const LONG y = g_savedCursorY.load(std::memory_order_relaxed);
-        qDebug() << "SetCursorPos" << x << y;
-        ::SetCursorPos(x, y);
-    }
-
-    void requestCursorRestore()
-    {
-        if (!g_cursorSaved.load(std::memory_order_relaxed))
-        {
-            return;
-        }
-
-        bool expected = false;
-        if (!g_restorePosted.compare_exchange_strong(expected, true, std::memory_order_relaxed))
-        {
-            return;
-        }
-
-        if (!g_mainWindow || !::PostMessage(g_mainWindow, WM_APP_RESTORE_CURSOR, 0, 0))
-        {
-            g_restorePosted.store(false, std::memory_order_relaxed);
-        }
-    }
-    void noteMouseActivity()
-    {
-        if (!g_touchpadActive.load(std::memory_order_relaxed))
-        {
-            return;
-        }
-
-        const long long last = g_lastTouchpadMicros.load(std::memory_order_relaxed);
-        if (last == 0)
-        {
-            g_touchpadActive.store(false, std::memory_order_relaxed);
-            return;
-        }
-
-        const long long elapsed = nowMicros() - last;
-        const long long windowMicros =
-            std::chrono::duration_cast<std::chrono::microseconds>(kTouchpadSuppressDuration)
-                .count();
-        if (elapsed > windowMicros)
-        {
-            g_touchpadActive.store(false, std::memory_order_relaxed);
-            requestCursorRestore();
-        }
-    }
-
-    bool handleTouchpadMouseEvent(WPARAM e, const MSLLHOOKSTRUCT& inf)
-    {
-        if (!g_touchpadActive.load(std::memory_order_relaxed))
-        {
-            requestCursorRestore();
-            return false;
-        }
-
-        const long long last = g_lastTouchpadMicros.load(std::memory_order_relaxed);
-        if (last == 0)
-        {
-            g_touchpadActive.store(false, std::memory_order_relaxed);
-            requestCursorRestore();
-            return false;
-        }
-
-        const long long elapsed = nowMicros() - last;
-        const long long windowMicros =
-            std::chrono::duration_cast<std::chrono::microseconds>(kTouchpadSuppressDuration)
-                .count();
-        if (elapsed <= windowMicros) // 应该被阻塞
-        {
-            saveCursorIfNeeded();
-            {
-
-                context->filter->handleMode();
-            }
-            return true;
-        }
-
-        g_touchpadActive.store(false, std::memory_order_relaxed);
-        requestCursorRestore();
         return false;
     }
 
-    LRESULT CALLBACK RawInputWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+    // 检查是否在压制窗口内
+    if (ctx->stateManager->isWithinSuppressWindow())
     {
-        context = reinterpret_cast<WindowContext*>(::GetWindowLongPtr(hwnd, GWLP_USERDATA));
-        static size_t times = 0;
-        switch (message)
+        ctx->stateManager->saveCursorIfNeeded();
+        if (ctx->filter)
         {
-        case WM_NCCREATE:
-        {
-            auto* createStruct = reinterpret_cast<CREATESTRUCT*>(lParam);
-            auto* passedContext = static_cast<WindowContext*>(createStruct->lpCreateParams);
-            ::SetWindowLongPtr(hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(passedContext));
-            return TRUE;
+            ctx->filter->handleMode();
         }
-        case WM_CREATE:
+        return true; // 阻断此鼠标事件
+    }
+
+    // 超时或非活动状态，请求恢复光标
+    if (ctx->stateManager->hasTimedOut() || !ctx->stateManager->isTouchpadActive())
+    {
+        ctx->stateManager->deactivateTouchpad();
+        ctx->stateManager->requestCursorRestore(WM_APP_RESTORE_CURSOR);
+    }
+
+    return false;
+}
+
+void noteMouseActivity(WindowContext* ctx)
+{
+    if (!ctx || !ctx->stateManager)
+    {
+        return;
+    }
+
+    if (!ctx->stateManager->isTouchpadActive())
+    {
+        return;
+    }
+
+    if (ctx->stateManager->hasTimedOut())
+    {
+        ctx->stateManager->deactivateTouchpad();
+        ctx->stateManager->requestCursorRestore(WM_APP_RESTORE_CURSOR);
+    }
+}
+
+LRESULT CALLBACK RawInputWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+    WindowContext* ctx = reinterpret_cast<WindowContext*>(::GetWindowLongPtr(hwnd, GWLP_USERDATA));
+
+    switch (message)
+    {
+    case WM_NCCREATE:
+    {
+        auto* createStruct = reinterpret_cast<CREATESTRUCT*>(lParam);
+        auto* passedContext = static_cast<WindowContext*>(createStruct->lpCreateParams);
+        ::SetWindowLongPtr(hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(passedContext));
+        return TRUE;
+    }
+    case WM_CREATE:
+    {
+        if (ctx)
         {
-            if (context)
+            ctx->hwnd = hwnd;
+            ctx->stateManager = std::make_unique<TouchpadStateManager>(hwnd);
+            ctx->filter = std::make_unique<TouchPadRawInputFilter>(hwnd);
+            
+            if (!ctx->filter->isRegistered())
             {
-                context->filter = std::make_unique<TouchPadRawInputFilter>(hwnd);
-                if (!context->filter->isRegistered())
-                {
-                    qWarning() << "Precision touchpad RAWINPUT registration failed.";
-                }
-                else
-                {
-                    qDebug() << "Precision touchpad RAWINPUT interception active.";
-                }
+                ::OutputDebugStringW(L"Precision touchpad RAWINPUT registration failed.\n");
+            }
+            else
+            {
+                ::OutputDebugStringW(L"Precision touchpad RAWINPUT interception active.\n");
             }
 
-            RAWINPUTDEVICE mouseDevice{};
-            mouseDevice.usUsagePage = 0x01;
-            mouseDevice.usUsage = 0x02;
-            mouseDevice.dwFlags = RIDEV_INPUTSINK;
-            mouseDevice.hwndTarget = hwnd;
-            if (!::RegisterRawInputDevices(&mouseDevice, 1, sizeof(mouseDevice)))
+            // 安装鼠标钩子
+            ctx->mouseHook = std::make_unique<MouseHook>([ctx](WPARAM e, const MSLLHOOKSTRUCT& info) -> bool
             {
-                qWarning() << "Mouse RAWINPUT registration failed.";
-            }
-            return 0;
-        }
-        case WM_INPUT:
-        {
-            RAWINPUTHEADER header{};
-            UINT headerSize = sizeof(header);
-            if (::GetRawInputData(reinterpret_cast<HRAWINPUT>(lParam), RID_HEADER, &header,
-                                  &headerSize, sizeof(RAWINPUTHEADER)) != sizeof(header))
-            {
-                qWarning() << "Failed to query RAWINPUT header.";
-                break;
-            }
-
-            if (header.dwType == RIM_TYPEHID)
-            {
-                const bool active =
-                    context && context->filter &&
-                    context->filter->processRawInput(reinterpret_cast<HRAWINPUT>(lParam));
-                if (active)
+                if (info.flags & LLMHF_INJECTED)
                 {
-                    markTouchpadActive();
+                    return false;
                 }
-                else
-                {
-                    g_touchpadActive.store(false, std::memory_order_relaxed);
-                    requestCursorRestore();
-                }
-            }
-            else if (header.dwType == RIM_TYPEMOUSE)
-            {
-                noteMouseActivity();
-            }
+                return handleTouchpadMouseEvent(ctx, e, info);
+            });
+        }
 
-            times++;
-            return 0;
-        }
-        case WM_MOUSEMOVE:
+        // 注册鼠标 RAWINPUT 以接收被动活动检测
+        RAWINPUTDEVICE mouseDevice{};
+        mouseDevice.usUsagePage = 0x01;
+        mouseDevice.usUsage = 0x02;
+        mouseDevice.dwFlags = RIDEV_INPUTSINK;
+        mouseDevice.hwndTarget = hwnd;
+        if (!::RegisterRawInputDevices(&mouseDevice, 1, sizeof(mouseDevice)))
         {
-            // qDebug() << "times: " << times << "mouse move";
-            times++;
-            return 0;
+            ::OutputDebugStringW(L"Mouse RAWINPUT registration failed.\n");
         }
-        case WM_CLOSE:
+        return 0;
+    }
+    case WM_INPUT:
+    {
+        if (!ctx)
         {
-            ::DestroyWindow(hwnd);
-            return 0;
-        }
-        case WM_DESTROY:
-        {
-            g_touchpadActive.store(false, std::memory_order_relaxed);
-            requestCursorRestore();
-            if (context)
-            {
-                context->filter.reset();
-                delete context;
-                ::SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
-            }
-            g_mainWindow = nullptr;
-            g_restorePosted.store(false, std::memory_order_relaxed);
-            ::PostQuitMessage(0);
-            return 0;
-        }
-        case WM_APP_RESTORE_CURSOR:
-        {
-            g_restorePosted.store(false, std::memory_order_relaxed);
-            restoreCursorIfSaved();
-            return 0;
-        }
-        default:
             break;
         }
 
-        return ::DefWindowProc(hwnd, message, wParam, lParam);
+        RAWINPUTHEADER header{};
+        UINT headerSize = sizeof(header);
+        if (::GetRawInputData(reinterpret_cast<HRAWINPUT>(lParam), RID_HEADER, &header,
+                              &headerSize, sizeof(RAWINPUTHEADER)) != sizeof(header))
+        {
+            ::OutputDebugStringW(L"Failed to query RAWINPUT header.\n");
+            break;
+        }
+
+        if (header.dwType == RIM_TYPEHID)
+        {
+            const bool active = ctx->filter && ctx->filter->processRawInput(reinterpret_cast<HRAWINPUT>(lParam));
+            if (active && ctx->stateManager)
+            {
+                ctx->stateManager->markTouchpadActive();
+            }
+            else if (ctx->stateManager)
+            {
+                ctx->stateManager->deactivateTouchpad();
+                ctx->stateManager->requestCursorRestore(WM_APP_RESTORE_CURSOR);
+            }
+        }
+        else if (header.dwType == RIM_TYPEMOUSE)
+        {
+            noteMouseActivity(ctx);
+        }
+
+        return 0;
     }
-} // namespace
+    case WM_CLOSE:
+    {
+        ::DestroyWindow(hwnd);
+        return 0;
+    }
+    case WM_DESTROY:
+    {
+        if (ctx)
+        {
+            if (ctx->stateManager)
+            {
+                ctx->stateManager->deactivateTouchpad();
+                ctx->stateManager->restoreCursorIfSaved();
+            }
+            ctx->mouseHook.reset();
+            ctx->filter.reset();
+            ctx->stateManager.reset();
+            delete ctx;
+            ::SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
+        }
+        ::PostQuitMessage(0);
+        return 0;
+    }
+    case WM_APP_RESTORE_CURSOR:
+    {
+        if (ctx && ctx->stateManager)
+        {
+            ctx->stateManager->onRestoreMessageReceived();
+            ctx->stateManager->restoreCursorIfSaved();
+        }
+        return 0;
+    }
+    default:
+        break;
+    }
+
+    return ::DefWindowProc(hwnd, message, wParam, lParam);
+}
 
 int main(int argc, char* argv[])
 {
-    Q_UNUSED(argc);
-    Q_UNUSED(argv);
+    (void)argc;
+    (void)argv;
 
     const HINSTANCE instance = ::GetModuleHandle(nullptr);
-
     const wchar_t kWindowClassName[] = L"PrecisionTouchpadRawInputSink";
 
     WNDCLASSEXW windowClass{};
@@ -285,7 +213,7 @@ int main(int argc, char* argv[])
 
     if (!::RegisterClassExW(&windowClass))
     {
-        qWarning() << "Failed to register raw input host window class.";
+        ::OutputDebugStringW(L"Failed to register raw input host window class.\n");
         return EXIT_FAILURE;
     }
 
@@ -296,23 +224,13 @@ int main(int argc, char* argv[])
 
     if (!hwnd)
     {
-        qWarning() << "Failed to create raw input host window.";
+        ::OutputDebugStringW(L"Failed to create raw input host window.\n");
         delete context;
         return EXIT_FAILURE;
     }
 
     ::ShowWindow(hwnd, SW_SHOW);
     ::UpdateWindow(hwnd);
-    g_mainWindow = hwnd;
-    MouseHook hooker{[](WPARAM e, const MSLLHOOKSTRUCT& info) -> bool
-                     {
-                         if (info.flags & LLMHF_INJECTED)
-                         {
-                             return false;
-                         }
-
-                         return handleTouchpadMouseEvent(e, info);
-                     }};
 
     MSG msg;
     while (::GetMessageW(&msg, nullptr, 0, 0) > 0)
@@ -321,21 +239,19 @@ int main(int argc, char* argv[])
         ::DispatchMessageW(&msg);
     }
 
-    restoreCursorIfSaved();
-
     return static_cast<int>(msg.wParam);
 }
 
-#else // !Q_OS_WIN
+#else // !_WIN32
 
-#include <QDebug>
+#include <stdio.h>
 
 int main(int argc, char* argv[])
 {
-    Q_UNUSED(argc);
-    Q_UNUSED(argv);
-    qWarning() << "Precision touchpad RAWINPUT interception requires Windows.";
+    (void)argc;
+    (void)argv;
+    fprintf(stderr, "Precision touchpad RAWINPUT interception requires Windows.\n");
     return EXIT_FAILURE;
 }
 
-#endif // Q_OS_WIN
+#endif // _WIN32
