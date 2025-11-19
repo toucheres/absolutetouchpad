@@ -43,6 +43,7 @@ class TouchPadRawInputFilter : public QAbstractNativeEventFilter
     QSizeF screenSize{};
     QPointF mousePos{};
     void handleMode();
+    void handleMode();
   private:
     bool registerRawInput();
     bool ensurePrecisionTouchpadPresent();
