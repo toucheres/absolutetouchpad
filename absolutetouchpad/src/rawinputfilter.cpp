@@ -9,13 +9,14 @@
 #include <unordered_map>
 #include <vector>
 
+#include "InputSender.h"
+#include <QDebug>
+#include <QString>
 #include <Windows.h>
 #include <hidsdi.h>
 #include <hidusage.h>
-#include <stdio.h>
-#include <QString>
 #include <qstringliteral.h>
-
+#include <stdio.h>
 namespace
 {
     std::wstring formatSystemError(DWORD errorCode)
@@ -32,14 +33,16 @@ namespace
             ::FormatMessageW(flags, nullptr, errorCode, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
                              reinterpret_cast<LPWSTR>(&buffer), 0, nullptr);
 
-        std::wstring message = (written && buffer) ? std::wstring(buffer, written) : L"unknown error";
+        std::wstring message =
+            (written && buffer) ? std::wstring(buffer, written) : L"unknown error";
         if (buffer)
         {
             ::LocalFree(buffer);
         }
 
         // Trim trailing whitespace
-        while (!message.empty() && (message.back() == L'\n' || message.back() == L'\r' || message.back() == L' '))
+        while (!message.empty() &&
+               (message.back() == L'\n' || message.back() == L'\r' || message.back() == L' '))
         {
             message.pop_back();
         }
@@ -51,7 +54,8 @@ namespace
     {
         const DWORD error = ::GetLastError();
         wchar_t buffer[512];
-        swprintf_s(buffer, L"%s: %s (code %lu)\n", context, formatSystemError(error).c_str(), error);
+        swprintf_s(buffer, L"%s: %s (code %lu)\n", context, formatSystemError(error).c_str(),
+                   error);
         ::OutputDebugStringW(buffer);
     }
 
@@ -169,7 +173,7 @@ bool TouchPadRawInputFilter::ensurePrecisionTouchpadPresent()
         {
             wchar_t buffer[256];
             swprintf_s(buffer, L"Found precision touchpad: VID_%04X&PID_%04X (version %u)\n",
-                      info.hid.dwVendorId, info.hid.dwProductId, info.hid.dwVersionNumber);
+                       info.hid.dwVendorId, info.hid.dwProductId, info.hid.dwVersionNumber);
             ::OutputDebugStringW(buffer);
             found = true;
             break;
@@ -353,12 +357,60 @@ bool TouchPadRawInputFilter::processRawInput(HRAWINPUT rawInputHandle)
 
     std::erase_if(contacts, [](const auto& it) { return it.x == 0 && it.y == 0; });
     contacts.resize(contactCount);
-    m_touchpadframes.push(Touchpadframe{contacts, static_cast<int64_t>(scanTime)});
+
+    // 使用高精度系统时间戳而非 HID scanTime（可能循环）
+    LARGE_INTEGER perfCounter;
+    ::QueryPerformanceCounter(&perfCounter);
+    const int64_t timestamp = perfCounter.QuadPart;
+
+    m_touchpadframes.push_back(Touchpadframe{contacts, timestamp});
     return !contacts.empty();
 }
-
+// handleMode不会在touchpad单点长按时不会调用，导致鼠标卡顿
 void TouchPadRawInputFilter::handleMode()
 {
+    // 处理队列中的所有帧
+
+    // const Touchpadframe& frame = m_touchpadframes.front();
+
+    // switch (mode)
+    // {
+    // case Mode::absmouse:
+    //     // 根据触点坐标计算屏幕位置并发送鼠标移动
+    //     if (frame.contacts.size() == 1) // 单指时视为鼠标move
+    //     {
+    //         const auto& contact = frame.contacts[0]; // 使用第一个触点
+    //         InputSenderT<InputSender::Type::mouse> sender;
+    //         sender.moveTo(contact.x, contact.y);
+    //         // 映射到 absMapRect 并调用 InputSender::moveTo()
+    //     }
+    //     break;
+
+    // case Mode::pen:
+    //     // 手写笔模式
+    //     break;
+
+    // case Mode::simple:
+    // default:
+    //     // 简单模式：仅日志输出或基础处理
+    //     break;
+    // }
+    static int64_t times = 0;
+    qDebug() << times++;
+    if (m_touchpadframes.size() % 3 == 0)
+    {
+        const Touchpadframe& frame = m_touchpadframes.back();
+        if (frame.contacts.size() == 1) // 单指时视为鼠标move
+        {
+            const auto& contact = frame.contacts[0]; // 使用第一个触点
+            InputSenderT<InputSender::Type::mouse> sender;
+            sender.moveTo(contact.x / 3, contact.y / 3);
+            // qDebug() << m_touchpadframes.size();
+            // 映射到 absMapRect 并调用 InputSender::moveTo()
+        }
+
+        m_touchpadframes.clear();
+    }
 }
 
 #endif // _WIN32

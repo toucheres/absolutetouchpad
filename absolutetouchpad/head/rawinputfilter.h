@@ -69,7 +69,7 @@ class TouchPadRawInputFilter
     bool registerRawInput();
     bool ensurePrecisionTouchpadPresent();
     
-    std::queue<Touchpadframe> m_touchpadframes;
+    std::vector<Touchpadframe> m_touchpadframes;
     HWND m_targetWindow = nullptr;
     bool m_registered = false;
 };

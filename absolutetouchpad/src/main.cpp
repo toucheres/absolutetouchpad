@@ -142,6 +142,11 @@ LRESULT CALLBACK RawInputWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPAR
             if (active && ctx->stateManager)
             {
                 ctx->stateManager->markTouchpadActive();
+                // 立即处理触摸板数据帧，驱动鼠标移动
+                if (ctx->filter)
+                {
+                    ctx->filter->handleMode();
+                }
             }
             else if (ctx->stateManager)
             {
