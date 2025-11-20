@@ -362,7 +362,7 @@ bool TouchPadRawInputFilter::processRawInput(HRAWINPUT rawInputHandle)
     LARGE_INTEGER perfCounter;
     ::QueryPerformanceCounter(&perfCounter);
     const int64_t timestamp = perfCounter.QuadPart;
-
+    qDebug() << contacts.size();
     m_touchpadframes.push_back(Touchpadframe{contacts, timestamp});
     return !contacts.empty();
 }
@@ -395,8 +395,20 @@ void TouchPadRawInputFilter::handleMode()
     //     // 简单模式：仅日志输出或基础处理
     //     break;
     // }
-    static int64_t times = 0;
-    qDebug() << times++;
+    // static int64_t times = 0;
+    // qDebug() << m_touchpadframes.size();
+    // 1.连续滑动时帧间隔处于45000-65000间，视为滑动
+    // 2.若帧间隔大于100000,
+    // 说明中间无操作, 视为指头的按下,
+    // ,延迟0.1ms观测为单指还是多指滑动，pen模式下附加左键
+    // 3.若无新增帧，说明本函数由WM_APP_RESTORE_CURSOR事件触发, 鼠标移动, pen模式下松开左键
+    if (m_touchpadframes.size() > 2)
+    {
+        // qDebug() << m_touchpadframes[1].scantime - m_touchpadframes[0].scantime;
+        m_touchpadframes.clear();
+    }
+
+    return;
     if (m_touchpadframes.size() % 3 == 0)
     {
         const Touchpadframe& frame = m_touchpadframes.back();
@@ -404,7 +416,7 @@ void TouchPadRawInputFilter::handleMode()
         {
             const auto& contact = frame.contacts[0]; // 使用第一个触点
             InputSenderT<InputSender::Type::mouse> sender;
-            sender.moveTo(contact.x / 3, contact.y / 3);
+            // sender.moveTo(contact.x / 3, contact.y / 3);
             // qDebug() << m_touchpadframes.size();
             // 映射到 absMapRect 并调用 InputSender::moveTo()
         }

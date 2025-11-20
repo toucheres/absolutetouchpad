@@ -9,7 +9,7 @@
 #include <mousehook.h>
 #include <rawinputfilter.h>
 #include <TouchpadStateManager.h>
-
+#include <qdebug.h>
 constexpr UINT WM_APP_RESTORE_CURSOR = WM_APP + 1;
 
 struct WindowContext
