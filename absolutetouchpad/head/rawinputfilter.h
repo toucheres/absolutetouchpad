@@ -58,7 +58,7 @@ class TouchPadRawInputFilter
     Size screenSize{};
     Point mousePos{};
     void handleMode();
-    
+    void fingerReleased();
     struct Touchpadframe
     {
         std::vector<ContactLog> contacts;
@@ -66,10 +66,16 @@ class TouchPadRawInputFilter
     };
 
   private:
+    enum class mouseStates{
+        not_init,
+        inited,
+        is_signal_finger,
+        touchstart_and_judging_fingernums,
+    }states = mouseStates::not_init;
     bool registerRawInput();
     bool ensurePrecisionTouchpadPresent();
     
-    std::vector<Touchpadframe> m_touchpadframes;
+    std::deque<Touchpadframe> m_touchpadframes;
     HWND m_targetWindow = nullptr;
     bool m_registered = false;
 };

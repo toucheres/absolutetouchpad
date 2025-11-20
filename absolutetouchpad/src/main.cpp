@@ -186,8 +186,10 @@ LRESULT CALLBACK RawInputWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPAR
     }
     case WM_APP_RESTORE_CURSOR:
     {
-        if (ctx && ctx->stateManager)
+        qDebug() << "label";
+        if (ctx && ctx->stateManager&&ctx->filter)
         {
+            ctx->filter->fingerReleased();
             ctx->stateManager->onRestoreMessageReceived();
             ctx->stateManager->restoreCursorIfSaved();
         }

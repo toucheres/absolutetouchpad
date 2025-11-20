@@ -362,67 +362,110 @@ bool TouchPadRawInputFilter::processRawInput(HRAWINPUT rawInputHandle)
     LARGE_INTEGER perfCounter;
     ::QueryPerformanceCounter(&perfCounter);
     const int64_t timestamp = perfCounter.QuadPart;
-    qDebug() << contacts.size();
+    // qDebug() << contacts.size();
     m_touchpadframes.push_back(Touchpadframe{contacts, timestamp});
     return !contacts.empty();
 }
 // handleMode不会在touchpad单点长按时不会调用，导致鼠标卡顿
 void TouchPadRawInputFilter::handleMode()
 {
-    // 处理队列中的所有帧
-
-    // const Touchpadframe& frame = m_touchpadframes.front();
-
-    // switch (mode)
+    // 1.连续滑动时帧间隔处于45000-65000间，视为滑动
+    // 2.若帧间隔大于100000,
+    // 说明中间无操作, 视为指头的按下,
+    // ,延迟0.1ms观测为单指还是多指滑动(cache n 帧判断)，pen模式下附加左键
+    // 3.若无新增帧，说明本函数由WM_APP_RESTORE_CURSOR事件触发, 鼠标移动, pen模式下松开左键
+    // if (m_touchpadframes.size() > 2)
     // {
-    // case Mode::absmouse:
-    //     // 根据触点坐标计算屏幕位置并发送鼠标移动
+    //     // qDebug() << m_touchpadframes[1].scantime - m_touchpadframes[0].scantime;
+    //     m_touchpadframes.clear();
+    // }
+    // 这里先只考虑且默认全局pen模式
+    InputSenderT<InputSender::Type::mouse> sender;
+    constexpr size_t cached_frames_nums = 10;
+    // qDebug() << "m_touchpadframes.size()" << m_touchpadframes.size();
+    if (m_touchpadframes.size() <= 1)
+    {
+        // 滑动的第一帧，不处理
+        return;
+    }
+    // 检查是否是新滑动
+    if (m_touchpadframes.back().scantime - m_touchpadframes[m_touchpadframes.size() - 2].scantime >
+        100000)
+    {
+        // 是新滑动
+        // m_touchpadframes.back()为这次滑动的第一帧,m_touchpadframes[m_touchpadframes.size()-
+        // 2]为上一次滑动的最后一帧
+        // 清除上一次滑动的过时帧
+        qDebug() << "新滑动";
+        auto tp = m_touchpadframes.back();
+        m_touchpadframes.clear();
+        m_touchpadframes.push_back(tp);
+        return;
+    }
+    if (m_touchpadframes.size() <= cached_frames_nums)
+    {
+        // 继续积累帧
+        return;
+    }
+
+    if (m_touchpadframes.size() >= cached_frames_nums)
+    {
+        // 计算 m_touchpadframes 中每帧 contacts.size() 的众数视为这n帧的触摸数
+        std::unordered_map<size_t, int> freq;
+        for (const auto& f : m_touchpadframes)
+        {
+            ++freq[f.contacts.size()];
+        }
+
+        size_t modeContacts = 0;
+        int modeCount = 0;
+        for (const auto& kv : freq)
+        {
+            if (kv.second > modeCount || (kv.second == modeCount && kv.first < modeContacts))
+            {
+                modeContacts = kv.first;
+                modeCount = kv.second;
+            }
+        }
+
+        qDebug() << "mode contacts size:" << static_cast<int>(modeContacts)
+                 << "count:" << modeCount;
+
+        if (modeContacts == 1)
+        {
+            // 单指模式处理
+            const Touchpadframe& frame = m_touchpadframes.back();
+            if (!frame.contacts.empty())
+            {
+                const auto& c = frame.contacts.back();
+                // sender.moveTo(c.x / 3, c.y / 3);
+                qDebug() << "want to :" << c.x << c.y;
+            }
+        }
+        qDebug() << "滑动";
+        m_touchpadframes.pop_front(); // 滑动窗口
+    }
+
+    return;
+    // if (m_touchpadframes.size() % 3 == 0)
+    // {
+    //     const Touchpadframe& frame = m_touchpadframes.back();
     //     if (frame.contacts.size() == 1) // 单指时视为鼠标move
     //     {
     //         const auto& contact = frame.contacts[0]; // 使用第一个触点
     //         InputSenderT<InputSender::Type::mouse> sender;
-    //         sender.moveTo(contact.x, contact.y);
+    //         // sender.moveTo(contact.x / 3, contact.y / 3);
+    //         // qDebug() << m_touchpadframes.size();
     //         // 映射到 absMapRect 并调用 InputSender::moveTo()
     //     }
-    //     break;
 
-    // case Mode::pen:
-    //     // 手写笔模式
-    //     break;
-
-    // case Mode::simple:
-    // default:
-    //     // 简单模式：仅日志输出或基础处理
-    //     break;
+    //     m_touchpadframes.clear();
     // }
-    // static int64_t times = 0;
-    // qDebug() << m_touchpadframes.size();
-    // 1.连续滑动时帧间隔处于45000-65000间，视为滑动
-    // 2.若帧间隔大于100000,
-    // 说明中间无操作, 视为指头的按下,
-    // ,延迟0.1ms观测为单指还是多指滑动，pen模式下附加左键
-    // 3.若无新增帧，说明本函数由WM_APP_RESTORE_CURSOR事件触发, 鼠标移动, pen模式下松开左键
-    if (m_touchpadframes.size() > 2)
-    {
-        // qDebug() << m_touchpadframes[1].scantime - m_touchpadframes[0].scantime;
-        m_touchpadframes.clear();
-    }
+}
 
-    return;
-    if (m_touchpadframes.size() % 3 == 0)
-    {
-        const Touchpadframe& frame = m_touchpadframes.back();
-        if (frame.contacts.size() == 1) // 单指时视为鼠标move
-        {
-            const auto& contact = frame.contacts[0]; // 使用第一个触点
-            InputSenderT<InputSender::Type::mouse> sender;
-            // sender.moveTo(contact.x / 3, contact.y / 3);
-            // qDebug() << m_touchpadframes.size();
-            // 映射到 absMapRect 并调用 InputSender::moveTo()
-        }
-
-        m_touchpadframes.clear();
-    }
+void TouchPadRawInputFilter::fingerReleased()
+{
+    // pen模式下释放左键
 }
 
 #endif // _WIN32
