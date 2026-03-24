@@ -66,6 +66,11 @@ class TouchPadRawInputFilter
     void handleMode();
     void fingerReleased();
     
+    // 定时器驱动的帧处理（用于无输入时也能及时响应释放）
+    void onTimer();
+    void startProcessingTimer();
+    void stopProcessingTimer();
+    
     // 获取状态管理器（用于外部协调）
     TouchpadStateManager* getStateManager() const;
     
@@ -89,6 +94,12 @@ class TouchPadRawInputFilter
     HWND m_targetWindow = nullptr;
     bool m_registered = false;
     std::unique_ptr<TouchpadStateManager> m_stateManager;
+    
+    // 定时器相关
+    static constexpr UINT_PTR TIMER_ID = 1;
+    static constexpr UINT TIMER_INTERVAL_MS = 16; // ~60Hz
+    bool m_timerActive = false;
+    int64_t m_lastFrameTimestamp = 0;
 };
 
 #endif // _WIN32

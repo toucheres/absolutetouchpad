@@ -205,6 +205,16 @@ LRESULT CALLBACK RawInputWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPAR
         }
         return 0;
     }
+    case WM_TIMER:
+    {
+        // 定时器驱动帧处理，确保无输入时也能及时响应释放
+        if (ctx && ctx->filter && wParam == 1) // TIMER_ID = 1
+        {
+            // [TODO] 似乎有bug
+            // ctx->filter->onTimer();
+        }
+        return 0;
+    }
     default:
         break;
     }

@@ -368,6 +368,11 @@ bool TouchPadRawInputFilter::processRawInput(HRAWINPUT rawInputHandle)
     const int64_t timestamp = perfCounter.QuadPart;
     // qDebug() << contacts.size();
     m_touchpadframes.push_back(Touchpadframe{contacts, timestamp});
+    m_lastFrameTimestamp = timestamp;
+
+    // 启动定时器以确保在无输入时也能处理缓冲区
+    startProcessingTimer();
+
     return !contacts.empty();
 }
 // [finished]handleMode不会在touchpad单点长按时不会调用，导致鼠标卡顿
@@ -398,6 +403,8 @@ void TouchPadRawInputFilter::handleMode()
     if (m_touchpadframes.back().scantime - m_touchpadframes[m_touchpadframes.size() - 2].scantime >
         100000)
     {
+        // [Bug]
+        // 点击时，若持续时间小于10帧会被抛弃，急需机制在无鼠标/触控板输入时触发事件循环以及时响应触控板释放时间
         // 是新滑动
         // m_touchpadframes.back()为这次滑动的第一帧,m_touchpadframes[m_touchpadframes.size()-
         // 2]为上一次滑动的最后一帧
@@ -481,6 +488,75 @@ void TouchPadRawInputFilter::fingerReleased()
 TouchpadStateManager* TouchPadRawInputFilter::getStateManager() const
 {
     return m_stateManager.get();
+}
+
+void TouchPadRawInputFilter::startProcessingTimer()
+{
+    if (!m_timerActive && m_targetWindow)
+    {
+        if (::SetTimer(m_targetWindow, TIMER_ID, TIMER_INTERVAL_MS, nullptr))
+        {
+            m_timerActive = true;
+        }
+    }
+}
+
+void TouchPadRawInputFilter::stopProcessingTimer()
+{
+    if (m_timerActive && m_targetWindow)
+    {
+        ::KillTimer(m_targetWindow, TIMER_ID);
+        m_timerActive = false;
+    }
+}
+
+void TouchPadRawInputFilter::onTimer()
+{
+    // 定时器回调：处理缓冲区并检测触摸板释放
+    if (m_touchpadframes.empty())
+    {
+        stopProcessingTimer();
+        return;
+    }
+
+    // 检查是否超时（没有新帧）
+    LARGE_INTEGER perfCounter, freq;
+    ::QueryPerformanceCounter(&perfCounter);
+    ::QueryPerformanceFrequency(&freq);
+
+    const int64_t currentTime = perfCounter.QuadPart;
+    const int64_t elapsedTicks = currentTime - m_lastFrameTimestamp;
+    const double elapsedMs = (elapsedTicks * 1000.0) / freq.QuadPart;
+
+    // 如果超过 10ms 没有新帧，认为触摸板已释放
+    if (elapsedMs > 10.0)
+    {
+        // 处理剩余帧
+        // handleMode();
+        if (m_touchpadframes.size() >= 1 && m_touchpadframes.size() < 10) // 点击
+        {
+            auto tp = m_touchpadframes.back();
+            m_touchpadframes.clear();
+            m_touchpadframes.push_back(tp); // 留下一帧方便后续判断
+        }
+
+        // 触发释放事件
+        fingerReleased();
+
+        // 停止定时器
+        stopProcessingTimer();
+
+        // 通知状态管理器
+        if (m_stateManager)
+        {
+            m_stateManager->deactivateTouchpad();
+        }
+    }
+    else
+    {
+        // 定期处理缓冲区
+        handleMode();
+    }
 }
 
 #endif // _WIN32
