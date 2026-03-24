@@ -150,6 +150,7 @@ LRESULT CALLBACK RawInputWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPAR
             
             if (active && stateManager)
             {
+                stateManager->saveCursorIfNeeded();
                 stateManager->markTouchpadActive();
                 // 立即处理触摸板数据帧，驱动鼠标移动
                 ctx->filter->handleMode();
@@ -212,6 +213,7 @@ LRESULT CALLBACK RawInputWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPAR
         {
             // [TODO] 似乎有bug
             // ctx->filter->onTimer();
+            // qDebug() << "WM_TIMER";
         }
         return 0;
     }

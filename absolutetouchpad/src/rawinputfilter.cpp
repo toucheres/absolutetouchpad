@@ -379,7 +379,7 @@ bool TouchPadRawInputFilter::processRawInput(HRAWINPUT rawInputHandle)
 // [TODO] :Input频率过高导致程序卡死，内建eventcache减少频率
 void TouchPadRawInputFilter::handleMode()
 {
-    qDebug() << m_stateManager->isTouchpadActive();
+    // qDebug() << m_stateManager->isTouchpadActive();
     // 1.连续滑动时帧间隔处于45000-65000间，视为滑动
     // 2.若帧间隔大于100000,
     // 说明中间无操作, 视为指头的按下,
@@ -409,7 +409,7 @@ void TouchPadRawInputFilter::handleMode()
         // m_touchpadframes.back()为这次滑动的第一帧,m_touchpadframes[m_touchpadframes.size()-
         // 2]为上一次滑动的最后一帧
         // 清除上一次滑动的过时帧
-        qDebug() << "新滑动";
+        // qDebug() << "新滑动";
         auto tp = m_touchpadframes.back();
         m_touchpadframes.clear();
         m_touchpadframes.push_back(tp);
@@ -441,8 +441,8 @@ void TouchPadRawInputFilter::handleMode()
             }
         }
 
-        qDebug() << "mode contacts size:" << static_cast<int>(modeContacts)
-                 << "count:" << modeCount;
+        // qDebug() << "mode contacts size:" << static_cast<int>(modeContacts)
+        //          << "count:" << modeCount;
 
         if (modeContacts == 1)
         {
@@ -452,11 +452,11 @@ void TouchPadRawInputFilter::handleMode()
             {
                 const auto& c = frame.contacts.back();
                 sender.moveTo(c.x / 3, c.y / 3);
-                qDebug() << "want to :" << c.x << c.y;
+                // qDebug() << "want to :" << c.x << c.y;
                 // [TODO] 映射到
             }
         }
-        qDebug() << "滑动";
+        // qDebug() << "滑动";
         for (int i = 0; i < 2; i++) // 减少频率
         {
             m_touchpadframes.pop_front(); // 滑动窗口
@@ -494,6 +494,7 @@ void TouchPadRawInputFilter::startProcessingTimer()
 {
     if (!m_timerActive && m_targetWindow)
     {
+        // [TODO] 会多次注册吗
         if (::SetTimer(m_targetWindow, TIMER_ID, TIMER_INTERVAL_MS, nullptr))
         {
             m_timerActive = true;

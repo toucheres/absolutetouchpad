@@ -4,7 +4,7 @@
 #include <Windows.h>
 #include <atomic>
 #include <chrono>
-
+#include <qdebug.h>
 // 触摸板状态机：管理触摸板活动、光标保存/恢复的完整生命周期
 class TouchpadStateManager
 {
@@ -51,6 +51,7 @@ public:
         {
             m_savedCursorX.store(pt.x, std::memory_order_relaxed);
             m_savedCursorY.store(pt.y, std::memory_order_relaxed);
+            qDebug() << "save:" <<"x:"<< pt.x <<" y:"<< pt.y;
         }
     }
 
@@ -65,6 +66,7 @@ public:
         const LONG x = m_savedCursorX.load(std::memory_order_relaxed);
         const LONG y = m_savedCursorY.load(std::memory_order_relaxed);
         ::SetCursorPos(x, y);
+        qDebug() << "restore:" << "x:" << x << " y:" << y;
     }
 
     // 请求光标恢复（通过消息队列异步触发）

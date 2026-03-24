@@ -1,2 +1,4 @@
 监听mouse raw与touchpad raw，假设mouse与touchpad不同时输入
 当touchpad输入时，hook拦截mouse(touchpad的单/双指操作会作为mouseevent的)并替换为保持xy，实现过滤touchpad的mouseinput
+
+
