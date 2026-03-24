@@ -7,6 +7,12 @@
 #include <queue>
 #include <vector>
 #include <cstdint>
+#include <deque>
+#include <chrono>
+#include <memory>
+
+// Forward declaration
+class TouchpadStateManager;
 
 // TouchPadRawInputFilter installs a RAWINPUT subscription for precision touchpads
 // and parses contact information from HID reports.
@@ -55,10 +61,14 @@ class TouchPadRawInputFilter
     Mode mode = Mode::simple;
     Rect absMapRect{};
     Size penMapSize{};
-    Size screenSize{};
+    Size screenSize{}; // 
     Point mousePos{};
     void handleMode();
     void fingerReleased();
+    
+    // 获取状态管理器（用于外部协调）
+    TouchpadStateManager* getStateManager() const;
+    
     struct Touchpadframe
     {
         std::vector<ContactLog> contacts;
@@ -78,6 +88,7 @@ class TouchPadRawInputFilter
     std::deque<Touchpadframe> m_touchpadframes;
     HWND m_targetWindow = nullptr;
     bool m_registered = false;
+    std::unique_ptr<TouchpadStateManager> m_stateManager;
 };
 
 #endif // _WIN32

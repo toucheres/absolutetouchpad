@@ -1,5 +1,6 @@
 // Implements TouchPadRawInputFilter for processing precision touchpad RAWINPUT events.
 #include "rawinputfilter.h"
+#include "TouchpadStateManager.h"
 
 #ifdef _WIN32
 
@@ -72,6 +73,9 @@ TouchPadRawInputFilter::TouchPadRawInputFilter(HWND targetWindow) : m_targetWind
         ::OutputDebugStringW(L"TouchPadRawInputFilter requires a valid HWND.\n");
         return;
     }
+
+    // 创建状态管理器
+    m_stateManager = std::make_unique<TouchpadStateManager>(m_targetWindow);
 
     if (ensurePrecisionTouchpadPresent())
     {
@@ -366,9 +370,11 @@ bool TouchPadRawInputFilter::processRawInput(HRAWINPUT rawInputHandle)
     m_touchpadframes.push_back(Touchpadframe{contacts, timestamp});
     return !contacts.empty();
 }
-// handleMode不会在touchpad单点长按时不会调用，导致鼠标卡顿
+// [finished]handleMode不会在touchpad单点长按时不会调用，导致鼠标卡顿
+// [TODO] :Input频率过高导致程序卡死，内建eventcache减少频率
 void TouchPadRawInputFilter::handleMode()
 {
+    qDebug() << m_stateManager->isTouchpadActive();
     // 1.连续滑动时帧间隔处于45000-65000间，视为滑动
     // 2.若帧间隔大于100000,
     // 说明中间无操作, 视为指头的按下,
@@ -438,12 +444,16 @@ void TouchPadRawInputFilter::handleMode()
             if (!frame.contacts.empty())
             {
                 const auto& c = frame.contacts.back();
-                // sender.moveTo(c.x / 3, c.y / 3);
+                sender.moveTo(c.x / 3, c.y / 3);
                 qDebug() << "want to :" << c.x << c.y;
+                // [TODO] 映射到
             }
         }
         qDebug() << "滑动";
-        m_touchpadframes.pop_front(); // 滑动窗口
+        for (int i = 0; i < 2; i++) // 减少频率
+        {
+            m_touchpadframes.pop_front(); // 滑动窗口
+        }
     }
 
     return;
@@ -466,6 +476,11 @@ void TouchPadRawInputFilter::handleMode()
 void TouchPadRawInputFilter::fingerReleased()
 {
     // pen模式下释放左键
+}
+
+TouchpadStateManager* TouchPadRawInputFilter::getStateManager() const
+{
+    return m_stateManager.get();
 }
 
 #endif // _WIN32

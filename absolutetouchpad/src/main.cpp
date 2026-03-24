@@ -15,34 +15,36 @@ constexpr UINT WM_APP_RESTORE_CURSOR = WM_APP + 1;
 struct WindowContext
 {
     std::unique_ptr<TouchPadRawInputFilter> filter;
-    std::unique_ptr<TouchpadStateManager> stateManager;
     std::unique_ptr<MouseHook> mouseHook;
     HWND hwnd = nullptr;
 };
 
 bool handleTouchpadMouseEvent(WindowContext* ctx, WPARAM e, const MSLLHOOKSTRUCT& inf)
 {
-    if (!ctx || !ctx->stateManager)
+    if (!ctx || !ctx->filter)
+    {
+        return false;
+    }
+
+    auto* stateManager = ctx->filter->getStateManager();
+    if (!stateManager)
     {
         return false;
     }
 
     // 检查是否在压制窗口内
-    if (ctx->stateManager->isWithinSuppressWindow())
+    if (stateManager->isWithinSuppressWindow())
     {
-        ctx->stateManager->saveCursorIfNeeded();
-        if (ctx->filter)
-        {
-            ctx->filter->handleMode();
-        }
+        stateManager->saveCursorIfNeeded();
+        ctx->filter->handleMode();
         return true; // 阻断此鼠标事件
     }
 
     // 超时或非活动状态，请求恢复光标
-    if (ctx->stateManager->hasTimedOut() || !ctx->stateManager->isTouchpadActive())
+    if (stateManager->hasTimedOut() || !stateManager->isTouchpadActive())
     {
-        ctx->stateManager->deactivateTouchpad();
-        ctx->stateManager->requestCursorRestore(WM_APP_RESTORE_CURSOR);
+        stateManager->deactivateTouchpad();
+        stateManager->requestCursorRestore(WM_APP_RESTORE_CURSOR);
     }
 
     return false;
@@ -50,20 +52,26 @@ bool handleTouchpadMouseEvent(WindowContext* ctx, WPARAM e, const MSLLHOOKSTRUCT
 
 void noteMouseActivity(WindowContext* ctx)
 {
-    if (!ctx || !ctx->stateManager)
+    if (!ctx || !ctx->filter)
     {
         return;
     }
 
-    if (!ctx->stateManager->isTouchpadActive())
+    auto* stateManager = ctx->filter->getStateManager();
+    if (!stateManager)
     {
         return;
     }
 
-    if (ctx->stateManager->hasTimedOut())
+    if (!stateManager->isTouchpadActive())
     {
-        ctx->stateManager->deactivateTouchpad();
-        ctx->stateManager->requestCursorRestore(WM_APP_RESTORE_CURSOR);
+        return;
+    }
+
+    if (stateManager->hasTimedOut())
+    {
+        stateManager->deactivateTouchpad();
+        stateManager->requestCursorRestore(WM_APP_RESTORE_CURSOR);
     }
 }
 
@@ -85,7 +93,6 @@ LRESULT CALLBACK RawInputWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPAR
         if (ctx)
         {
             ctx->hwnd = hwnd;
-            ctx->stateManager = std::make_unique<TouchpadStateManager>(hwnd);
             ctx->filter = std::make_unique<TouchPadRawInputFilter>(hwnd);
             
             if (!ctx->filter->isRegistered())
@@ -139,19 +146,18 @@ LRESULT CALLBACK RawInputWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPAR
         if (header.dwType == RIM_TYPEHID)
         {
             const bool active = ctx->filter && ctx->filter->processRawInput(reinterpret_cast<HRAWINPUT>(lParam));
-            if (active && ctx->stateManager)
+            auto* stateManager = ctx->filter ? ctx->filter->getStateManager() : nullptr;
+            
+            if (active && stateManager)
             {
-                ctx->stateManager->markTouchpadActive();
+                stateManager->markTouchpadActive();
                 // 立即处理触摸板数据帧，驱动鼠标移动
-                if (ctx->filter)
-                {
-                    ctx->filter->handleMode();
-                }
+                ctx->filter->handleMode();
             }
-            else if (ctx->stateManager)
+            else if (stateManager)
             {
-                ctx->stateManager->deactivateTouchpad();
-                ctx->stateManager->requestCursorRestore(WM_APP_RESTORE_CURSOR);
+                stateManager->deactivateTouchpad();
+                stateManager->requestCursorRestore(WM_APP_RESTORE_CURSOR);
             }
         }
         else if (header.dwType == RIM_TYPEMOUSE)
@@ -170,14 +176,14 @@ LRESULT CALLBACK RawInputWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPAR
     {
         if (ctx)
         {
-            if (ctx->stateManager)
+            auto* stateManager = ctx->filter ? ctx->filter->getStateManager() : nullptr;
+            if (stateManager)
             {
-                ctx->stateManager->deactivateTouchpad();
-                ctx->stateManager->restoreCursorIfSaved();
+                stateManager->deactivateTouchpad();
+                stateManager->restoreCursorIfSaved();
             }
             ctx->mouseHook.reset();
             ctx->filter.reset();
-            ctx->stateManager.reset();
             delete ctx;
             ::SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
         }
@@ -187,11 +193,15 @@ LRESULT CALLBACK RawInputWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPAR
     case WM_APP_RESTORE_CURSOR:
     {
         qDebug() << "label";
-        if (ctx && ctx->stateManager&&ctx->filter)
+        if (ctx && ctx->filter)
         {
-            ctx->filter->fingerReleased();
-            ctx->stateManager->onRestoreMessageReceived();
-            ctx->stateManager->restoreCursorIfSaved();
+            auto* stateManager = ctx->filter->getStateManager();
+            if (stateManager)
+            {
+                ctx->filter->fingerReleased();
+                stateManager->onRestoreMessageReceived();
+                stateManager->restoreCursorIfSaved();
+            }
         }
         return 0;
     }
