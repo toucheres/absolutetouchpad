@@ -36,7 +36,7 @@ bool handleTouchpadMouseEvent(WindowContext* ctx, WPARAM e, const MSLLHOOKSTRUCT
     if (stateManager->isWithinSuppressWindow())
     {
         stateManager->saveCursorIfNeeded();
-        ctx->filter->handleMode();
+        // ctx->filter->handleMode();
         return true; // 阻断此鼠标事件
     }
 
