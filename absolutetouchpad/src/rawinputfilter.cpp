@@ -374,7 +374,7 @@ bool TouchPadRawInputFilter::processRawInput(HRAWINPUT rawInputHandle)
     startProcessingTimer();
 
     qDebug() << "finger num: " << contacts.size() << "timestamp: " << timestamp << "scantime "
-             << scanTime;
+             << scanTime << "x: " << contacts[0].x << "y: " << contacts[0].y;
 
     return !contacts.empty();
 }

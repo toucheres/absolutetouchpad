@@ -1,1140 +1,1069 @@
-单击
-absolutetouchpad.exe : finger num:  1 timestamp:  28605933897 scantime  38456
-所在位置 行:1 字符: 1
-+ ."C:/Users/asus/source/repos/absolutetouchpad/build/absolutetouchpad/ ...
-+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    + CategoryInfo          : NotSpecified: (finger num:  1 ...scantime  38456:String) [], RemoteException
-    + FullyQualifiedErrorId : NativeCommandError
- 
-save: x: 618  y: 485
-finger num:  1 timestamp:  28605969717 scantime  38512
-finger num:  1 timestamp:  28606024449 scantime  38568
-finger num:  1 timestamp:  28606080055 scantime  38624
-finger num:  1 timestamp:  28606133938 scantime  38680
-finger num:  1 timestamp:  28606190082 scantime  38736
-finger num:  1 timestamp:  28606245526 scantime  38792
-finger num:  1 timestamp:  28606303920 scantime  38848
+点击
+save: x: 677  y: 550
+finger num:  1 timestamp:  39221685005 scantime  46552 x:  3558 y:  607
+finger num:  1 timestamp:  39221740653 scantime  46608 x:  3558 y:  607
+finger num:  1 timestamp:  39221795921 scantime  46664 x:  3558 y:  607
+finger num:  1 timestamp:  39221852177 scantime  46720 x:  3558 y:  607
+finger num:  1 timestamp:  39221910289 scantime  46776 x:  3558 y:  607
+finger num:  1 timestamp:  39221963243 scantime  46832 x:  3558 y:  607
+finger num:  1 timestamp:  39222019200 scantime  46888 x:  3558 y:  607
+finger num:  1 timestamp:  39222076167 scantime  46944 x:  3558 y:  607
 handleMode for end 0
-finger num:  1 timestamp:  28612773255 scantime  45288
-finger num:  1 timestamp:  28612827539 scantime  45344
-finger num:  1 timestamp:  28612883407 scantime  45400
-finger num:  1 timestamp:  28612938594 scantime  45456
-finger num:  1 timestamp:  28612994624 scantime  45512
-finger num:  1 timestamp:  28613049987 scantime  45568
-finger num:  1 timestamp:  28613105997 scantime  45624
-finger num:  1 timestamp:  28613161845 scantime  45680
-finger num:  1 timestamp:  28613217629 scantime  45736
-finger num:  1 timestamp:  28613273450 scantime  45792
-finger num:  1 timestamp:  28613327359 scantime  45848
-finger num:  1 timestamp:  28613383430 scantime  45904
-finger num:  1 timestamp:  28613438962 scantime  45960
-finger num:  1 timestamp:  28613503970 scantime  46016
+finger num:  1 timestamp:  39230271883 scantime  55064 x:  2992 y:  1305
+finger num:  1 timestamp:  39230325923 scantime  55120 x:  2992 y:  1305
+finger num:  1 timestamp:  39230381497 scantime  55176 x:  2992 y:  1305
+finger num:  1 timestamp:  39230437984 scantime  55232 x:  2992 y:  1305
+finger num:  1 timestamp:  39230494237 scantime  55288 x:  2992 y:  1305
+finger num:  1 timestamp:  39230548246 scantime  55344 x:  2994 y:  1305
+finger num:  1 timestamp:  39230604021 scantime  55400 x:  2994 y:  1305
+finger num:  1 timestamp:  39230660334 scantime  55456 x:  2994 y:  1305
+finger num:  1 timestamp:  39230720532 scantime  55512 x:  2994 y:  1305
 handleMode for end 1
-finger num:  1 timestamp:  28616575275 scantime  49096
-finger num:  1 timestamp:  28616629937 scantime  49152
-finger num:  1 timestamp:  28616685610 scantime  49208
-finger num:  1 timestamp:  28616742788 scantime  49264
-finger num:  1 timestamp:  28616796864 scantime  49320
-finger num:  1 timestamp:  28616853243 scantime  49376
-finger num:  1 timestamp:  28616907982 scantime  49432
-finger num:  1 timestamp:  28616963369 scantime  49488
-finger num:  1 timestamp:  28617021633 scantime  49544
-finger num:  1 timestamp:  28617073810 scantime  49600
-finger num:  1 timestamp:  28617129671 scantime  49656
+finger num:  1 timestamp:  39238803272 scantime  63520 x:  1658 y:  678
+finger num:  1 timestamp:  39238857794 scantime  63576 x:  1658 y:  678
+finger num:  1 timestamp:  39238914565 scantime  63632 x:  1658 y:  678
+finger num:  1 timestamp:  39238973293 scantime  63688 x:  1658 y:  678
+finger num:  1 timestamp:  39239030043 scantime  63744 x:  1658 y:  678
+finger num:  1 timestamp:  39239083382 scantime  63800 x:  1659 y:  680
+finger num:  1 timestamp:  39239136576 scantime  63856 x:  1661 y:  689
+finger num:  1 timestamp:  39239192772 scantime  63912 x:  1661 y:  689
+finger num:  1 timestamp:  39239249202 scantime  63968 x:  1661 y:  689
+finger num:  1 timestamp:  39239306150 scantime  64024 x:  1661 y:  689
 handleMode for end 2
-finger num:  1 timestamp:  28621193324 scantime  53744
-finger num:  1 timestamp:  28621247674 scantime  53800
-finger num:  1 timestamp:  28621303013 scantime  53856
-finger num:  1 timestamp:  28621358546 scantime  53912
-finger num:  1 timestamp:  28621414443 scantime  53968
-finger num:  1 timestamp:  28621470010 scantime  54024
-finger num:  1 timestamp:  28621525521 scantime  54080
-finger num:  1 timestamp:  28621580897 scantime  54136
-finger num:  1 timestamp:  28621634514 scantime  54192
-finger num:  1 timestamp:  28621690331 scantime  54248
-finger num:  1 timestamp:  28621745557 scantime  54304
-finger num:  1 timestamp:  28621803059 scantime  54360
+finger num:  1 timestamp:  39248578248 scantime  7672 x:  2246 y:  1877
+finger num:  1 timestamp:  39248632983 scantime  7728 x:  2246 y:  1877
+finger num:  1 timestamp:  39248688336 scantime  7784 x:  2246 y:  1877
+finger num:  1 timestamp:  39248745708 scantime  7840 x:  2246 y:  1877
+finger num:  1 timestamp:  39248800370 scantime  7896 x:  2246 y:  1877
+finger num:  1 timestamp:  39248856862 scantime  7952 x:  2246 y:  1877
+finger num:  1 timestamp:  39248912905 scantime  8008 x:  2246 y:  1877
+finger num:  1 timestamp:  39248966959 scantime  8064 x:  2249 y:  1878
+finger num:  1 timestamp:  39249023454 scantime  8120 x:  2249 y:  1878
+finger num:  1 timestamp:  39249080154 scantime  8176 x:  2249 y:  1878
+finger num:  1 timestamp:  39249136770 scantime  8232 x:  2249 y:  1878
 handleMode for end 3
-finger num:  1 timestamp:  28625755385 scantime  58336
-finger num:  1 timestamp:  28625810068 scantime  58392
-finger num:  1 timestamp:  28625864190 scantime  58448
-finger num:  1 timestamp:  28625920016 scantime  58504
-finger num:  1 timestamp:  28625975780 scantime  58560
-finger num:  1 timestamp:  28626031341 scantime  58616
-finger num:  1 timestamp:  28626086772 scantime  58672
-finger num:  1 timestamp:  28626142609 scantime  58728
-finger num:  1 timestamp:  28626197601 scantime  58784
-finger num:  1 timestamp:  28626253154 scantime  58840
-finger num:  1 timestamp:  28626307120 scantime  58896
-finger num:  1 timestamp:  28626363869 scantime  58952
-finger num:  1 timestamp:  28626419705 scantime  59008
-finger num:  1 timestamp:  28626480327 scantime  59064
+finger num:  1 timestamp:  39255422818 scantime  14448 x:  2870 y:  870
+finger num:  1 timestamp:  39255476128 scantime  14504 x:  2870 y:  870
+finger num:  1 timestamp:  39255532873 scantime  14560 x:  2870 y:  870
+finger num:  1 timestamp:  39255588990 scantime  14616 x:  2870 y:  870
+finger num:  1 timestamp:  39255641255 scantime  14672 x:  2870 y:  870
+finger num:  1 timestamp:  39255696369 scantime  14728 x:  2870 y:  870
+finger num:  1 timestamp:  39255751864 scantime  14784 x:  2870 y:  870
+finger num:  1 timestamp:  39255808993 scantime  14840 x:  2870 y:  870
 handleMode for end 4
-finger num:  1 timestamp:  28633152619 scantime  192
-finger num:  1 timestamp:  28633209637 scantime  248
-finger num:  1 timestamp:  28633260723 scantime  304
-finger num:  1 timestamp:  28633317437 scantime  360
-finger num:  1 timestamp:  28633373053 scantime  416
-finger num:  1 timestamp:  28633431223 scantime  472
+finger num:  1 timestamp:  39265984069 scantime  25032 x:  3711 y:  1989
+finger num:  1 timestamp:  39266036777 scantime  25088 x:  3711 y:  1989
+finger num:  1 timestamp:  39266091520 scantime  25144 x:  3711 y:  1989
+finger num:  1 timestamp:  39266148660 scantime  25200 x:  3711 y:  1989
+finger num:  1 timestamp:  39266201355 scantime  25256 x:  3711 y:  1989
+finger num:  1 timestamp:  39266257129 scantime  25312 x:  3711 y:  1989
+finger num:  1 timestamp:  39266313803 scantime  25368 x:  3711 y:  1989
 handleMode for end 5
-finger num:  1 timestamp:  28643898118 scantime  10832
-finger num:  1 timestamp:  28643952394 scantime  10888
-finger num:  1 timestamp:  28644007937 scantime  10944
-finger num:  1 timestamp:  28644068146 scantime  11000
-finger num:  1 timestamp:  28644121735 scantime  11056
-finger num:  1 timestamp:  28644176812 scantime  11112
-finger num:  1 timestamp:  28644235572 scantime  11168
-finger num:  1 timestamp:  28644286927 scantime  11224
-finger num:  1 timestamp:  28644343435 scantime  11280
-finger num:  1 timestamp:  28644399300 scantime  11336
-finger num:  1 timestamp:  28644455485 scantime  11392
+finger num:  1 timestamp:  39277436551 scantime  36400 x:  341 y:  1338
+finger num:  1 timestamp:  39277490506 scantime  36456 x:  341 y:  1338
+finger num:  1 timestamp:  39277546717 scantime  36512 x:  341 y:  1338
+finger num:  1 timestamp:  39277603537 scantime  36568 x:  341 y:  1338
+finger num:  1 timestamp:  39277657368 scantime  36624 x:  342 y:  1339
+finger num:  1 timestamp:  39277714741 scantime  36680 x:  342 y:  1339
+finger num:  1 timestamp:  39277770134 scantime  36736 x:  342 y:  1339
+finger num:  1 timestamp:  39277827936 scantime  36792 x:  342 y:  1339
 handleMode for end 6
-finger num:  1 timestamp:  28680683390 scantime  47456
-finger num:  1 timestamp:  28680738025 scantime  47512
-finger num:  1 timestamp:  28680794237 scantime  47568
-finger num:  1 timestamp:  28680861776 scantime  47624
-finger num:  1 timestamp:  28680907534 scantime  47680
-finger num:  1 timestamp:  28680962497 scantime  47736
-finger num:  1 timestamp:  28681017747 scantime  47792
-finger num:  1 timestamp:  28681071973 scantime  47848
-finger num:  1 timestamp:  28681128193 scantime  47904
-finger num:  1 timestamp:  28681184184 scantime  47960
-finger num:  1 timestamp:  28681240423 scantime  48016
+finger num:  1 timestamp:  39287559704 scantime  46424 x:  2129 y:  723
+finger num:  1 timestamp:  39287614770 scantime  46480 x:  2129 y:  723
+finger num:  1 timestamp:  39287668830 scantime  46536 x:  2129 y:  723
+finger num:  1 timestamp:  39287725295 scantime  46592 x:  2129 y:  723
+finger num:  1 timestamp:  39287775525 scantime  46648 x:  2129 y:  726
+finger num:  1 timestamp:  39287831652 scantime  46704 x:  2129 y:  726
+finger num:  1 timestamp:  39287888173 scantime  46760 x:  2129 y:  726
+finger num:  1 timestamp:  39287946114 scantime  46816 x:  2129 y:  726
 handleMode for end 7
-finger num:  1 timestamp:  28693955736 scantime  60616
-finger num:  1 timestamp:  28694010388 scantime  60672
-finger num:  1 timestamp:  28694066178 scantime  60728
-finger num:  1 timestamp:  28694122717 scantime  60784
-finger num:  1 timestamp:  28694178577 scantime  60840
-finger num:  1 timestamp:  28694234991 scantime  60896
-finger num:  1 timestamp:  28694289201 scantime  60952
-finger num:  1 timestamp:  28694345736 scantime  61008
-finger num:  1 timestamp:  28694401524 scantime  61064
-finger num:  1 timestamp:  28694458877 scantime  61120
+finger num:  1 timestamp:  39296651205 scantime  55440 x:  3687 y:  994
+finger num:  1 timestamp:  39296706188 scantime  55496 x:  3687 y:  994
+finger num:  1 timestamp:  39296761883 scantime  55552 x:  3687 y:  994
+finger num:  1 timestamp:  39296818048 scantime  55608 x:  3687 y:  994
+finger num:  1 timestamp:  39296874109 scantime  55664 x:  3687 y:  994
+finger num:  1 timestamp:  39296931207 scantime  55720 x:  3687 y:  994
+finger num:  1 timestamp:  39296985708 scantime  55776 x:  3688 y:  993
+finger num:  1 timestamp:  39297040961 scantime  55832 x:  3688 y:  993
+finger num:  1 timestamp:  39297096750 scantime  55888 x:  3688 y:  993
+finger num:  1 timestamp:  39297155647 scantime  55944 x:  3688 y:  993
 handleMode for end 8
-两指单击
-finger num:  2 timestamp:  29069587403 scantime  51016
-finger num:  2 timestamp:  29069631609 scantime  51072
-finger num:  2 timestamp:  29069688767 scantime  51128
-finger num:  2 timestamp:  29069744136 scantime  51184
-finger num:  2 timestamp:  29069800292 scantime  51240
-finger num:  2 timestamp:  29069856288 scantime  51296
-finger num:  2 timestamp:  29069912949 scantime  51352
-finger num:  2 timestamp:  29069967888 scantime  51408
-finger num:  2 timestamp:  29070021507 scantime  51464
-finger num:  2 timestamp:  29070077944 scantime  51520
-finger num:  2 timestamp:  29070130333 scantime  51576
-finger num:  2 timestamp:  29070185744 scantime  51632
-finger num:  1 timestamp:  29070242391 scantime  51688
-finger num:  1 timestamp:  29070299323 scantime  51744
+finger num:  1 timestamp:  39302828754 scantime  61544 x:  3540 y:  1392
+finger num:  1 timestamp:  39302885548 scantime  61600 x:  3540 y:  1392
+finger num:  1 timestamp:  39302936954 scantime  61656 x:  3539 y:  1392
+finger num:  1 timestamp:  39302993557 scantime  61712 x:  3538 y:  1392
+finger num:  1 timestamp:  39303049817 scantime  61768 x:  3537 y:  1392
+finger num:  1 timestamp:  39303106728 scantime  61824 x:  3537 y:  1392
+finger num:  1 timestamp:  39303162522 scantime  61880 x:  3537 y:  1392
+finger num:  1 timestamp:  39303222808 scantime  61936 x:  3537 y:  1392
+finger num:  1 timestamp:  39303273869 scantime  61992 x:  3537 y:  1392
+finger num:  1 timestamp:  39303328602 scantime  62048 x:  3537 y:  1392
+finger num:  1 timestamp:  39303386805 scantime  62104 x:  3537 y:  1392
+finger num:  1 timestamp:  39303441109 scantime  62160 x:  3537 y:  1392
+finger num:  1 timestamp:  39303498417 scantime  62216 x:  3537 y:  1392
 handleMode for end 9
-finger num:  2 timestamp:  29077646536 scantime  59024
-finger num:  2 timestamp:  29077704275 scantime  59080
-finger num:  2 timestamp:  29077756739 scantime  59136
-finger num:  2 timestamp:  29077814267 scantime  59192
-finger num:  2 timestamp:  29077868887 scantime  59248
-finger num:  2 timestamp:  29077924695 scantime  59304
-finger num:  2 timestamp:  29077980858 scantime  59360
-finger num:  2 timestamp:  29078034945 scantime  59416
-finger num:  2 timestamp:  29078090520 scantime  59472
-finger num:  2 timestamp:  29078142222 scantime  59528
-finger num:  2 timestamp:  29078197571 scantime  59584
-finger num:  1 timestamp:  29078254702 scantime  59640
-finger num:  1 timestamp:  29078310957 scantime  59696
+finger num:  1 timestamp:  39309226208 scantime  2336 x:  3716 y:  714
+finger num:  1 timestamp:  39309279709 scantime  2392 x:  3716 y:  714
+finger num:  1 timestamp:  39309336703 scantime  2448 x:  3716 y:  714
+finger num:  1 timestamp:  39309392628 scantime  2504 x:  3715 y:  714
+finger num:  1 timestamp:  39309448779 scantime  2560 x:  3714 y:  714
+finger num:  1 timestamp:  39309506412 scantime  2616 x:  3714 y:  714
+finger num:  1 timestamp:  39309561609 scantime  2672 x:  3714 y:  714
+finger num:  1 timestamp:  39309617839 scantime  2728 x:  3713 y:  714
+finger num:  1 timestamp:  39309674487 scantime  2784 x:  3713 y:  714
+finger num:  1 timestamp:  39309730735 scantime  2840 x:  3713 y:  714
+finger num:  1 timestamp:  39309786577 scantime  2896 x:  3713 y:  714
+finger num:  1 timestamp:  39309843429 scantime  2952 x:  3713 y:  714
+finger num:  1 timestamp:  39309899579 scantime  3008 x:  3713 y:  714
+finger num:  1 timestamp:  39309966876 scantime  3064 x:  3713 y:  714
+finger num:  1 timestamp:  39310016455 scantime  3120 x:  3713 y:  714
+finger num:  1 timestamp:  39310068602 scantime  3176 x:  3713 y:  714
+finger num:  1 timestamp:  39310126364 scantime  3232 x:  3713 y:  714
+finger num:  1 timestamp:  39310181177 scantime  3288 x:  3714 y:  716
+finger num:  1 timestamp:  39310236498 scantime  3344 x:  3713 y:  720
+finger num:  1 timestamp:  39310291276 scantime  3400 x:  3710 y:  726
+finger num:  1 timestamp:  39310347503 scantime  3456 x:  3710 y:  726
+finger num:  1 timestamp:  39310403387 scantime  3512 x:  3710 y:  726
+finger num:  1 timestamp:  39310461257 scantime  3568 x:  3710 y:  726
 handleMode for end 10
-finger num:  2 timestamp:  29087122959 scantime  2896
-finger num:  2 timestamp:  29087177966 scantime  2952
-finger num:  2 timestamp:  29087235513 scantime  3008
-finger num:  2 timestamp:  29087289107 scantime  3064
-finger num:  2 timestamp:  29087350462 scantime  3120
-finger num:  2 timestamp:  29087398166 scantime  3176
-finger num:  2 timestamp:  29087454508 scantime  3232
-finger num:  2 timestamp:  29087508653 scantime  3288
-finger num:  2 timestamp:  29087562206 scantime  3344
-finger num:  1 timestamp:  29087618881 scantime  3400
-finger num:  1 timestamp:  29087675239 scantime  3456
-finger num:  1 timestamp:  29087731180 scantime  3512
+finger num:  1 timestamp:  39315734190 scantime  8776 x:  3617 y:  1318
+finger num:  1 timestamp:  39315788865 scantime  8832 x:  3617 y:  1318
+finger num:  1 timestamp:  39315847731 scantime  8888 x:  3617 y:  1318
+finger num:  1 timestamp:  39315901286 scantime  8944 x:  3617 y:  1318
+finger num:  1 timestamp:  39315957485 scantime  9000 x:  3617 y:  1318
+finger num:  1 timestamp:  39316013955 scantime  9056 x:  3617 y:  1318
+finger num:  1 timestamp:  39316070427 scantime  9112 x:  3617 y:  1318
+finger num:  1 timestamp:  39316125838 scantime  9168 x:  3617 y:  1318
+finger num:  1 timestamp:  39316182602 scantime  9224 x:  3617 y:  1318
+finger num:  1 timestamp:  39316234588 scantime  9280 x:  3617 y:  1318
+finger num:  1 timestamp:  39316289944 scantime  9336 x:  3617 y:  1318
+finger num:  1 timestamp:  39316345279 scantime  9392 x:  3617 y:  1318
+finger num:  1 timestamp:  39316400869 scantime  9448 x:  3617 y:  1318
+finger num:  1 timestamp:  39316457056 scantime  9504 x:  3617 y:  1318
+finger num:  1 timestamp:  39316520005 scantime  9560 x:  3617 y:  1318
 handleMode for end 11
-finger num:  1 timestamp:  29100164000 scantime  15832
-finger num:  1 timestamp:  29100219219 scantime  15888
-finger num:  1 timestamp:  29100276741 scantime  15944
-finger num:  1 timestamp:  29100333387 scantime  16000
-finger num:  1 timestamp:  29100389286 scantime  16056
-finger num:  1 timestamp:  29100445805 scantime  16112
-finger num:  1 timestamp:  29100502739 scantime  16168
-finger num:  1 timestamp:  29100557822 scantime  16224
-finger num:  1 timestamp:  29100612208 scantime  16280
-finger num:  1 timestamp:  29100667233 scantime  16336
-finger num:  1 timestamp:  29100723194 scantime  16392
-finger num:  1 timestamp:  29100779543 scantime  16448
-handleMode for end 12
-finger num:  1 timestamp:  29119933698 scantime  35432
-finger num:  2 timestamp:  29119989928 scantime  35488
-finger num:  2 timestamp:  29120045020 scantime  35544
-finger num:  2 timestamp:  29120101430 scantime  35600
-finger num:  2 timestamp:  29120158111 scantime  35656
-finger num:  2 timestamp:  29120219734 scantime  35712
-finger num:  2 timestamp:  29120269353 scantime  35768
-finger num:  2 timestamp:  29120325149 scantime  35824
-finger num:  2 timestamp:  29120381473 scantime  35880
-finger num:  2 timestamp:  29120442509 scantime  35936
-finger num:  2 timestamp:  29120490986 scantime  35992
-finger num:  2 timestamp:  29120546659 scantime  36048
-finger num:  2 timestamp:  29120600990 scantime  36104
-finger num:  2 timestamp:  29120654197 scantime  36160
-finger num:  1 timestamp:  29120710720 scantime  36216
-finger num:  1 timestamp:  29120767822 scantime  36272
-finger num:  1 timestamp:  29120823565 scantime  36328
-handleMode for end 13
-finger num:  2 timestamp:  29128902651 scantime  44336
-finger num:  2 timestamp:  29128957228 scantime  44392
-finger num:  2 timestamp:  29129013002 scantime  44448
-finger num:  2 timestamp:  29129069222 scantime  44504
-finger num:  2 timestamp:  29129125608 scantime  44560
-finger num:  2 timestamp:  29129181690 scantime  44616
-finger num:  2 timestamp:  29129238373 scantime  44672
-finger num:  2 timestamp:  29129294455 scantime  44728
-finger num:  2 timestamp:  29129350056 scantime  44784
-finger num:  2 timestamp:  29129404033 scantime  44840
-finger num:  2 timestamp:  29129459079 scantime  44896
-finger num:  2 timestamp:  29129512588 scantime  44952
-finger num:  2 timestamp:  29129571902 scantime  45008
-finger num:  1 timestamp:  29129624950 scantime  45064
-finger num:  1 timestamp:  29129681142 scantime  45120
-handleMode for end 14
-finger num:  1 timestamp:  29138490101 scantime  53856
-finger num:  1 timestamp:  29138544522 scantime  53912
-finger num:  2 timestamp:  29138602195 scantime  53968
-finger num:  2 timestamp:  29138657871 scantime  54024
-finger num:  2 timestamp:  29138714297 scantime  54080
-finger num:  2 timestamp:  29138769825 scantime  54136
-finger num:  2 timestamp:  29138825716 scantime  54192
-finger num:  2 timestamp:  29138881846 scantime  54248
-finger num:  2 timestamp:  29138937975 scantime  54304
-finger num:  2 timestamp:  29138993465 scantime  54360
-finger num:  2 timestamp:  29139044777 scantime  54416
-finger num:  2 timestamp:  29139103627 scantime  54472
-finger num:  2 timestamp:  29139157216 scantime  54528
-finger num:  2 timestamp:  29139216152 scantime  54584
-handleMode for end 15
-finger num:  2 timestamp:  29153731828 scantime  3440
-finger num:  2 timestamp:  29153786329 scantime  3496
-finger num:  2 timestamp:  29153842072 scantime  3552
-finger num:  2 timestamp:  29153898231 scantime  3608
-finger num:  2 timestamp:  29153954336 scantime  3664
-finger num:  2 timestamp:  29154010522 scantime  3720
-finger num:  2 timestamp:  29154066623 scantime  3776
-finger num:  2 timestamp:  29154122805 scantime  3832
-finger num:  2 timestamp:  29154177521 scantime  3888
-finger num:  2 timestamp:  29154231501 scantime  3944
-finger num:  2 timestamp:  29154286255 scantime  4000
-finger num:  2 timestamp:  29154342624 scantime  4056
-finger num:  1 timestamp:  29154402787 scantime  4112
-handleMode for end 16
-finger num:  1 timestamp:  29170915543 scantime  20464
-finger num:  1 timestamp:  29170975697 scantime  20520
-finger num:  2 timestamp:  29171027406 scantime  20576
-finger num:  2 timestamp:  29171082906 scantime  20632
-finger num:  2 timestamp:  29171138690 scantime  20688
-finger num:  2 timestamp:  29171195628 scantime  20744
-finger num:  2 timestamp:  29171252717 scantime  20800
-finger num:  2 timestamp:  29171307821 scantime  20856
-finger num:  2 timestamp:  29171363478 scantime  20912
-finger num:  2 timestamp:  29171416933 scantime  20968
-finger num:  2 timestamp:  29171472523 scantime  21024
-finger num:  2 timestamp:  29171527985 scantime  21080
-finger num:  2 timestamp:  29171582300 scantime  21136
-finger num:  1 timestamp:  29171636377 scantime  21192
-finger num:  1 timestamp:  29171693075 scantime  21248
-finger num:  1 timestamp:  29171749537 scantime  21304
-finger num:  1 timestamp:  29171809006 scantime  21360
-handleMode for end 17
 单指滑动
-finger num:  1 timestamp:  29588479806 scantime  3584
-finger num:  1 timestamp:  29588517038 scantime  3640
-finger num:  1 timestamp:  29588573225 scantime  3696
-finger num:  1 timestamp:  29588628448 scantime  3752
-finger num:  1 timestamp:  29588683679 scantime  3808
-finger num:  1 timestamp:  29588739790 scantime  3864
-finger num:  1 timestamp:  29588797774 scantime  3920
-finger num:  1 timestamp:  29588853903 scantime  3976
-finger num:  1 timestamp:  29588909266 scantime  4032
-finger num:  1 timestamp:  29588964700 scantime  4088
-finger num:  1 timestamp:  29589021533 scantime  4144
-finger num:  1 timestamp:  29589076121 scantime  4200
-finger num:  1 timestamp:  29589132432 scantime  4256
-finger num:  1 timestamp:  29589192920 scantime  4312
-finger num:  1 timestamp:  29589245772 scantime  4368
-finger num:  1 timestamp:  29589303939 scantime  4424
-finger num:  1 timestamp:  29589354180 scantime  4480
-finger num:  1 timestamp:  29589410173 scantime  4536
-finger num:  1 timestamp:  29589465450 scantime  4592
-finger num:  1 timestamp:  29589520914 scantime  4648
-finger num:  1 timestamp:  29589576374 scantime  4704
-finger num:  1 timestamp:  29589633939 scantime  4760
-finger num:  1 timestamp:  29589687394 scantime  4816
-finger num:  1 timestamp:  29589743364 scantime  4872
-finger num:  1 timestamp:  29589798257 scantime  4928
-finger num:  1 timestamp:  29589854204 scantime  4984
-finger num:  1 timestamp:  29589909620 scantime  5040
-finger num:  1 timestamp:  29589964985 scantime  5096
-finger num:  1 timestamp:  29590022314 scantime  5152
-finger num:  1 timestamp:  29590076130 scantime  5208
-finger num:  1 timestamp:  29590131688 scantime  5264
-finger num:  1 timestamp:  29590187409 scantime  5320
-finger num:  1 timestamp:  29590243351 scantime  5376
-finger num:  1 timestamp:  29590290880 scantime  5432
-finger num:  1 timestamp:  29590358202 scantime  5488
-finger num:  1 timestamp:  29590413138 scantime  5544
-finger num:  1 timestamp:  29590465242 scantime  5600
-finger num:  1 timestamp:  29590520787 scantime  5656
-finger num:  1 timestamp:  29590576592 scantime  5712
-finger num:  1 timestamp:  29590631628 scantime  5768
-finger num:  1 timestamp:  29590686900 scantime  5824
-finger num:  1 timestamp:  29590742552 scantime  5880
-finger num:  1 timestamp:  29590797825 scantime  5936
-finger num:  1 timestamp:  29590857010 scantime  5992
-finger num:  1 timestamp:  29590908877 scantime  6048
-finger num:  1 timestamp:  29590964423 scantime  6104
-finger num:  1 timestamp:  29591019910 scantime  6160
-finger num:  1 timestamp:  29591075514 scantime  6216
-finger num:  1 timestamp:  29591123435 scantime  6272
-finger num:  1 timestamp:  29591188390 scantime  6328
-finger num:  1 timestamp:  29591241977 scantime  6384
-finger num:  1 timestamp:  29591297533 scantime  6440
-finger num:  1 timestamp:  29591352828 scantime  6496
-finger num:  1 timestamp:  29591405511 scantime  6552
-finger num:  1 timestamp:  29591460559 scantime  6608
-finger num:  1 timestamp:  29591514481 scantime  6664
-finger num:  1 timestamp:  29591570702 scantime  6720
+finger num:  1 timestamp:  39610468698 scantime  37944 x:  2990 y:  1292
+finger num:  1 timestamp:  39610503386 scantime  38000 x:  2990 y:  1290
+finger num:  1 timestamp:  39610559731 scantime  38056 x:  2991 y:  1285
+finger num:  1 timestamp:  39610615301 scantime  38112 x:  2993 y:  1275
+finger num:  1 timestamp:  39610671238 scantime  38168 x:  2997 y:  1263
+finger num:  1 timestamp:  39610728015 scantime  38224 x:  3003 y:  1249
+finger num:  1 timestamp:  39610784267 scantime  38280 x:  3010 y:  1235
+finger num:  1 timestamp:  39610840426 scantime  38336 x:  3019 y:  1222
+finger num:  1 timestamp:  39610898821 scantime  38392 x:  3027 y:  1211
+finger num:  1 timestamp:  39610954951 scantime  38448 x:  3037 y:  1203
+finger num:  1 timestamp:  39611011782 scantime  38504 x:  3047 y:  1198
+finger num:  1 timestamp:  39611068273 scantime  38560 x:  3058 y:  1195
+finger num:  1 timestamp:  39611124097 scantime  38616 x:  3069 y:  1195
+finger num:  1 timestamp:  39611182005 scantime  38672 x:  3080 y:  1200
+finger num:  1 timestamp:  39611238360 scantime  38728 x:  3093 y:  1206
+finger num:  1 timestamp:  39611293381 scantime  38784 x:  3106 y:  1213
+finger num:  1 timestamp:  39611349968 scantime  38840 x:  3120 y:  1224
+finger num:  1 timestamp:  39611405383 scantime  38896 x:  3133 y:  1236
+finger num:  1 timestamp:  39611460542 scantime  38952 x:  3144 y:  1251
+finger num:  1 timestamp:  39611518384 scantime  39008 x:  3155 y:  1267
+finger num:  1 timestamp:  39611576791 scantime  39064 x:  3164 y:  1287
+finger num:  1 timestamp:  39611630057 scantime  39120 x:  3171 y:  1306
+finger num:  1 timestamp:  39611686384 scantime  39176 x:  3176 y:  1326
+finger num:  1 timestamp:  39611752136 scantime  39232 x:  3179 y:  1347
+finger num:  1 timestamp:  39611798204 scantime  39288 x:  3180 y:  1368
+finger num:  1 timestamp:  39611854746 scantime  39344 x:  3178 y:  1389
+finger num:  1 timestamp:  39611912115 scantime  39400 x:  3174 y:  1410
+finger num:  1 timestamp:  39611967052 scantime  39456 x:  3168 y:  1430
+finger num:  1 timestamp:  39612022822 scantime  39512 x:  3159 y:  1449
+finger num:  1 timestamp:  39612081104 scantime  39568 x:  3150 y:  1466
+finger num:  1 timestamp:  39612136073 scantime  39624 x:  3138 y:  1481
+finger num:  1 timestamp:  39612191094 scantime  39680 x:  3126 y:  1493
+finger num:  1 timestamp:  39612249744 scantime  39736 x:  3112 y:  1503
+finger num:  1 timestamp:  39612310347 scantime  39792 x:  3097 y:  1510
+finger num:  1 timestamp:  39612365644 scantime  39848 x:  3079 y:  1514
+finger num:  1 timestamp:  39612422039 scantime  39904 x:  3061 y:  1514
+finger num:  1 timestamp:  39612476188 scantime  39960 x:  3041 y:  1511
+finger num:  1 timestamp:  39612528495 scantime  40016 x:  3019 y:  1505
+finger num:  1 timestamp:  39612585538 scantime  40072 x:  2996 y:  1497
+finger num:  1 timestamp:  39612642691 scantime  40128 x:  2973 y:  1485
+finger num:  1 timestamp:  39612697039 scantime  40184 x:  2949 y:  1472
+finger num:  1 timestamp:  39612752389 scantime  40240 x:  2927 y:  1458
+finger num:  1 timestamp:  39612809225 scantime  40296 x:  2905 y:  1444
+finger num:  1 timestamp:  39612864470 scantime  40352 x:  2884 y:  1430
+finger num:  1 timestamp:  39612920871 scantime  40408 x:  2865 y:  1416
+finger num:  1 timestamp:  39612977259 scantime  40464 x:  2847 y:  1402
+finger num:  1 timestamp:  39613033470 scantime  40520 x:  2833 y:  1386
+finger num:  1 timestamp:  39613089090 scantime  40576 x:  2819 y:  1372
+finger num:  1 timestamp:  39613145236 scantime  40632 x:  2808 y:  1356
+finger num:  1 timestamp:  39613205026 scantime  40688 x:  2798 y:  1341
+finger num:  1 timestamp:  39613253952 scantime  40744 x:  2798 y:  1341
+finger num:  1 timestamp:  39613309359 scantime  40800 x:  2798 y:  1341
+finger num:  1 timestamp:  39613364469 scantime  40856 x:  2798 y:  1341
+handleMode for end 12
+finger num:  1 timestamp:  39620376344 scantime  47800 x:  1723 y:  900
+finger num:  1 timestamp:  39620763754 scantime  47856 x:  1718 y:  902
+finger num:  1 timestamp:  39620764486 scantime  47912 x:  1709 y:  906
+finger num:  1 timestamp:  39620765361 scantime  47968 x:  1695 y:  914
+finger num:  1 timestamp:  39620765658 scantime  48024 x:  1677 y:  927
+finger num:  1 timestamp:  39620765905 scantime  48080 x:  1656 y:  943
+finger num:  1 timestamp:  39620771893 scantime  48136 x:  1633 y:  962
+finger num:  1 timestamp:  39620776161 scantime  48192 x:  1608 y:  986
+finger num:  1 timestamp:  39620828199 scantime  48248 x:  1584 y:  1013
+finger num:  1 timestamp:  39620882774 scantime  48304 x:  1560 y:  1043
+finger num:  1 timestamp:  39620940340 scantime  48360 x:  1537 y:  1076
+finger num:  1 timestamp:  39620996155 scantime  48416 x:  1516 y:  1114
+finger num:  1 timestamp:  39621053304 scantime  48472 x:  1497 y:  1152
+finger num:  1 timestamp:  39621108929 scantime  48528 x:  1480 y:  1192
+finger num:  1 timestamp:  39621165040 scantime  48584 x:  1466 y:  1235
+finger num:  1 timestamp:  39621220810 scantime  48640 x:  1455 y:  1278
+finger num:  1 timestamp:  39621276888 scantime  48696 x:  1447 y:  1320
+finger num:  1 timestamp:  39621333986 scantime  48752 x:  1441 y:  1363
+finger num:  1 timestamp:  39621389466 scantime  48808 x:  1439 y:  1406
+finger num:  1 timestamp:  39621447036 scantime  48864 x:  1439 y:  1450
+finger num:  1 timestamp:  39621501823 scantime  48920 x:  1443 y:  1494
+finger num:  1 timestamp:  39621558714 scantime  48976 x:  1450 y:  1539
+finger num:  1 timestamp:  39621618296 scantime  49032 x:  1460 y:  1583
+finger num:  1 timestamp:  39621677702 scantime  49088 x:  1475 y:  1627
+finger num:  1 timestamp:  39621735313 scantime  49144 x:  1490 y:  1671
+finger num:  1 timestamp:  39621784198 scantime  49200 x:  1509 y:  1712
+finger num:  1 timestamp:  39621840288 scantime  49256 x:  1529 y:  1748
+finger num:  1 timestamp:  39621896677 scantime  49312 x:  1549 y:  1780
+finger num:  1 timestamp:  39621951188 scantime  49368 x:  1568 y:  1805
+finger num:  1 timestamp:  39622007883 scantime  49424 x:  1587 y:  1826
+finger num:  1 timestamp:  39622064261 scantime  49480 x:  1605 y:  1840
+finger num:  1 timestamp:  39622120289 scantime  49536 x:  1622 y:  1849
+finger num:  1 timestamp:  39622176579 scantime  49592 x:  1638 y:  1855
+finger num:  1 timestamp:  39622233012 scantime  49648 x:  1652 y:  1858
+finger num:  1 timestamp:  39622290004 scantime  49704 x:  1666 y:  1858
+finger num:  1 timestamp:  39622345778 scantime  49760 x:  1678 y:  1856
+finger num:  1 timestamp:  39622401965 scantime  49816 x:  1691 y:  1851
+finger num:  1 timestamp:  39622457892 scantime  49872 x:  1705 y:  1843
+finger num:  1 timestamp:  39622515149 scantime  49928 x:  1717 y:  1834
+finger num:  1 timestamp:  39622570861 scantime  49984 x:  1730 y:  1823
+finger num:  1 timestamp:  39622626568 scantime  50040 x:  1743 y:  1810
+finger num:  1 timestamp:  39622683706 scantime  50096 x:  1756 y:  1797
+finger num:  1 timestamp:  39622739318 scantime  50152 x:  1770 y:  1783
+finger num:  1 timestamp:  39622796204 scantime  50208 x:  1783 y:  1769
+finger num:  1 timestamp:  39622857392 scantime  50264 x:  1796 y:  1756
+finger num:  1 timestamp:  39622908843 scantime  50320 x:  1811 y:  1741
+finger num:  1 timestamp:  39622965635 scantime  50376 x:  1825 y:  1727
+finger num:  1 timestamp:  39623025698 scantime  50432 x:  1840 y:  1712
+finger num:  1 timestamp:  39623080757 scantime  50488 x:  1853 y:  1698
+finger num:  1 timestamp:  39623134013 scantime  50544 x:  1864 y:  1685
+finger num:  1 timestamp:  39623189766 scantime  50600 x:  1874 y:  1673
+finger num:  1 timestamp:  39623246654 scantime  50656 x:  1883 y:  1663
+finger num:  1 timestamp:  39623302387 scantime  50712 x:  1890 y:  1654
+finger num:  1 timestamp:  39623358050 scantime  50768 x:  1895 y:  1646
+finger num:  1 timestamp:  39623414526 scantime  50824 x:  1900 y:  1641
+finger num:  1 timestamp:  39623470262 scantime  50880 x:  1902 y:  1637
+finger num:  1 timestamp:  39623527905 scantime  50936 x:  1905 y:  1633
+finger num:  1 timestamp:  39623582743 scantime  50992 x:  1907 y:  1630
+finger num:  1 timestamp:  39623638129 scantime  51048 x:  1907 y:  1629
+finger num:  1 timestamp:  39623695204 scantime  51104 x:  1907 y:  1627
+finger num:  1 timestamp:  39623752141 scantime  51160 x:  1906 y:  1626
+finger num:  1 timestamp:  39623809593 scantime  51216 x:  1903 y:  1624
+finger num:  1 timestamp:  39623864775 scantime  51272 x:  1899 y:  1621
+finger num:  1 timestamp:  39623920881 scantime  51328 x:  1890 y:  1617
+finger num:  1 timestamp:  39623977239 scantime  51384 x:  1877 y:  1613
+finger num:  1 timestamp:  39624034455 scantime  51440 x:  1861 y:  1606
+finger num:  1 timestamp:  39624093415 scantime  51496 x:  1841 y:  1599
+finger num:  1 timestamp:  39624146149 scantime  51552 x:  1816 y:  1591
+finger num:  1 timestamp:  39624201560 scantime  51608 x:  1788 y:  1583
+finger num:  1 timestamp:  39624257478 scantime  51664 x:  1757 y:  1575
+finger num:  1 timestamp:  39624315071 scantime  51720 x:  1724 y:  1567
+finger num:  1 timestamp:  39624371559 scantime  51776 x:  1690 y:  1559
+finger num:  1 timestamp:  39624426504 scantime  51832 x:  1656 y:  1552
+finger num:  1 timestamp:  39624482987 scantime  51888 x:  1621 y:  1544
+finger num:  1 timestamp:  39624539263 scantime  51944 x:  1586 y:  1536
+finger num:  1 timestamp:  39624596294 scantime  52000 x:  1552 y:  1530
+finger num:  1 timestamp:  39624651713 scantime  52056 x:  1519 y:  1525
+finger num:  1 timestamp:  39624707390 scantime  52112 x:  1488 y:  1520
+finger num:  1 timestamp:  39624764899 scantime  52168 x:  1455 y:  1517
+finger num:  1 timestamp:  39624819931 scantime  52224 x:  1424 y:  1515
+finger num:  1 timestamp:  39624879154 scantime  52280 x:  1393 y:  1514
+finger num:  1 timestamp:  39624933278 scantime  52336 x:  1363 y:  1516
+finger num:  1 timestamp:  39624990085 scantime  52392 x:  1334 y:  1519
+finger num:  1 timestamp:  39625044697 scantime  52448 x:  1307 y:  1525
+finger num:  1 timestamp:  39625102362 scantime  52504 x:  1281 y:  1532
+finger num:  1 timestamp:  39625157404 scantime  52560 x:  1254 y:  1542
+finger num:  1 timestamp:  39625214094 scantime  52616 x:  1230 y:  1554
+finger num:  1 timestamp:  39625269993 scantime  52672 x:  1207 y:  1568
+finger num:  1 timestamp:  39625332957 scantime  52728 x:  1185 y:  1585
+finger num:  1 timestamp:  39625390052 scantime  52784 x:  1166 y:  1604
+finger num:  1 timestamp:  39625444080 scantime  52840 x:  1149 y:  1625
+finger num:  1 timestamp:  39625495251 scantime  52896 x:  1136 y:  1647
+finger num:  1 timestamp:  39625550652 scantime  52952 x:  1124 y:  1669
+finger num:  1 timestamp:  39625604972 scantime  53008 x:  1117 y:  1689
+finger num:  1 timestamp:  39625660456 scantime  53064 x:  1117 y:  1689
+finger num:  1 timestamp:  39625716767 scantime  53120 x:  1117 y:  1689
+finger num:  1 timestamp:  39625770602 scantime  53176 x:  1117 y:  1689
+handleMode for end 13
+finger num:  1 timestamp:  39638330736 scantime  72 x:  2141 y:  583
+finger num:  1 timestamp:  39638384542 scantime  128 x:  2141 y:  583
+finger num:  1 timestamp:  39638440039 scantime  184 x:  2140 y:  585
+finger num:  1 timestamp:  39638496221 scantime  240 x:  2137 y:  588
+finger num:  1 timestamp:  39638552539 scantime  296 x:  2131 y:  593
+finger num:  1 timestamp:  39638609237 scantime  352 x:  2123 y:  602
+finger num:  1 timestamp:  39638664931 scantime  408 x:  2114 y:  614
+finger num:  1 timestamp:  39638721257 scantime  464 x:  2103 y:  628
+finger num:  1 timestamp:  39638777363 scantime  520 x:  2092 y:  645
+finger num:  1 timestamp:  39638836307 scantime  576 x:  2079 y:  665
+finger num:  1 timestamp:  39638892190 scantime  632 x:  2063 y:  686
+finger num:  1 timestamp:  39638951629 scantime  688 x:  2048 y:  710
+finger num:  1 timestamp:  39639005473 scantime  744 x:  2030 y:  737
+finger num:  1 timestamp:  39639061064 scantime  800 x:  2011 y:  767
+finger num:  1 timestamp:  39639118666 scantime  856 x:  1993 y:  798
+finger num:  1 timestamp:  39639174139 scantime  912 x:  1973 y:  833
+finger num:  1 timestamp:  39639230370 scantime  968 x:  1952 y:  869
+finger num:  1 timestamp:  39639287663 scantime  1024 x:  1931 y:  910
+finger num:  1 timestamp:  39639343033 scantime  1080 x:  1909 y:  951
+finger num:  1 timestamp:  39639398868 scantime  1136 x:  1884 y:  993
+finger num:  1 timestamp:  39639455168 scantime  1192 x:  1860 y:  1036
+finger num:  1 timestamp:  39639511614 scantime  1248 x:  1835 y:  1080
+finger num:  1 timestamp:  39639573755 scantime  1304 x:  1809 y:  1124
+finger num:  1 timestamp:  39639623709 scantime  1360 x:  1782 y:  1169
+finger num:  1 timestamp:  39639685547 scantime  1416 x:  1755 y:  1216
+finger num:  1 timestamp:  39639735662 scantime  1472 x:  1727 y:  1265
+finger num:  1 timestamp:  39639792260 scantime  1528 x:  1698 y:  1315
+finger num:  1 timestamp:  39639848031 scantime  1584 x:  1670 y:  1367
+finger num:  1 timestamp:  39639901801 scantime  1640 x:  1641 y:  1420
+finger num:  1 timestamp:  39639957475 scantime  1696 x:  1641 y:  1420
+finger num:  1 timestamp:  39640011714 scantime  1752 x:  1641 y:  1420
+finger num:  1 timestamp:  39640066987 scantime  1808 x:  1641 y:  1420
+handleMode for end 14
+finger num:  1 timestamp:  39643842755 scantime  5560 x:  2072 y:  1084
+finger num:  1 timestamp:  39643895000 scantime  5616 x:  2071 y:  1087
+finger num:  1 timestamp:  39643951328 scantime  5672 x:  2069 y:  1095
+finger num:  1 timestamp:  39644007314 scantime  5728 x:  2067 y:  1107
+finger num:  1 timestamp:  39644063308 scantime  5784 x:  2064 y:  1127
+finger num:  1 timestamp:  39644119343 scantime  5840 x:  2060 y:  1154
+finger num:  1 timestamp:  39644182197 scantime  5896 x:  2057 y:  1188
+finger num:  1 timestamp:  39644239692 scantime  5952 x:  2053 y:  1232
+finger num:  1 timestamp:  39644292414 scantime  6008 x:  2052 y:  1282
+finger num:  1 timestamp:  39644346947 scantime  6064 x:  2052 y:  1340
+finger num:  1 timestamp:  39644413286 scantime  6120 x:  2053 y:  1402
+finger num:  1 timestamp:  39644460953 scantime  6176 x:  2057 y:  1466
+finger num:  1 timestamp:  39644516403 scantime  6232 x:  2063 y:  1530
+finger num:  1 timestamp:  39644571996 scantime  6288 x:  2071 y:  1592
+finger num:  1 timestamp:  39644627844 scantime  6344 x:  2079 y:  1650
+finger num:  1 timestamp:  39644684006 scantime  6400 x:  2086 y:  1702
+finger num:  1 timestamp:  39644740844 scantime  6456 x:  2093 y:  1749
+finger num:  1 timestamp:  39644797872 scantime  6512 x:  2099 y:  1793
+finger num:  1 timestamp:  39644850657 scantime  6568 x:  2104 y:  1832
+finger num:  1 timestamp:  39644905853 scantime  6624 x:  2104 y:  1832
+finger num:  1 timestamp:  39644959668 scantime  6680 x:  2104 y:  1832
+finger num:  1 timestamp:  39645015463 scantime  6736 x:  2104 y:  1832
+handleMode for end 15
+finger num:  1 timestamp:  39646931173 scantime  8640 x:  2424 y:  1021
+finger num:  1 timestamp:  39646989471 scantime  8696 x:  2426 y:  1021
+finger num:  1 timestamp:  39647041396 scantime  8752 x:  2435 y:  1018
+finger num:  1 timestamp:  39647097423 scantime  8808 x:  2450 y:  1014
+finger num:  1 timestamp:  39647153485 scantime  8864 x:  2471 y:  1008
+finger num:  1 timestamp:  39647209995 scantime  8920 x:  2497 y:  1001
+finger num:  1 timestamp:  39647268293 scantime  8976 x:  2531 y:  993
+finger num:  1 timestamp:  39647325260 scantime  9032 x:  2569 y:  984
+finger num:  1 timestamp:  39647380647 scantime  9088 x:  2614 y:  975
+finger num:  1 timestamp:  39647437384 scantime  9144 x:  2662 y:  965
+finger num:  1 timestamp:  39647493975 scantime  9200 x:  2713 y:  956
+finger num:  1 timestamp:  39647550225 scantime  9256 x:  2766 y:  948
+finger num:  1 timestamp:  39647606394 scantime  9312 x:  2816 y:  939
+finger num:  1 timestamp:  39647666767 scantime  9368 x:  2863 y:  931
+finger num:  1 timestamp:  39647718630 scantime  9424 x:  2909 y:  925
+finger num:  1 timestamp:  39647773632 scantime  9480 x:  2950 y:  922
+finger num:  1 timestamp:  39647827461 scantime  9536 x:  2985 y:  920
+finger num:  1 timestamp:  39647883247 scantime  9592 x:  2985 y:  920
+finger num:  1 timestamp:  39647937376 scantime  9648 x:  2985 y:  920
+finger num:  1 timestamp:  39647992915 scantime  9704 x:  2985 y:  920
+handleMode for end 16
+finger num:  1 timestamp:  39649739074 scantime  11440 x:  2267 y:  1245
+finger num:  1 timestamp:  39649794276 scantime  11496 x:  2265 y:  1248
+finger num:  1 timestamp:  39649854400 scantime  11552 x:  2260 y:  1257
+finger num:  1 timestamp:  39649906178 scantime  11608 x:  2255 y:  1275
+finger num:  1 timestamp:  39649962354 scantime  11664 x:  2249 y:  1303
+finger num:  1 timestamp:  39650020980 scantime  11720 x:  2243 y:  1339
+finger num:  1 timestamp:  39650076797 scantime  11776 x:  2239 y:  1382
+finger num:  1 timestamp:  39650137549 scantime  11832 x:  2235 y:  1425
+finger num:  1 timestamp:  39650191844 scantime  11888 x:  2231 y:  1468
+finger num:  1 timestamp:  39650246475 scantime  11944 x:  2227 y:  1510
+finger num:  1 timestamp:  39650302667 scantime  12000 x:  2223 y:  1550
+finger num:  1 timestamp:  39650359139 scantime  12056 x:  2219 y:  1585
+finger num:  1 timestamp:  39650414579 scantime  12112 x:  2215 y:  1618
+finger num:  1 timestamp:  39650470356 scantime  12168 x:  2211 y:  1646
+finger num:  1 timestamp:  39650526208 scantime  12224 x:  2208 y:  1669
+finger num:  1 timestamp:  39650580880 scantime  12280 x:  2204 y:  1689
+finger num:  1 timestamp:  39650635435 scantime  12336 x:  2204 y:  1689
+finger num:  1 timestamp:  39650690361 scantime  12392 x:  2204 y:  1689
+finger num:  1 timestamp:  39650745068 scantime  12448 x:  2204 y:  1689
+handleMode for end 17
+finger num:  1 timestamp:  39651650585 scantime  13344 x:  2379 y:  1183
+finger num:  1 timestamp:  39651704404 scantime  13400 x:  2379 y:  1183
+finger num:  1 timestamp:  39651760996 scantime  13456 x:  2382 y:  1182
+finger num:  1 timestamp:  39651816624 scantime  13512 x:  2387 y:  1180
+finger num:  1 timestamp:  39651873168 scantime  13568 x:  2394 y:  1178
+finger num:  1 timestamp:  39651932907 scantime  13624 x:  2405 y:  1175
+finger num:  1 timestamp:  39651984865 scantime  13680 x:  2420 y:  1173
+finger num:  1 timestamp:  39652041230 scantime  13736 x:  2436 y:  1171
+finger num:  1 timestamp:  39652096947 scantime  13792 x:  2452 y:  1170
+finger num:  1 timestamp:  39652155928 scantime  13848 x:  2469 y:  1169
+finger num:  1 timestamp:  39652212935 scantime  13904 x:  2485 y:  1169
+finger num:  1 timestamp:  39652269793 scantime  13960 x:  2502 y:  1171
+finger num:  1 timestamp:  39652326763 scantime  14016 x:  2520 y:  1173
+finger num:  1 timestamp:  39652381763 scantime  14072 x:  2538 y:  1177
+finger num:  1 timestamp:  39652440715 scantime  14128 x:  2557 y:  1184
+finger num:  1 timestamp:  39652496722 scantime  14184 x:  2576 y:  1193
+finger num:  1 timestamp:  39652559268 scantime  14240 x:  2593 y:  1204
+finger num:  1 timestamp:  39652616617 scantime  14296 x:  2609 y:  1218
+finger num:  1 timestamp:  39652665155 scantime  14352 x:  2624 y:  1233
+finger num:  1 timestamp:  39652718766 scantime  14408 x:  2637 y:  1251
+finger num:  1 timestamp:  39652775007 scantime  14464 x:  2648 y:  1271
+finger num:  1 timestamp:  39652832367 scantime  14520 x:  2656 y:  1295
+finger num:  1 timestamp:  39652887803 scantime  14576 x:  2661 y:  1319
+finger num:  1 timestamp:  39652943584 scantime  14632 x:  2664 y:  1345
+finger num:  1 timestamp:  39652999392 scantime  14688 x:  2664 y:  1373
+finger num:  1 timestamp:  39653056610 scantime  14744 x:  2661 y:  1404
+finger num:  1 timestamp:  39653112420 scantime  14800 x:  2655 y:  1435
+finger num:  1 timestamp:  39653169542 scantime  14856 x:  2647 y:  1466
+finger num:  1 timestamp:  39653224499 scantime  14912 x:  2635 y:  1498
+finger num:  1 timestamp:  39653281099 scantime  14968 x:  2622 y:  1530
+finger num:  1 timestamp:  39653333673 scantime  15024 x:  2608 y:  1561
+finger num:  1 timestamp:  39653389491 scantime  15080 x:  2608 y:  1561
+finger num:  1 timestamp:  39653443352 scantime  15136 x:  2608 y:  1561
+finger num:  1 timestamp:  39653498992 scantime  15192 x:  2608 y:  1561
 handleMode for end 18
-finger num:  1 timestamp:  29599049666 scantime  14224
-finger num:  1 timestamp:  29599103918 scantime  14280
-finger num:  1 timestamp:  29599159488 scantime  14336
-finger num:  1 timestamp:  29599215265 scantime  14392
-finger num:  1 timestamp:  29599270903 scantime  14448
-finger num:  1 timestamp:  29599326458 scantime  14504
-finger num:  1 timestamp:  29599381792 scantime  14560
-finger num:  1 timestamp:  29599437725 scantime  14616
-finger num:  1 timestamp:  29599488224 scantime  14672
-finger num:  1 timestamp:  29599550891 scantime  14728
-finger num:  1 timestamp:  29599606850 scantime  14784
-finger num:  1 timestamp:  29599662687 scantime  14840
-finger num:  1 timestamp:  29599718342 scantime  14896
-finger num:  1 timestamp:  29599775359 scantime  14952
-finger num:  1 timestamp:  29599835527 scantime  15008
-finger num:  1 timestamp:  29599884915 scantime  15064
-finger num:  1 timestamp:  29599940161 scantime  15120
-finger num:  1 timestamp:  29599996036 scantime  15176
-finger num:  1 timestamp:  29600051036 scantime  15232
-finger num:  1 timestamp:  29600106166 scantime  15288
-finger num:  1 timestamp:  29600161416 scantime  15344
-finger num:  1 timestamp:  29600216814 scantime  15400
-finger num:  1 timestamp:  29600272842 scantime  15456
-finger num:  1 timestamp:  29600328631 scantime  15512
-finger num:  1 timestamp:  29600383529 scantime  15568
-finger num:  1 timestamp:  29600439418 scantime  15624
-finger num:  1 timestamp:  29600495386 scantime  15680
-finger num:  1 timestamp:  29600550906 scantime  15736
-finger num:  1 timestamp:  29600606279 scantime  15792
-finger num:  1 timestamp:  29600663703 scantime  15848
-finger num:  1 timestamp:  29600717388 scantime  15904
-finger num:  1 timestamp:  29600773204 scantime  15960
-finger num:  1 timestamp:  29600825914 scantime  16016
-finger num:  1 timestamp:  29600881319 scantime  16072
-finger num:  1 timestamp:  29600934869 scantime  16128
-finger num:  1 timestamp:  29600989708 scantime  16184
+finger num:  1 timestamp:  39654855940 scantime  16536 x:  2253 y:  1624
+finger num:  1 timestamp:  39654906887 scantime  16592 x:  2253 y:  1624
+finger num:  1 timestamp:  39654970648 scantime  16648 x:  2254 y:  1624
+finger num:  1 timestamp:  39655019400 scantime  16704 x:  2259 y:  1624
+finger num:  1 timestamp:  39655076452 scantime  16760 x:  2269 y:  1624
+finger num:  1 timestamp:  39655132037 scantime  16816 x:  2284 y:  1624
+finger num:  1 timestamp:  39655187500 scantime  16872 x:  2301 y:  1625
+finger num:  1 timestamp:  39655243832 scantime  16928 x:  2322 y:  1625
+finger num:  1 timestamp:  39655302441 scantime  16984 x:  2344 y:  1623
+finger num:  1 timestamp:  39655358490 scantime  17040 x:  2369 y:  1620
+finger num:  1 timestamp:  39655415501 scantime  17096 x:  2397 y:  1615
+finger num:  1 timestamp:  39655471389 scantime  17152 x:  2424 y:  1609
+finger num:  1 timestamp:  39655528237 scantime  17208 x:  2454 y:  1601
+finger num:  1 timestamp:  39655584895 scantime  17264 x:  2484 y:  1592
+finger num:  1 timestamp:  39655640484 scantime  17320 x:  2516 y:  1582
+finger num:  1 timestamp:  39655696714 scantime  17376 x:  2547 y:  1570
+finger num:  1 timestamp:  39655752980 scantime  17432 x:  2578 y:  1557
+finger num:  1 timestamp:  39655808541 scantime  17488 x:  2608 y:  1543
+finger num:  1 timestamp:  39655864481 scantime  17544 x:  2638 y:  1527
+finger num:  1 timestamp:  39655918675 scantime  17600 x:  2665 y:  1509
+finger num:  1 timestamp:  39655975118 scantime  17656 x:  2665 y:  1509
+finger num:  1 timestamp:  39656028549 scantime  17712 x:  2665 y:  1509
+finger num:  1 timestamp:  39656085685 scantime  17768 x:  2665 y:  1509
 handleMode for end 19
-finger num:  1 timestamp:  29611201168 scantime  26432
-finger num:  1 timestamp:  29611254828 scantime  26488
-finger num:  1 timestamp:  29611310952 scantime  26544
-finger num:  1 timestamp:  29611366157 scantime  26600
-finger num:  1 timestamp:  29611422795 scantime  26656
-finger num:  1 timestamp:  29611477337 scantime  26712
-finger num:  1 timestamp:  29611533401 scantime  26768
-finger num:  1 timestamp:  29611589181 scantime  26824
-finger num:  1 timestamp:  29611645737 scantime  26880
-finger num:  1 timestamp:  29611699704 scantime  26936
-finger num:  1 timestamp:  29611758188 scantime  26992
-finger num:  1 timestamp:  29611814590 scantime  27048
-finger num:  1 timestamp:  29611869159 scantime  27104
-finger num:  1 timestamp:  29611929614 scantime  27160
-finger num:  1 timestamp:  29611980214 scantime  27216
-finger num:  1 timestamp:  29612035945 scantime  27272
-finger num:  1 timestamp:  29612091182 scantime  27328
-finger num:  1 timestamp:  29612147849 scantime  27384
-finger num:  1 timestamp:  29612202990 scantime  27440
-finger num:  1 timestamp:  29612258493 scantime  27496
-finger num:  1 timestamp:  29612313439 scantime  27552
-finger num:  1 timestamp:  29612369797 scantime  27608
-finger num:  1 timestamp:  29612424502 scantime  27664
-finger num:  1 timestamp:  29612481536 scantime  27720
-finger num:  1 timestamp:  29612536833 scantime  27776
-finger num:  1 timestamp:  29612591650 scantime  27832
-finger num:  1 timestamp:  29612646723 scantime  27888
-finger num:  1 timestamp:  29612703588 scantime  27944
-finger num:  1 timestamp:  29612758552 scantime  28000
-finger num:  1 timestamp:  29612814603 scantime  28056
-finger num:  1 timestamp:  29612870709 scantime  28112
-finger num:  1 timestamp:  29612926814 scantime  28168
-finger num:  1 timestamp:  29612981481 scantime  28224
-finger num:  1 timestamp:  29613035990 scantime  28280
-finger num:  1 timestamp:  29613093316 scantime  28336
-finger num:  1 timestamp:  29613146530 scantime  28392
-finger num:  1 timestamp:  29613203350 scantime  28448
-finger num:  1 timestamp:  29613254527 scantime  28504
-finger num:  1 timestamp:  29613307641 scantime  28560
-finger num:  1 timestamp:  29613363152 scantime  28616
+finger num:  1 timestamp:  39658057773 scantime  19728 x:  3081 y:  759
+finger num:  1 timestamp:  39658110711 scantime  19784 x:  3081 y:  759
+finger num:  1 timestamp:  39658167305 scantime  19840 x:  3079 y:  765
+finger num:  1 timestamp:  39658222585 scantime  19896 x:  3077 y:  780
+finger num:  1 timestamp:  39658284196 scantime  19952 x:  3076 y:  805
+finger num:  1 timestamp:  39658338232 scantime  20008 x:  3074 y:  841
+finger num:  1 timestamp:  39658394090 scantime  20064 x:  3073 y:  886
+finger num:  1 timestamp:  39658453902 scantime  20120 x:  3072 y:  939
+finger num:  1 timestamp:  39658506606 scantime  20176 x:  3073 y:  1000
+finger num:  1 timestamp:  39658563433 scantime  20232 x:  3075 y:  1063
+finger num:  1 timestamp:  39658620664 scantime  20288 x:  3079 y:  1131
+finger num:  1 timestamp:  39658676527 scantime  20344 x:  3083 y:  1198
+finger num:  1 timestamp:  39658732800 scantime  20400 x:  3088 y:  1267
+finger num:  1 timestamp:  39658788393 scantime  20456 x:  3093 y:  1332
+finger num:  1 timestamp:  39658844878 scantime  20512 x:  3096 y:  1399
+finger num:  1 timestamp:  39658902015 scantime  20568 x:  3100 y:  1464
+finger num:  1 timestamp:  39658956413 scantime  20624 x:  3104 y:  1528
+finger num:  1 timestamp:  39659014758 scantime  20680 x:  3107 y:  1592
+finger num:  1 timestamp:  39659073092 scantime  20736 x:  3109 y:  1653
+finger num:  1 timestamp:  39659126340 scantime  20792 x:  3110 y:  1710
+finger num:  1 timestamp:  39659182494 scantime  20848 x:  3112 y:  1766
+finger num:  1 timestamp:  39659239265 scantime  20904 x:  3113 y:  1818
+finger num:  1 timestamp:  39659300057 scantime  20960 x:  3114 y:  1865
+finger num:  1 timestamp:  39659350369 scantime  21016 x:  3119 y:  1910
+finger num:  1 timestamp:  39659406357 scantime  21072 x:  3121 y:  1951
+finger num:  1 timestamp:  39659463873 scantime  21128 x:  3123 y:  1990
+finger num:  1 timestamp:  39659523519 scantime  21184 x:  3125 y:  2025
+finger num:  1 timestamp:  39659582123 scantime  21240 x:  3126 y:  2057
+finger num:  1 timestamp:  39659632672 scantime  21296 x:  3128 y:  2086
+finger num:  1 timestamp:  39659691327 scantime  21352 x:  3129 y:  2110
+finger num:  1 timestamp:  39659748266 scantime  21408 x:  3130 y:  2131
+finger num:  1 timestamp:  39659803890 scantime  21464 x:  3130 y:  2147
+finger num:  1 timestamp:  39659857026 scantime  21520 x:  3128 y:  2160
+finger num:  1 timestamp:  39659913309 scantime  21576 x:  3124 y:  2169
+finger num:  1 timestamp:  39659968915 scantime  21632 x:  3113 y:  2175
+finger num:  1 timestamp:  39660025050 scantime  21688 x:  3099 y:  2178
+finger num:  1 timestamp:  39660081235 scantime  21744 x:  3080 y:  2178
+finger num:  1 timestamp:  39660140555 scantime  21800 x:  3057 y:  2174
+finger num:  1 timestamp:  39660193837 scantime  21856 x:  3032 y:  2166
+finger num:  1 timestamp:  39660250144 scantime  21912 x:  3003 y:  2153
+finger num:  1 timestamp:  39660308229 scantime  21968 x:  2967 y:  2132
+finger num:  1 timestamp:  39660362902 scantime  22024 x:  2925 y:  2102
+finger num:  1 timestamp:  39660418847 scantime  22080 x:  2878 y:  2058
+finger num:  1 timestamp:  39660475270 scantime  22136 x:  2828 y:  2002
+finger num:  1 timestamp:  39660528046 scantime  22192 x:  2828 y:  2002
+finger num:  1 timestamp:  39660582504 scantime  22248 x:  2828 y:  2002
+finger num:  1 timestamp:  39660637751 scantime  22304 x:  2828 y:  2002
 handleMode for end 20
-finger num:  1 timestamp:  29633442306 scantime  48496
-finger num:  1 timestamp:  29633496174 scantime  48552
-finger num:  1 timestamp:  29633553946 scantime  48608
-finger num:  1 timestamp:  29633609083 scantime  48664
-finger num:  1 timestamp:  29633671337 scantime  48720
-finger num:  1 timestamp:  29633722267 scantime  48776
-finger num:  1 timestamp:  29633778410 scantime  48832
-finger num:  1 timestamp:  29633838065 scantime  48888
-finger num:  1 timestamp:  29633894435 scantime  48944
-finger num:  1 timestamp:  29633950518 scantime  49000
-finger num:  1 timestamp:  29634010515 scantime  49056
-finger num:  1 timestamp:  29634064516 scantime  49112
-finger num:  1 timestamp:  29634124334 scantime  49168
-finger num:  1 timestamp:  29634181559 scantime  49224
-finger num:  1 timestamp:  29634233725 scantime  49280
-finger num:  1 timestamp:  29634289654 scantime  49336
-finger num:  1 timestamp:  29634346797 scantime  49392
-finger num:  1 timestamp:  29634402553 scantime  49448
-finger num:  1 timestamp:  29634458921 scantime  49504
-finger num:  1 timestamp:  29634516365 scantime  49560
-finger num:  1 timestamp:  29634573240 scantime  49616
-finger num:  1 timestamp:  29634628534 scantime  49672
-finger num:  1 timestamp:  29634684618 scantime  49728
-finger num:  1 timestamp:  29634741452 scantime  49784
-finger num:  1 timestamp:  29634797330 scantime  49840
-finger num:  1 timestamp:  29634853688 scantime  49896
-finger num:  1 timestamp:  29634907561 scantime  49952
-finger num:  1 timestamp:  29634963512 scantime  50008
-finger num:  1 timestamp:  29635017693 scantime  50064
-finger num:  1 timestamp:  29635073842 scantime  50120
+双指点击
+finger num:  2 timestamp:  41135932218 scantime  22040 x:  3118 y:  658
+finger num:  2 timestamp:  41135966525 scantime  22096 x:  3118 y:  658
+finger num:  2 timestamp:  41136021652 scantime  22152 x:  3118 y:  658
+finger num:  2 timestamp:  41136082580 scantime  22208 x:  3118 y:  658
+finger num:  2 timestamp:  41136136221 scantime  22264 x:  3118 y:  658
+finger num:  2 timestamp:  41136189444 scantime  22320 x:  3118 y:  658
+finger num:  2 timestamp:  41136240333 scantime  22376 x:  3118 y:  658
+finger num:  2 timestamp:  41136293503 scantime  22432 x:  3118 y:  659
+finger num:  2 timestamp:  41136348848 scantime  22488 x:  3118 y:  659
+finger num:  1 timestamp:  41136403346 scantime  22544 x:  3118 y:  659
+finger num:  1 timestamp:  41136459328 scantime  22600 x:  3118 y:  659
+finger num:  1 timestamp:  41136516131 scantime  22656 x:  3118 y:  659
 handleMode for end 21
-finger num:  1 timestamp:  29642226308 scantime  57176
-finger num:  1 timestamp:  29642280892 scantime  57232
-finger num:  1 timestamp:  29642337023 scantime  57288
-finger num:  1 timestamp:  29642393964 scantime  57344
-finger num:  1 timestamp:  29642450126 scantime  57400
-finger num:  1 timestamp:  29642506337 scantime  57456
-finger num:  1 timestamp:  29642567593 scantime  57512
-finger num:  1 timestamp:  29642620726 scantime  57568
-finger num:  1 timestamp:  29642676183 scantime  57624
-finger num:  1 timestamp:  29642732748 scantime  57680
-finger num:  1 timestamp:  29642788142 scantime  57736
-finger num:  1 timestamp:  29642843754 scantime  57792
-finger num:  1 timestamp:  29642899545 scantime  57848
-finger num:  1 timestamp:  29642955683 scantime  57904
-finger num:  1 timestamp:  29643010929 scantime  57960
-finger num:  1 timestamp:  29643066811 scantime  58016
-finger num:  1 timestamp:  29643122717 scantime  58072
-finger num:  1 timestamp:  29643177438 scantime  58128
-finger num:  1 timestamp:  29643233525 scantime  58184
-finger num:  1 timestamp:  29643289082 scantime  58240
-finger num:  1 timestamp:  29643344915 scantime  58296
-finger num:  1 timestamp:  29643400708 scantime  58352
-finger num:  1 timestamp:  29643454439 scantime  58408
-finger num:  1 timestamp:  29643512376 scantime  58464
-finger num:  1 timestamp:  29643566452 scantime  58520
-finger num:  1 timestamp:  29643618965 scantime  58576
+finger num:  1 timestamp:  41143282618 scantime  29432 x:  1781 y:  1128
+finger num:  1 timestamp:  41143341253 scantime  29488 x:  1781 y:  1128
+finger num:  2 timestamp:  41143393521 scantime  29544 x:  1781 y:  1128
+finger num:  2 timestamp:  41143449200 scantime  29600 x:  1781 y:  1128
+finger num:  2 timestamp:  41143504099 scantime  29656 x:  1781 y:  1128
+finger num:  2 timestamp:  41143559960 scantime  29712 x:  1781 y:  1128
+finger num:  2 timestamp:  41143614687 scantime  29768 x:  1781 y:  1128
+finger num:  2 timestamp:  41143670369 scantime  29824 x:  1781 y:  1128
+finger num:  2 timestamp:  41143725551 scantime  29880 x:  1781 y:  1128
+finger num:  2 timestamp:  41143778627 scantime  29936 x:  1782 y:  1128
+finger num:  2 timestamp:  41143833650 scantime  29992 x:  1782 y:  1128
+finger num:  2 timestamp:  41143885698 scantime  30048 x:  1782 y:  1128
+finger num:  2 timestamp:  41143940819 scantime  30104 x:  1782 y:  1128
+finger num:  1 timestamp:  41143997290 scantime  30160 x:  2203 y:  453
+finger num:  1 timestamp:  41144052861 scantime  30216 x:  2203 y:  453
 handleMode for end 22
-finger num:  1 timestamp:  29647588140 scantime  62552
-finger num:  1 timestamp:  29647642024 scantime  62608
-finger num:  1 timestamp:  29647698718 scantime  62664
-finger num:  1 timestamp:  29647753830 scantime  62720
-finger num:  1 timestamp:  29647809129 scantime  62776
-finger num:  1 timestamp:  29647865654 scantime  62832
-finger num:  1 timestamp:  29647921360 scantime  62888
-finger num:  1 timestamp:  29647977309 scantime  62944
-finger num:  1 timestamp:  29648034080 scantime  63000
-finger num:  1 timestamp:  29648091209 scantime  63056
-finger num:  1 timestamp:  29648148431 scantime  63112
-finger num:  1 timestamp:  29648203889 scantime  63168
-finger num:  1 timestamp:  29648259322 scantime  63224
-finger num:  1 timestamp:  29648315833 scantime  63280
-finger num:  1 timestamp:  29648373511 scantime  63336
-finger num:  1 timestamp:  29648427026 scantime  63392
-finger num:  1 timestamp:  29648482857 scantime  63448
-finger num:  1 timestamp:  29648538313 scantime  63504
-finger num:  1 timestamp:  29648594726 scantime  63560
-finger num:  1 timestamp:  29648649670 scantime  63616
-finger num:  1 timestamp:  29648705502 scantime  63672
-finger num:  1 timestamp:  29648762318 scantime  63728
-finger num:  1 timestamp:  29648817471 scantime  63784
-finger num:  1 timestamp:  29648872946 scantime  63840
-finger num:  1 timestamp:  29648928971 scantime  63896
-finger num:  1 timestamp:  29648984858 scantime  63952
-finger num:  1 timestamp:  29649040454 scantime  64008
-finger num:  1 timestamp:  29649096801 scantime  64064
-finger num:  1 timestamp:  29649153130 scantime  64120
-finger num:  1 timestamp:  29649209877 scantime  64176
-finger num:  1 timestamp:  29649260967 scantime  64232
-finger num:  1 timestamp:  29649316532 scantime  64288
-finger num:  1 timestamp:  29649375087 scantime  64344
-finger num:  1 timestamp:  29649428053 scantime  64400
+finger num:  1 timestamp:  41152556045 scantime  38616 x:  2987 y:  1725
+finger num:  2 timestamp:  41152611049 scantime  38672 x:  2987 y:  1725
+finger num:  2 timestamp:  41152673543 scantime  38728 x:  2987 y:  1725
+finger num:  2 timestamp:  41152731421 scantime  38784 x:  2987 y:  1725
+finger num:  2 timestamp:  41152780772 scantime  38840 x:  2987 y:  1725
+finger num:  2 timestamp:  41152837183 scantime  38896 x:  2987 y:  1725
+finger num:  2 timestamp:  41152893305 scantime  38952 x:  2987 y:  1725
+finger num:  2 timestamp:  41152950927 scantime  39008 x:  2987 y:  1725
+finger num:  2 timestamp:  41153005832 scantime  39064 x:  2989 y:  1724
+finger num:  2 timestamp:  41153061922 scantime  39120 x:  2989 y:  1724
+finger num:  2 timestamp:  41153114650 scantime  39176 x:  2989 y:  1724
+finger num:  2 timestamp:  41153170743 scantime  39232 x:  2989 y:  1724
+finger num:  1 timestamp:  41153227750 scantime  39288 x:  3450 y:  1227
+finger num:  1 timestamp:  41153284747 scantime  39344 x:  3450 y:  1227
 handleMode for end 23
-finger num:  1 timestamp:  29679280811 scantime  28376
-finger num:  1 timestamp:  29679334986 scantime  28432
-finger num:  1 timestamp:  29679391530 scantime  28488
-finger num:  1 timestamp:  29679451300 scantime  28544
-finger num:  1 timestamp:  29679504690 scantime  28600
-finger num:  1 timestamp:  29679561308 scantime  28656
-finger num:  1 timestamp:  29679618592 scantime  28712
-finger num:  1 timestamp:  29679676678 scantime  28768
-finger num:  1 timestamp:  29679733020 scantime  28824
-finger num:  1 timestamp:  29679789572 scantime  28880
-finger num:  1 timestamp:  29679846679 scantime  28936
-finger num:  1 timestamp:  29679913186 scantime  28992
-finger num:  1 timestamp:  29679959407 scantime  29048
-finger num:  1 timestamp:  29680015726 scantime  29104
-finger num:  1 timestamp:  29680072538 scantime  29160
-finger num:  1 timestamp:  29680128312 scantime  29216
-finger num:  1 timestamp:  29680183786 scantime  29272
-finger num:  1 timestamp:  29680240823 scantime  29328
-finger num:  1 timestamp:  29680294799 scantime  29384
-finger num:  1 timestamp:  29680348379 scantime  29440
+finger num:  2 timestamp:  41160961107 scantime  46904 x:  896 y:  851
+finger num:  2 timestamp:  41161016865 scantime  46960 x:  896 y:  851
+finger num:  2 timestamp:  41161077188 scantime  47016 x:  896 y:  851
+finger num:  2 timestamp:  41161124963 scantime  47072 x:  896 y:  851
+finger num:  2 timestamp:  41161181500 scantime  47128 x:  896 y:  851
+finger num:  2 timestamp:  41161238071 scantime  47184 x:  896 y:  851
+finger num:  2 timestamp:  41161294986 scantime  47240 x:  896 y:  851
+finger num:  2 timestamp:  41161351274 scantime  47296 x:  897 y:  852
+finger num:  2 timestamp:  41161408961 scantime  47352 x:  898 y:  853
+finger num:  2 timestamp:  41161463129 scantime  47408 x:  900 y:  856
+finger num:  2 timestamp:  41161518063 scantime  47464 x:  902 y:  861
+finger num:  2 timestamp:  41161576801 scantime  47520 x:  902 y:  861
+finger num:  2 timestamp:  41161625253 scantime  47576 x:  902 y:  861
+finger num:  2 timestamp:  41161681467 scantime  47632 x:  902 y:  861
+finger num:  1 timestamp:  41161738918 scantime  47688 x:  1410 y:  265
+finger num:  1 timestamp:  41161796138 scantime  47744 x:  1410 y:  265
 handleMode for end 24
-双指滑动
-finger num:  1 timestamp:  29985955029 scantime  3320
-finger num:  2 timestamp:  29986008048 scantime  3376
-finger num:  2 timestamp:  29986052748 scantime  3432
-finger num:  2 timestamp:  29986110734 scantime  3488
-finger num:  2 timestamp:  29986165373 scantime  3544
-finger num:  2 timestamp:  29986226779 scantime  3600
-finger num:  2 timestamp:  29986278319 scantime  3656
-finger num:  2 timestamp:  29986334649 scantime  3712
-finger num:  2 timestamp:  29986391676 scantime  3768
-finger num:  2 timestamp:  29986449104 scantime  3824
-finger num:  2 timestamp:  29986504369 scantime  3880
-finger num:  2 timestamp:  29986556554 scantime  3936
-finger num:  2 timestamp:  29986618945 scantime  3992
-finger num:  2 timestamp:  29986665638 scantime  4048
-finger num:  2 timestamp:  29986734421 scantime  4104
-finger num:  2 timestamp:  29986791065 scantime  4160
-finger num:  2 timestamp:  29986846161 scantime  4216
-finger num:  2 timestamp:  29986903243 scantime  4272
-finger num:  2 timestamp:  29986959355 scantime  4328
-finger num:  2 timestamp:  29987015423 scantime  4384
-finger num:  2 timestamp:  29987071982 scantime  4440
-finger num:  2 timestamp:  29987130798 scantime  4496
-finger num:  2 timestamp:  29987184902 scantime  4552
-finger num:  2 timestamp:  29987245250 scantime  4608
-finger num:  2 timestamp:  29987303306 scantime  4664
-finger num:  2 timestamp:  29987360172 scantime  4720
-finger num:  2 timestamp:  29987415166 scantime  4776
-finger num:  2 timestamp:  29987468978 scantime  4832
-finger num:  2 timestamp:  29987523400 scantime  4888
-finger num:  2 timestamp:  29987580478 scantime  4944
-finger num:  2 timestamp:  29987639142 scantime  5000
-finger num:  2 timestamp:  29987692150 scantime  5056
-finger num:  2 timestamp:  29987747205 scantime  5112
-finger num:  2 timestamp:  29987806367 scantime  5168
-finger num:  2 timestamp:  29987861524 scantime  5224
-finger num:  2 timestamp:  29987918166 scantime  5280
-finger num:  2 timestamp:  29987973896 scantime  5336
-finger num:  2 timestamp:  29988029634 scantime  5392
-finger num:  2 timestamp:  29988083832 scantime  5448
-finger num:  2 timestamp:  29988142685 scantime  5504
-finger num:  2 timestamp:  29988191507 scantime  5560
-finger num:  2 timestamp:  29988249921 scantime  5616
-finger num:  1 timestamp:  29988307105 scantime  5672
-finger num:  1 timestamp:  29988361586 scantime  5728
-finger num:  1 timestamp:  29988362645 scantime  5788
+finger num:  1 timestamp:  41187011480 scantime  7128 x:  3749 y:  259
+finger num:  2 timestamp:  41187065189 scantime  7184 x:  3749 y:  259
+finger num:  2 timestamp:  41187122084 scantime  7240 x:  3749 y:  259
+finger num:  2 timestamp:  41187177666 scantime  7296 x:  3749 y:  259
+finger num:  2 timestamp:  41187233452 scantime  7352 x:  3749 y:  259
+finger num:  2 timestamp:  41187289806 scantime  7408 x:  3749 y:  259
+finger num:  2 timestamp:  41187346360 scantime  7464 x:  3749 y:  259
+finger num:  2 timestamp:  41187402234 scantime  7520 x:  3749 y:  259
+finger num:  2 timestamp:  41187459578 scantime  7576 x:  3749 y:  260
+finger num:  2 timestamp:  41187513241 scantime  7632 x:  3749 y:  262
+finger num:  2 timestamp:  41187566967 scantime  7688 x:  3750 y:  266
+finger num:  2 timestamp:  41187621717 scantime  7744 x:  3750 y:  266
+finger num:  2 timestamp:  41187678001 scantime  7800 x:  3750 y:  266
+finger num:  1 timestamp:  41187734944 scantime  7856 x:  3750 y:  266
 handleMode for end 25
-finger num:  2 timestamp:  30003781428 scantime  20960
-finger num:  2 timestamp:  30003835774 scantime  21016
-finger num:  2 timestamp:  30003897369 scantime  21072
-finger num:  2 timestamp:  30003948732 scantime  21128
-finger num:  2 timestamp:  30004005077 scantime  21184
-finger num:  2 timestamp:  30004061099 scantime  21240
-finger num:  2 timestamp:  30004117856 scantime  21296
-finger num:  2 timestamp:  30004175223 scantime  21352
-finger num:  2 timestamp:  30004230543 scantime  21408
-finger num:  2 timestamp:  30004286643 scantime  21464
-finger num:  2 timestamp:  30004339569 scantime  21520
-finger num:  2 timestamp:  30004402628 scantime  21576
-finger num:  2 timestamp:  30004460501 scantime  21632
-finger num:  2 timestamp:  30004518400 scantime  21688
-finger num:  2 timestamp:  30004573627 scantime  21744
-finger num:  2 timestamp:  30004623199 scantime  21800
-finger num:  2 timestamp:  30004686360 scantime  21856
-finger num:  2 timestamp:  30004743773 scantime  21912
-finger num:  2 timestamp:  30004802645 scantime  21968
-finger num:  2 timestamp:  30004855650 scantime  22024
-finger num:  2 timestamp:  30004912167 scantime  22080
-finger num:  2 timestamp:  30004958888 scantime  22136
-finger num:  2 timestamp:  30005025084 scantime  22192
-finger num:  2 timestamp:  30005081478 scantime  22248
-finger num:  2 timestamp:  30005137897 scantime  22304
-finger num:  2 timestamp:  30005193228 scantime  22360
-finger num:  2 timestamp:  30005250686 scantime  22416
-finger num:  2 timestamp:  30005307178 scantime  22472
-finger num:  2 timestamp:  30005362801 scantime  22528
-finger num:  2 timestamp:  30005420564 scantime  22584
-finger num:  2 timestamp:  30005476537 scantime  22640
-finger num:  2 timestamp:  30005531552 scantime  22696
-finger num:  2 timestamp:  30005587904 scantime  22752
-finger num:  2 timestamp:  30005644062 scantime  22808
-finger num:  2 timestamp:  30005698944 scantime  22864
-finger num:  2 timestamp:  30005756656 scantime  22920
-finger num:  2 timestamp:  30005811648 scantime  22976
-finger num:  2 timestamp:  30005867107 scantime  23032
-finger num:  2 timestamp:  30005922967 scantime  23088
-finger num:  2 timestamp:  30005978601 scantime  23144
-finger num:  2 timestamp:  30006033840 scantime  23200
-finger num:  2 timestamp:  30006090164 scantime  23256
-finger num:  2 timestamp:  30006149641 scantime  23312
-finger num:  2 timestamp:  30006201652 scantime  23368
-finger num:  2 timestamp:  30006257809 scantime  23424
-finger num:  2 timestamp:  30006313531 scantime  23480
-finger num:  2 timestamp:  30006368862 scantime  23536
-finger num:  2 timestamp:  30006424988 scantime  23592
-finger num:  2 timestamp:  30006480393 scantime  23648
-finger num:  2 timestamp:  30006536154 scantime  23704
-finger num:  2 timestamp:  30006592230 scantime  23760
-finger num:  2 timestamp:  30006647745 scantime  23816
-finger num:  2 timestamp:  30006703185 scantime  23872
-finger num:  2 timestamp:  30006759756 scantime  23928
-finger num:  2 timestamp:  30006811708 scantime  23984
-finger num:  2 timestamp:  30006864404 scantime  24040
-finger num:  2 timestamp:  30006919203 scantime  24096
-finger num:  2 timestamp:  30006975490 scantime  24152
-finger num:  1 timestamp:  30007031516 scantime  24208
-finger num:  1 timestamp:  30007032114 scantime  24268
+finger num:  1 timestamp:  41198314312 scantime  18328 x:  1857 y:  1229
+finger num:  2 timestamp:  41198370803 scantime  18384 x:  1857 y:  1229
+finger num:  2 timestamp:  41198425016 scantime  18440 x:  1857 y:  1229
+finger num:  2 timestamp:  41198481388 scantime  18496 x:  1857 y:  1229
+finger num:  2 timestamp:  41198537486 scantime  18552 x:  1857 y:  1229
+finger num:  2 timestamp:  41198593892 scantime  18608 x:  1857 y:  1229
+finger num:  2 timestamp:  41198649223 scantime  18664 x:  1857 y:  1229
+finger num:  2 timestamp:  41198707734 scantime  18720 x:  1857 y:  1229
+finger num:  2 timestamp:  41198762391 scantime  18776 x:  1856 y:  1231
+finger num:  2 timestamp:  41198815330 scantime  18832 x:  1853 y:  1236
+finger num:  2 timestamp:  41198873805 scantime  18888 x:  1853 y:  1236
+finger num:  2 timestamp:  41198923395 scantime  18944 x:  1853 y:  1236
+finger num:  2 timestamp:  41198979737 scantime  19000 x:  1853 y:  1236
+finger num:  1 timestamp:  41199036435 scantime  19056 x:  2278 y:  698
 handleMode for end 26
-finger num:  1 timestamp:  30014497997 scantime  31656
-finger num:  2 timestamp:  30014553871 scantime  31712
-finger num:  2 timestamp:  30014609466 scantime  31768
-finger num:  2 timestamp:  30014665408 scantime  31824
-finger num:  2 timestamp:  30014722867 scantime  31880
-finger num:  2 timestamp:  30014779435 scantime  31936
-finger num:  2 timestamp:  30014834169 scantime  31992
-finger num:  2 timestamp:  30014888627 scantime  32048
-finger num:  2 timestamp:  30014944185 scantime  32104
-finger num:  2 timestamp:  30014998717 scantime  32160
-finger num:  2 timestamp:  30015056211 scantime  32216
-finger num:  2 timestamp:  30015113863 scantime  32272
-finger num:  2 timestamp:  30015169860 scantime  32328
-finger num:  2 timestamp:  30015225512 scantime  32384
-finger num:  2 timestamp:  30015281434 scantime  32440
-finger num:  2 timestamp:  30015337234 scantime  32496
-finger num:  2 timestamp:  30015392800 scantime  32552
-finger num:  2 timestamp:  30015448520 scantime  32608
-finger num:  2 timestamp:  30015503930 scantime  32664
-finger num:  2 timestamp:  30015560183 scantime  32720
-finger num:  2 timestamp:  30015616956 scantime  32776
-finger num:  2 timestamp:  30015671790 scantime  32832
-finger num:  2 timestamp:  30015726844 scantime  32888
-finger num:  2 timestamp:  30015783215 scantime  32944
-finger num:  2 timestamp:  30015840438 scantime  33000
-finger num:  2 timestamp:  30015895324 scantime  33056
-finger num:  2 timestamp:  30015951928 scantime  33112
-finger num:  2 timestamp:  30016007347 scantime  33168
-finger num:  2 timestamp:  30016063558 scantime  33224
-finger num:  2 timestamp:  30016119097 scantime  33280
-finger num:  2 timestamp:  30016176237 scantime  33336
-finger num:  2 timestamp:  30016230972 scantime  33392
-finger num:  2 timestamp:  30016286313 scantime  33448
-finger num:  2 timestamp:  30016341994 scantime  33504
-finger num:  2 timestamp:  30016397982 scantime  33560
-finger num:  2 timestamp:  30016453890 scantime  33616
-finger num:  2 timestamp:  30016509701 scantime  33672
-finger num:  2 timestamp:  30016565631 scantime  33728
-finger num:  2 timestamp:  30016622429 scantime  33784
-finger num:  2 timestamp:  30016677217 scantime  33840
-finger num:  2 timestamp:  30016733568 scantime  33896
-finger num:  2 timestamp:  30016788698 scantime  33952
-finger num:  2 timestamp:  30016845686 scantime  34008
-finger num:  2 timestamp:  30016898632 scantime  34064
-finger num:  2 timestamp:  30016957970 scantime  34120
-finger num:  2 timestamp:  30017012204 scantime  34176
-finger num:  2 timestamp:  30017067940 scantime  34232
-finger num:  2 timestamp:  30017123883 scantime  34288
-finger num:  2 timestamp:  30017178102 scantime  34344
-finger num:  2 timestamp:  30017235199 scantime  34400
-finger num:  2 timestamp:  30017290341 scantime  34456
-finger num:  2 timestamp:  30017343891 scantime  34512
-finger num:  2 timestamp:  30017396903 scantime  34568
-finger num:  2 timestamp:  30017451031 scantime  34624
-finger num:  2 timestamp:  30017507283 scantime  34680
-finger num:  1 timestamp:  30017562540 scantime  34736
-finger num:  1 timestamp:  30017564299 scantime  34796
+finger num:  2 timestamp:  41208129565 scantime  28072 x:  3320 y:  837
+finger num:  2 timestamp:  41208187974 scantime  28128 x:  3320 y:  837
+finger num:  2 timestamp:  41208239798 scantime  28184 x:  3320 y:  837
+finger num:  2 timestamp:  41208295617 scantime  28240 x:  3320 y:  837
+finger num:  2 timestamp:  41208352725 scantime  28296 x:  3320 y:  837
+finger num:  2 timestamp:  41208408682 scantime  28352 x:  3320 y:  837
+finger num:  2 timestamp:  41208464136 scantime  28408 x:  3320 y:  837
+finger num:  2 timestamp:  41208517414 scantime  28464 x:  3320 y:  838
+finger num:  2 timestamp:  41208573695 scantime  28520 x:  3320 y:  840
+finger num:  2 timestamp:  41208627761 scantime  28576 x:  3317 y:  844
+finger num:  2 timestamp:  41208686678 scantime  28632 x:  3314 y:  849
+finger num:  1 timestamp:  41208737450 scantime  28688 x:  3314 y:  849
+finger num:  1 timestamp:  41208794798 scantime  28744 x:  3314 y:  849
+finger num:  1 timestamp:  41208851238 scantime  28800 x:  3314 y:  849
 handleMode for end 27
-finger num:  1 timestamp:  30026181607 scantime  43304
-finger num:  2 timestamp:  30026237702 scantime  43360
-finger num:  2 timestamp:  30026296324 scantime  43416
-finger num:  2 timestamp:  30026351938 scantime  43472
-finger num:  2 timestamp:  30026406026 scantime  43528
-finger num:  2 timestamp:  30026461871 scantime  43584
-finger num:  2 timestamp:  30026520070 scantime  43640
-finger num:  2 timestamp:  30026574858 scantime  43696
-finger num:  2 timestamp:  30026633042 scantime  43752
-finger num:  2 timestamp:  30026687511 scantime  43808
-finger num:  2 timestamp:  30026744744 scantime  43864
-finger num:  2 timestamp:  30026799683 scantime  43920
-finger num:  2 timestamp:  30026855508 scantime  43976
-finger num:  2 timestamp:  30026911573 scantime  44032
-finger num:  2 timestamp:  30026967157 scantime  44088
-finger num:  2 timestamp:  30027023910 scantime  44144
-finger num:  2 timestamp:  30027079672 scantime  44200
-finger num:  2 timestamp:  30027135024 scantime  44256
-finger num:  2 timestamp:  30027191928 scantime  44312
-finger num:  2 timestamp:  30027248032 scantime  44368
-finger num:  2 timestamp:  30027305200 scantime  44424
-finger num:  2 timestamp:  30027365649 scantime  44480
-finger num:  2 timestamp:  30027416319 scantime  44536
-finger num:  2 timestamp:  30027472588 scantime  44592
-finger num:  2 timestamp:  30027531996 scantime  44648
-finger num:  2 timestamp:  30027584686 scantime  44704
-finger num:  2 timestamp:  30027640890 scantime  44760
-finger num:  2 timestamp:  30027697179 scantime  44816
-finger num:  2 timestamp:  30027753438 scantime  44872
-finger num:  2 timestamp:  30027808980 scantime  44928
-finger num:  2 timestamp:  30027865564 scantime  44984
-finger num:  2 timestamp:  30027921498 scantime  45040
-finger num:  2 timestamp:  30027977717 scantime  45096
-finger num:  2 timestamp:  30028034065 scantime  45152
-finger num:  2 timestamp:  30028089835 scantime  45208
-finger num:  2 timestamp:  30028145540 scantime  45264
-finger num:  2 timestamp:  30028202121 scantime  45320
-finger num:  2 timestamp:  30028257057 scantime  45376
-finger num:  2 timestamp:  30028310260 scantime  45432
-finger num:  2 timestamp:  30028364900 scantime  45488
-finger num:  2 timestamp:  30028419188 scantime  45544
-finger num:  2 timestamp:  30028474454 scantime  45600
-finger num:  1 timestamp:  30028536995 scantime  45656
+双指滑动
+finger num:  1 timestamp:  41581721574 scantime  8000 x:  2077 y:  1590
+finger num:  2 timestamp:  41581766367 scantime  8056 x:  2076 y:  1589
+finger num:  2 timestamp:  41581823371 scantime  8112 x:  2073 y:  1587
+finger num:  2 timestamp:  41581879164 scantime  8168 x:  2070 y:  1584
+finger num:  2 timestamp:  41581937022 scantime  8224 x:  2066 y:  1580
+finger num:  2 timestamp:  41581992202 scantime  8280 x:  2062 y:  1575
+finger num:  2 timestamp:  41582049389 scantime  8336 x:  2058 y:  1570
+finger num:  2 timestamp:  41582105088 scantime  8392 x:  2053 y:  1564
+finger num:  2 timestamp:  41582161152 scantime  8448 x:  2047 y:  1558
+finger num:  2 timestamp:  41582217561 scantime  8504 x:  2041 y:  1551
+finger num:  2 timestamp:  41582274413 scantime  8560 x:  2035 y:  1543
+finger num:  2 timestamp:  41582321396 scantime  8616 x:  2030 y:  1535
+finger num:  2 timestamp:  41582387119 scantime  8672 x:  2024 y:  1525
+finger num:  2 timestamp:  41582450610 scantime  8728 x:  2018 y:  1514
+finger num:  2 timestamp:  41582503052 scantime  8784 x:  2012 y:  1503
+finger num:  2 timestamp:  41582566046 scantime  8840 x:  2005 y:  1491
+finger num:  2 timestamp:  41582616126 scantime  8896 x:  1998 y:  1479
+finger num:  2 timestamp:  41582680611 scantime  8952 x:  1990 y:  1465
+finger num:  2 timestamp:  41582734240 scantime  9008 x:  1981 y:  1451
+finger num:  2 timestamp:  41582786459 scantime  9064 x:  1973 y:  1436
+finger num:  2 timestamp:  41582841740 scantime  9120 x:  1965 y:  1420
+finger num:  2 timestamp:  41582898656 scantime  9176 x:  1956 y:  1404
+finger num:  2 timestamp:  41582956002 scantime  9232 x:  1949 y:  1387
+finger num:  2 timestamp:  41583011016 scantime  9288 x:  1941 y:  1371
+finger num:  2 timestamp:  41583068162 scantime  9344 x:  1933 y:  1356
+finger num:  2 timestamp:  41583124144 scantime  9400 x:  1926 y:  1341
+finger num:  2 timestamp:  41583180528 scantime  9456 x:  1918 y:  1328
+finger num:  2 timestamp:  41583237440 scantime  9512 x:  1912 y:  1315
+finger num:  2 timestamp:  41583293376 scantime  9568 x:  1906 y:  1302
+finger num:  2 timestamp:  41583349471 scantime  9624 x:  1900 y:  1291
+finger num:  2 timestamp:  41583406590 scantime  9680 x:  1894 y:  1279
+finger num:  2 timestamp:  41583462902 scantime  9736 x:  1888 y:  1269
+finger num:  2 timestamp:  41583523744 scantime  9792 x:  1883 y:  1259
+finger num:  2 timestamp:  41583576824 scantime  9848 x:  1876 y:  1247
+finger num:  2 timestamp:  41583635514 scantime  9904 x:  1871 y:  1234
+finger num:  2 timestamp:  41583688718 scantime  9960 x:  1867 y:  1222
+finger num:  2 timestamp:  41583746588 scantime  10016 x:  1863 y:  1209
+finger num:  2 timestamp:  41583802717 scantime  10072 x:  1859 y:  1198
+finger num:  2 timestamp:  41583865073 scantime  10128 x:  1855 y:  1186
+finger num:  2 timestamp:  41583923646 scantime  10184 x:  1852 y:  1175
+finger num:  2 timestamp:  41583979310 scantime  10240 x:  1849 y:  1165
+finger num:  2 timestamp:  41584043290 scantime  10296 x:  1847 y:  1158
+finger num:  2 timestamp:  41584096131 scantime  10352 x:  1845 y:  1149
+finger num:  2 timestamp:  41584144471 scantime  10408 x:  1844 y:  1142
+finger num:  2 timestamp:  41584195820 scantime  10464 x:  1843 y:  1137
+finger num:  2 timestamp:  41584257106 scantime  10520 x:  1842 y:  1133
+finger num:  2 timestamp:  41584311919 scantime  10576 x:  1841 y:  1130
+finger num:  2 timestamp:  41584363394 scantime  10632 x:  1840 y:  1127
+finger num:  2 timestamp:  41584419327 scantime  10688 x:  1840 y:  1125
+finger num:  2 timestamp:  41584475192 scantime  10744 x:  1840 y:  1123
+finger num:  2 timestamp:  41584530280 scantime  10800 x:  1840 y:  1119
+finger num:  2 timestamp:  41584587765 scantime  10856 x:  1839 y:  1114
+finger num:  2 timestamp:  41584641899 scantime  10912 x:  1841 y:  1109
+finger num:  2 timestamp:  41584694499 scantime  10968 x:  1842 y:  1104
+finger num:  2 timestamp:  41584747322 scantime  11024 x:  1842 y:  1100
+finger num:  2 timestamp:  41584801597 scantime  11080 x:  1842 y:  1100
+finger num:  2 timestamp:  41584858653 scantime  11136 x:  1842 y:  1100
+finger num:  1 timestamp:  41584914311 scantime  11192 x:  1842 y:  1100
 handleMode for end 28
-finger num:  1 timestamp:  30035649542 scantime  52712
-finger num:  2 timestamp:  30035706003 scantime  52768
-finger num:  2 timestamp:  30035760357 scantime  52824
-finger num:  2 timestamp:  30035816645 scantime  52880
-finger num:  2 timestamp:  30035863603 scantime  52936
-finger num:  2 timestamp:  30035932391 scantime  52992
-finger num:  2 timestamp:  30035987013 scantime  53048
-finger num:  2 timestamp:  30036042772 scantime  53104
-finger num:  2 timestamp:  30036102204 scantime  53160
-finger num:  2 timestamp:  30036157049 scantime  53216
-finger num:  2 timestamp:  30036213604 scantime  53272
-finger num:  2 timestamp:  30036268963 scantime  53328
-finger num:  2 timestamp:  30036324689 scantime  53384
-finger num:  2 timestamp:  30036381450 scantime  53440
-finger num:  2 timestamp:  30036437368 scantime  53496
-finger num:  2 timestamp:  30036493723 scantime  53552
-finger num:  2 timestamp:  30036549676 scantime  53608
-finger num:  2 timestamp:  30036607131 scantime  53664
-finger num:  2 timestamp:  30036662005 scantime  53720
-finger num:  2 timestamp:  30036718211 scantime  53776
-finger num:  2 timestamp:  30036776042 scantime  53832
-finger num:  2 timestamp:  30036835988 scantime  53888
-finger num:  2 timestamp:  30036886289 scantime  53944
-finger num:  2 timestamp:  30036943996 scantime  54000
-finger num:  2 timestamp:  30036999314 scantime  54056
-finger num:  2 timestamp:  30037054875 scantime  54112
-finger num:  2 timestamp:  30037111910 scantime  54168
-finger num:  2 timestamp:  30037168129 scantime  54224
-finger num:  2 timestamp:  30037222716 scantime  54280
-finger num:  2 timestamp:  30037280658 scantime  54336
-finger num:  2 timestamp:  30037336412 scantime  54392
-finger num:  2 timestamp:  30037391152 scantime  54448
-finger num:  2 timestamp:  30037448403 scantime  54504
-finger num:  2 timestamp:  30037508924 scantime  54560
-finger num:  2 timestamp:  30037559462 scantime  54616
-finger num:  2 timestamp:  30037616746 scantime  54672
-finger num:  2 timestamp:  30037676751 scantime  54728
-finger num:  2 timestamp:  30037727887 scantime  54784
-finger num:  2 timestamp:  30037784123 scantime  54840
-finger num:  2 timestamp:  30037840453 scantime  54896
-finger num:  2 timestamp:  30037896295 scantime  54952
-finger num:  2 timestamp:  30037954368 scantime  55008
-finger num:  2 timestamp:  30038011605 scantime  55064
-finger num:  2 timestamp:  30038066927 scantime  55120
-finger num:  2 timestamp:  30038121405 scantime  55176
-finger num:  2 timestamp:  30038178647 scantime  55232
-finger num:  2 timestamp:  30038233206 scantime  55288
-finger num:  2 timestamp:  30038290051 scantime  55344
-finger num:  2 timestamp:  30038349283 scantime  55400
-finger num:  2 timestamp:  30038401152 scantime  55456
-finger num:  2 timestamp:  30038457450 scantime  55512
-finger num:  2 timestamp:  30038518766 scantime  55568
-finger num:  2 timestamp:  30038569477 scantime  55624
-finger num:  2 timestamp:  30038624145 scantime  55680
-finger num:  2 timestamp:  30038687024 scantime  55736
-finger num:  2 timestamp:  30038737728 scantime  55792
-finger num:  2 timestamp:  30038794363 scantime  55848
-finger num:  2 timestamp:  30038853247 scantime  55904
-finger num:  2 timestamp:  30038906223 scantime  55960
-finger num:  2 timestamp:  30038962728 scantime  56016
-finger num:  2 timestamp:  30039022127 scantime  56072
-finger num:  2 timestamp:  30039073636 scantime  56128
-finger num:  2 timestamp:  30039130785 scantime  56184
-finger num:  2 timestamp:  30039192550 scantime  56240
-finger num:  2 timestamp:  30039243619 scantime  56296
-finger num:  2 timestamp:  30039303213 scantime  56352
-finger num:  2 timestamp:  30039355083 scantime  56408
-finger num:  2 timestamp:  30039410272 scantime  56464
-finger num:  2 timestamp:  30039466356 scantime  56520
-finger num:  2 timestamp:  30039524419 scantime  56576
-finger num:  2 timestamp:  30039579549 scantime  56632
-finger num:  2 timestamp:  30039633514 scantime  56688
-finger num:  2 timestamp:  30039691017 scantime  56744
-finger num:  2 timestamp:  30039745483 scantime  56800
-finger num:  2 timestamp:  30039796140 scantime  56856
-finger num:  2 timestamp:  30039853342 scantime  56912
-finger num:  2 timestamp:  30039907022 scantime  56968
-finger num:  2 timestamp:  30039964601 scantime  57024
-finger num:  2 timestamp:  30039966008 scantime  57084
+finger num:  1 timestamp:  41589221046 scantime  15504 x:  2679 y:  347
+finger num:  1 timestamp:  41589278019 scantime  15560 x:  2679 y:  347
+finger num:  1 timestamp:  41589334355 scantime  15616 x:  2679 y:  347
+finger num:  1 timestamp:  41589390921 scantime  15672 x:  2679 y:  347
+finger num:  2 timestamp:  41589449044 scantime  15728 x:  2679 y:  347
+finger num:  2 timestamp:  41589503978 scantime  15784 x:  2679 y:  347
+finger num:  2 timestamp:  41589559415 scantime  15840 x:  2679 y:  351
+finger num:  2 timestamp:  41589617341 scantime  15896 x:  2680 y:  359
+finger num:  2 timestamp:  41589671539 scantime  15952 x:  2681 y:  372
+finger num:  2 timestamp:  41589728427 scantime  16008 x:  2682 y:  391
+finger num:  2 timestamp:  41589783967 scantime  16064 x:  2684 y:  416
+finger num:  2 timestamp:  41589852133 scantime  16120 x:  2687 y:  444
+finger num:  2 timestamp:  41589905496 scantime  16176 x:  2687 y:  477
+finger num:  2 timestamp:  41589955847 scantime  16232 x:  2687 y:  517
+finger num:  2 timestamp:  41590010479 scantime  16288 x:  2687 y:  562
+finger num:  2 timestamp:  41590067746 scantime  16344 x:  2687 y:  610
+finger num:  2 timestamp:  41590122040 scantime  16400 x:  2687 y:  663
+finger num:  2 timestamp:  41590179182 scantime  16456 x:  2687 y:  717
+finger num:  2 timestamp:  41590235161 scantime  16512 x:  2687 y:  776
+finger num:  2 timestamp:  41590290315 scantime  16568 x:  2687 y:  835
+finger num:  2 timestamp:  41590348677 scantime  16624 x:  2687 y:  894
+finger num:  2 timestamp:  41590401048 scantime  16680 x:  2687 y:  955
+finger num:  2 timestamp:  41590456760 scantime  16736 x:  2786 y:  1018
+finger num:  2 timestamp:  41590518451 scantime  16792 x:  2794 y:  1081
+finger num:  2 timestamp:  41590568959 scantime  16848 x:  2801 y:  1146
+finger num:  2 timestamp:  41590624834 scantime  16904 x:  2808 y:  1209
+finger num:  2 timestamp:  41590683963 scantime  16960 x:  2812 y:  1273
+finger num:  2 timestamp:  41590736655 scantime  17016 x:  2819 y:  1335
+finger num:  2 timestamp:  41590791746 scantime  17072 x:  2825 y:  1394
+finger num:  2 timestamp:  41590854938 scantime  17128 x:  2831 y:  1448
+finger num:  2 timestamp:  41590903575 scantime  17184 x:  2837 y:  1500
+finger num:  2 timestamp:  41590965803 scantime  17240 x:  2844 y:  1546
+finger num:  2 timestamp:  41591020156 scantime  17296 x:  2850 y:  1586
+finger num:  2 timestamp:  41591070612 scantime  17352 x:  2857 y:  1625
+finger num:  2 timestamp:  41591126227 scantime  17408 x:  2863 y:  1658
+finger num:  2 timestamp:  41591191097 scantime  17464 x:  2872 y:  1686
+finger num:  2 timestamp:  41591231552 scantime  17520 x:  2878 y:  1710
+finger num:  2 timestamp:  41591288902 scantime  17576 x:  2878 y:  1710
+finger num:  2 timestamp:  41591348942 scantime  17632 x:  2878 y:  1710
+finger num:  2 timestamp:  41591399234 scantime  17688 x:  2878 y:  1710
+finger num:  2 timestamp:  41591400932 scantime  17748 x:  2878 y:  1710
 handleMode for end 29
-finger num:  1 timestamp:  30082865442 scantime  33992
-finger num:  1 timestamp:  30082922498 scantime  34048
-finger num:  1 timestamp:  30082980602 scantime  34104
-finger num:  1 timestamp:  30083035686 scantime  34160
-finger num:  1 timestamp:  30083084465 scantime  34216
-finger num:  2 timestamp:  30083141407 scantime  34272
-finger num:  2 timestamp:  30083206183 scantime  34328
-finger num:  2 timestamp:  30083262296 scantime  34384
-finger num:  2 timestamp:  30083318392 scantime  34440
-finger num:  2 timestamp:  30083374476 scantime  34496
-finger num:  2 timestamp:  30083430871 scantime  34552
-finger num:  2 timestamp:  30083486798 scantime  34608
-finger num:  2 timestamp:  30083542687 scantime  34664
-finger num:  2 timestamp:  30083598397 scantime  34720
-finger num:  2 timestamp:  30083658761 scantime  34776
-finger num:  2 timestamp:  30083704251 scantime  34832
-finger num:  2 timestamp:  30083770051 scantime  34888
-finger num:  2 timestamp:  30083825918 scantime  34944
-finger num:  2 timestamp:  30083881379 scantime  35000
-finger num:  2 timestamp:  30083937264 scantime  35056
-finger num:  2 timestamp:  30083992927 scantime  35112
-finger num:  2 timestamp:  30084050500 scantime  35168
-finger num:  2 timestamp:  30084106222 scantime  35224
-finger num:  2 timestamp:  30084162019 scantime  35280
-finger num:  2 timestamp:  30084218143 scantime  35336
-finger num:  2 timestamp:  30084268983 scantime  35392
-finger num:  2 timestamp:  30084331137 scantime  35448
-finger num:  2 timestamp:  30084386440 scantime  35504
-finger num:  2 timestamp:  30084442745 scantime  35560
-finger num:  2 timestamp:  30084498965 scantime  35616
-finger num:  2 timestamp:  30084554698 scantime  35672
-finger num:  2 timestamp:  30084611142 scantime  35728
-finger num:  2 timestamp:  30084667669 scantime  35784
-finger num:  2 timestamp:  30084713892 scantime  35840
-finger num:  2 timestamp:  30084769716 scantime  35896
-finger num:  2 timestamp:  30084836769 scantime  35952
-finger num:  2 timestamp:  30084892078 scantime  36008
-finger num:  2 timestamp:  30084947841 scantime  36064
-finger num:  2 timestamp:  30085003667 scantime  36120
-finger num:  2 timestamp:  30085059989 scantime  36176
-finger num:  2 timestamp:  30085116215 scantime  36232
-finger num:  2 timestamp:  30085172385 scantime  36288
-finger num:  2 timestamp:  30085227754 scantime  36344
-finger num:  2 timestamp:  30085284809 scantime  36400
-finger num:  2 timestamp:  30085340708 scantime  36456
-finger num:  2 timestamp:  30085397883 scantime  36512
-finger num:  2 timestamp:  30085452683 scantime  36568
-finger num:  2 timestamp:  30085510253 scantime  36624
-finger num:  2 timestamp:  30085568923 scantime  36680
-finger num:  2 timestamp:  30085620636 scantime  36736
-finger num:  2 timestamp:  30085676690 scantime  36792
-finger num:  2 timestamp:  30085733454 scantime  36848
-finger num:  2 timestamp:  30085789113 scantime  36904
-finger num:  2 timestamp:  30085845506 scantime  36960
-finger num:  2 timestamp:  30085903286 scantime  37016
-finger num:  2 timestamp:  30085958421 scantime  37072
-finger num:  2 timestamp:  30086013906 scantime  37128
-finger num:  2 timestamp:  30086070149 scantime  37184
-finger num:  2 timestamp:  30086126212 scantime  37240
-finger num:  2 timestamp:  30086181776 scantime  37296
-finger num:  2 timestamp:  30086237924 scantime  37352
-finger num:  2 timestamp:  30086294329 scantime  37408
-finger num:  2 timestamp:  30086350493 scantime  37464
-finger num:  2 timestamp:  30086406842 scantime  37520
-finger num:  2 timestamp:  30086465066 scantime  37576
-finger num:  2 timestamp:  30086519544 scantime  37632
-finger num:  2 timestamp:  30086565908 scantime  37688
-finger num:  2 timestamp:  30086622067 scantime  37744
-finger num:  2 timestamp:  30086687715 scantime  37800
-finger num:  2 timestamp:  30086744072 scantime  37856
-finger num:  2 timestamp:  30086799583 scantime  37912
-finger num:  2 timestamp:  30086855210 scantime  37968
-finger num:  2 timestamp:  30086911551 scantime  38024
-finger num:  2 timestamp:  30086969109 scantime  38080
-finger num:  2 timestamp:  30087023789 scantime  38136
-finger num:  2 timestamp:  30087079712 scantime  38192
-finger num:  2 timestamp:  30087137815 scantime  38248
-finger num:  2 timestamp:  30087192229 scantime  38304
-finger num:  2 timestamp:  30087248194 scantime  38360
-finger num:  2 timestamp:  30087304176 scantime  38416
-finger num:  2 timestamp:  30087360791 scantime  38472
-finger num:  2 timestamp:  30087416450 scantime  38528
-finger num:  2 timestamp:  30087472707 scantime  38584
-finger num:  2 timestamp:  30087528535 scantime  38640
-finger num:  2 timestamp:  30087585051 scantime  38696
-finger num:  2 timestamp:  30087648855 scantime  38752
-finger num:  2 timestamp:  30087687290 scantime  38808
-finger num:  2 timestamp:  30087753115 scantime  38864
-finger num:  2 timestamp:  30087809085 scantime  38920
-finger num:  2 timestamp:  30087865019 scantime  38976
-finger num:  2 timestamp:  30087920715 scantime  39032
-finger num:  2 timestamp:  30087977445 scantime  39088
-finger num:  2 timestamp:  30088033992 scantime  39144
-finger num:  2 timestamp:  30088089062 scantime  39200
-finger num:  2 timestamp:  30088145166 scantime  39256
-finger num:  2 timestamp:  30088201376 scantime  39312
-finger num:  2 timestamp:  30088257561 scantime  39368
-finger num:  2 timestamp:  30088313459 scantime  39424
-finger num:  2 timestamp:  30088369592 scantime  39480
-finger num:  2 timestamp:  30088425888 scantime  39536
-finger num:  2 timestamp:  30088481681 scantime  39592
-finger num:  2 timestamp:  30088537431 scantime  39648
-finger num:  2 timestamp:  30088595789 scantime  39704
-finger num:  2 timestamp:  30088649502 scantime  39760
-finger num:  2 timestamp:  30088705831 scantime  39816
-finger num:  2 timestamp:  30088761508 scantime  39872
-finger num:  2 timestamp:  30088818827 scantime  39928
-finger num:  2 timestamp:  30088874202 scantime  39984
-finger num:  2 timestamp:  30088930298 scantime  40040
-finger num:  2 timestamp:  30088986788 scantime  40096
-finger num:  2 timestamp:  30089041227 scantime  40152
-finger num:  2 timestamp:  30089097633 scantime  40208
-finger num:  2 timestamp:  30089148541 scantime  40264
-finger num:  2 timestamp:  30089203650 scantime  40320
-finger num:  2 timestamp:  30089258330 scantime  40376
-finger num:  1 timestamp:  30089314263 scantime  40432
+finger num:  1 timestamp:  41595815881 scantime  22112 x:  2196 y:  626
+finger num:  1 timestamp:  41595873180 scantime  22168 x:  2196 y:  626
+finger num:  2 timestamp:  41595927821 scantime  22224 x:  2196 y:  630
+finger num:  2 timestamp:  41595984391 scantime  22280 x:  2196 y:  638
+finger num:  2 timestamp:  41596045098 scantime  22336 x:  2196 y:  650
+finger num:  2 timestamp:  41596099649 scantime  22392 x:  2196 y:  669
+finger num:  2 timestamp:  41596152867 scantime  22448 x:  2196 y:  694
+finger num:  2 timestamp:  41596215556 scantime  22504 x:  2196 y:  725
+finger num:  2 timestamp:  41596266533 scantime  22560 x:  2196 y:  765
+finger num:  2 timestamp:  41596323401 scantime  22616 x:  2196 y:  813
+finger num:  2 timestamp:  41596377173 scantime  22672 x:  2196 y:  869
+finger num:  2 timestamp:  41596432357 scantime  22728 x:  2196 y:  934
+finger num:  2 timestamp:  41596488498 scantime  22784 x:  2196 y:  1006
+finger num:  2 timestamp:  41596550134 scantime  22840 x:  2196 y:  1082
+finger num:  2 timestamp:  41596598989 scantime  22896 x:  2196 y:  1160
+finger num:  2 timestamp:  41596656876 scantime  22952 x:  2302 y:  1240
+finger num:  2 timestamp:  41596711958 scantime  23008 x:  2330 y:  1319
+finger num:  2 timestamp:  41596767937 scantime  23064 x:  2357 y:  1398
+finger num:  2 timestamp:  41596823906 scantime  23120 x:  2384 y:  1470
+finger num:  2 timestamp:  41596885804 scantime  23176 x:  2410 y:  1538
+finger num:  2 timestamp:  41596944066 scantime  23232 x:  2433 y:  1603
+finger num:  2 timestamp:  41596990138 scantime  23288 x:  2452 y:  1663
+finger num:  2 timestamp:  41597045406 scantime  23344 x:  2471 y:  1721
+finger num:  2 timestamp:  41597100064 scantime  23400 x:  2491 y:  1775
+finger num:  2 timestamp:  41597155658 scantime  23456 x:  2506 y:  1824
+finger num:  2 timestamp:  41597208134 scantime  23512 x:  2506 y:  1824
+finger num:  2 timestamp:  41597263502 scantime  23568 x:  2506 y:  1824
+finger num:  2 timestamp:  41597318610 scantime  23624 x:  2506 y:  1824
+finger num:  1 timestamp:  41597378268 scantime  23680 x:  3027 y:  1532
+finger num:  1 timestamp:  41597381062 scantime  23740 x:  3027 y:  1532
 handleMode for end 30
-单指双击
-finger num:  1 timestamp:  30564483053 scantime  26128
-finger num:  1 timestamp:  30564516509 scantime  26184
-finger num:  1 timestamp:  30564573127 scantime  26240
-finger num:  1 timestamp:  30564628023 scantime  26296
-finger num:  1 timestamp:  30564684391 scantime  26352
+finger num:  1 timestamp:  41602163451 scantime  28440 x:  2612 y:  547
+finger num:  1 timestamp:  41602218634 scantime  28496 x:  2612 y:  548
+finger num:  1 timestamp:  41602279390 scantime  28552 x:  2610 y:  553
+finger num:  2 timestamp:  41602335256 scantime  28608 x:  2607 y:  564
+finger num:  2 timestamp:  41602392376 scantime  28664 x:  2603 y:  580
+finger num:  2 timestamp:  41602447031 scantime  28720 x:  2598 y:  602
+finger num:  2 timestamp:  41602506003 scantime  28776 x:  2598 y:  630
+finger num:  2 timestamp:  41602562412 scantime  28832 x:  2598 y:  666
+finger num:  2 timestamp:  41602625867 scantime  28888 x:  2598 y:  708
+finger num:  2 timestamp:  41602675569 scantime  28944 x:  2598 y:  759
+finger num:  2 timestamp:  41602740522 scantime  29000 x:  2598 y:  818
+finger num:  2 timestamp:  41602794107 scantime  29056 x:  2598 y:  884
+finger num:  2 timestamp:  41602848502 scantime  29112 x:  2598 y:  958
+finger num:  2 timestamp:  41602908222 scantime  29168 x:  2598 y:  1036
+finger num:  2 timestamp:  41602957457 scantime  29224 x:  2598 y:  1119
+finger num:  2 timestamp:  41603013613 scantime  29280 x:  2598 y:  1208
+finger num:  2 timestamp:  41603072151 scantime  29336 x:  2695 y:  1302
+finger num:  2 timestamp:  41603126835 scantime  29392 x:  2726 y:  1396
+finger num:  2 timestamp:  41603185912 scantime  29448 x:  2762 y:  1487
+finger num:  2 timestamp:  41603238535 scantime  29504 x:  2762 y:  1487
+finger num:  2 timestamp:  41603292043 scantime  29560 x:  2762 y:  1487
+finger num:  2 timestamp:  41603349477 scantime  29616 x:  2762 y:  1487
+finger num:  1 timestamp:  41603406964 scantime  29672 x:  3264 y:  1367
+finger num:  1 timestamp:  41603462713 scantime  29728 x:  3278 y:  1423
+finger num:  1 timestamp:  41603519106 scantime  29784 x:  3290 y:  1475
+finger num:  1 timestamp:  41603581400 scantime  29840 x:  3301 y:  1516
+finger num:  1 timestamp:  41603631556 scantime  29896 x:  3312 y:  1552
+finger num:  1 timestamp:  41603686042 scantime  29952 x:  3320 y:  1579
+finger num:  1 timestamp:  41603743292 scantime  30008 x:  3320 y:  1579
+finger num:  1 timestamp:  41603799144 scantime  30064 x:  3320 y:  1579
+finger num:  1 timestamp:  41603861067 scantime  30120 x:  3320 y:  1579
+finger num:  1 timestamp:  41603901766 scantime  30180 x:  3320 y:  1579
 handleMode for end 31
-finger num:  1 timestamp:  30565578387 scantime  27248
-finger num:  1 timestamp:  30565633182 scantime  27304
-finger num:  1 timestamp:  30565689043 scantime  27360
-finger num:  1 timestamp:  30565744257 scantime  27416
-finger num:  1 timestamp:  30565799299 scantime  27472
-finger num:  1 timestamp:  30565854983 scantime  27528
-finger num:  1 timestamp:  30565909108 scantime  27584
-finger num:  1 timestamp:  30565964828 scantime  27640
-finger num:  1 timestamp:  30566020886 scantime  27696
+finger num:  1 timestamp:  41607241595 scantime  33480 x:  2882 y:  1641
+finger num:  1 timestamp:  41607298898 scantime  33536 x:  2880 y:  1638
+finger num:  1 timestamp:  41607356255 scantime  33592 x:  2873 y:  1626
+finger num:  1 timestamp:  41607412981 scantime  33648 x:  2861 y:  1605
+finger num:  2 timestamp:  41607472738 scantime  33704 x:  2847 y:  1576
+finger num:  2 timestamp:  41607528115 scantime  33760 x:  2829 y:  1537
+finger num:  2 timestamp:  41607587931 scantime  33816 x:  2807 y:  1491
+finger num:  2 timestamp:  41607648568 scantime  33872 x:  2807 y:  1438
+finger num:  2 timestamp:  41607700804 scantime  33928 x:  2761 y:  1377
+finger num:  2 timestamp:  41607760258 scantime  33984 x:  2736 y:  1314
+finger num:  2 timestamp:  41607814091 scantime  34040 x:  2712 y:  1250
+finger num:  2 timestamp:  41607864854 scantime  34096 x:  2690 y:  1185
+finger num:  2 timestamp:  41607929004 scantime  34152 x:  2670 y:  1123
+finger num:  2 timestamp:  41607982179 scantime  34208 x:  2654 y:  1063
+finger num:  2 timestamp:  41608038643 scantime  34264 x:  2640 y:  1006
+finger num:  2 timestamp:  41608093842 scantime  34320 x:  2628 y:  952
+finger num:  2 timestamp:  41608153170 scantime  34376 x:  2621 y:  899
+finger num:  2 timestamp:  41608204962 scantime  34432 x:  2615 y:  849
+finger num:  2 timestamp:  41608262969 scantime  34488 x:  2615 y:  849
+finger num:  2 timestamp:  41608316115 scantime  34544 x:  2615 y:  849
+finger num:  2 timestamp:  41608374080 scantime  34600 x:  2615 y:  849
+finger num:  1 timestamp:  41608426380 scantime  34656 x:  3231 y:  476
+finger num:  1 timestamp:  41608484113 scantime  34712 x:  3231 y:  476
+finger num:  1 timestamp:  41608539808 scantime  34768 x:  3231 y:  476
+finger num:  1 timestamp:  41608595245 scantime  34824 x:  3231 y:  476
+finger num:  1 timestamp:  41608606429 scantime  34884 x:  3231 y:  476
 handleMode for end 32
-finger num:  1 timestamp:  30573784438 scantime  35424
-finger num:  1 timestamp:  30573837866 scantime  35480
-finger num:  1 timestamp:  30573894036 scantime  35536
-finger num:  1 timestamp:  30573950371 scantime  35592
-finger num:  1 timestamp:  30574006700 scantime  35648
-finger num:  1 timestamp:  30574062293 scantime  35704
-finger num:  1 timestamp:  30574117969 scantime  35760
-finger num:  1 timestamp:  30574176586 scantime  35816
-finger num:  1 timestamp:  30574228892 scantime  35872
-finger num:  1 timestamp:  30574293362 scantime  35928
-finger num:  1 timestamp:  30574345261 scantime  35984
+finger num:  1 timestamp:  41610854618 scantime  37064 x:  2865 y:  1657
+finger num:  1 timestamp:  41610916967 scantime  37120 x:  2865 y:  1657
+finger num:  1 timestamp:  41610965223 scantime  37176 x:  2865 y:  1657
+finger num:  1 timestamp:  41611024496 scantime  37232 x:  2865 y:  1657
+finger num:  1 timestamp:  41611088654 scantime  37288 x:  2866 y:  1655
+finger num:  1 timestamp:  41611141809 scantime  37344 x:  2864 y:  1648
+finger num:  1 timestamp:  41611199317 scantime  37400 x:  2858 y:  1636
+finger num:  2 timestamp:  41611253870 scantime  37456 x:  2850 y:  1620
+finger num:  2 timestamp:  41611318524 scantime  37512 x:  2840 y:  1598
+finger num:  2 timestamp:  41611368775 scantime  37568 x:  2828 y:  1568
+finger num:  2 timestamp:  41611426239 scantime  37624 x:  2814 y:  1535
+finger num:  2 timestamp:  41611480411 scantime  37680 x:  2800 y:  1499
+finger num:  2 timestamp:  41611540611 scantime  37736 x:  2784 y:  1459
+finger num:  2 timestamp:  41611594820 scantime  37792 x:  2768 y:  1414
+finger num:  2 timestamp:  41611651207 scantime  37848 x:  2752 y:  1365
+finger num:  2 timestamp:  41611707204 scantime  37904 x:  2735 y:  1308
+finger num:  2 timestamp:  41611772978 scantime  37960 x:  2718 y:  1243
+finger num:  2 timestamp:  41611821858 scantime  38016 x:  2706 y:  1173
+finger num:  2 timestamp:  41611878096 scantime  38072 x:  2693 y:  1099
+finger num:  2 timestamp:  41611934991 scantime  38128 x:  2683 y:  1027
+finger num:  2 timestamp:  41612001200 scantime  38184 x:  2677 y:  957
+finger num:  2 timestamp:  41612046549 scantime  38240 x:  2674 y:  892
+finger num:  2 timestamp:  41612103398 scantime  38296 x:  2675 y:  834
+finger num:  2 timestamp:  41612167953 scantime  38352 x:  2674 y:  780
+finger num:  2 timestamp:  41612222336 scantime  38408 x:  2674 y:  732
+finger num:  2 timestamp:  41612274137 scantime  38464 x:  2676 y:  690
+finger num:  2 timestamp:  41612333387 scantime  38520 x:  2676 y:  690
+finger num:  2 timestamp:  41612388703 scantime  38576 x:  2676 y:  690
+finger num:  2 timestamp:  41612442233 scantime  38632 x:  2676 y:  690
+finger num:  1 timestamp:  41612492804 scantime  38688 x:  3324 y:  314
+finger num:  1 timestamp:  41612549284 scantime  38744 x:  3324 y:  314
+finger num:  1 timestamp:  41612610109 scantime  38800 x:  3324 y:  314
+finger num:  1 timestamp:  41612615701 scantime  38860 x:  3324 y:  314
 handleMode for end 33
-finger num:  1 timestamp:  30575077081 scantime  36712
-finger num:  1 timestamp:  30575131084 scantime  36768
-finger num:  1 timestamp:  30575187251 scantime  36824
-finger num:  1 timestamp:  30575244404 scantime  36880
-finger num:  1 timestamp:  30575299483 scantime  36936
-finger num:  1 timestamp:  30575355705 scantime  36992
-finger num:  1 timestamp:  30575411444 scantime  37048
-finger num:  1 timestamp:  30575467502 scantime  37104
-finger num:  1 timestamp:  30575521508 scantime  37160
-finger num:  1 timestamp:  30575580309 scantime  37216
-finger num:  1 timestamp:  30575634879 scantime  37272
-finger num:  1 timestamp:  30575692327 scantime  37328
+finger num:  1 timestamp:  41615372032 scantime  41544 x:  2683 y:  1493
+finger num:  1 timestamp:  41615434392 scantime  41600 x:  2683 y:  1493
+finger num:  1 timestamp:  41615485921 scantime  41656 x:  2683 y:  1493
+finger num:  1 timestamp:  41615543020 scantime  41712 x:  2683 y:  1493
+finger num:  1 timestamp:  41615598628 scantime  41768 x:  2683 y:  1492
+finger num:  1 timestamp:  41615656953 scantime  41824 x:  2683 y:  1491
+finger num:  2 timestamp:  41615720306 scantime  41880 x:  2683 y:  1490
+finger num:  2 timestamp:  41615778280 scantime  41936 x:  2683 y:  1485
+finger num:  2 timestamp:  41615834300 scantime  41992 x:  2683 y:  1477
+finger num:  2 timestamp:  41615895234 scantime  42048 x:  2678 y:  1463
+finger num:  2 timestamp:  41615951070 scantime  42104 x:  2672 y:  1440
+finger num:  2 timestamp:  41615999822 scantime  42160 x:  2665 y:  1409
+finger num:  2 timestamp:  41616058365 scantime  42216 x:  2654 y:  1370
+finger num:  2 timestamp:  41616114392 scantime  42272 x:  2642 y:  1319
+finger num:  2 timestamp:  41616170136 scantime  42328 x:  2628 y:  1262
+finger num:  2 timestamp:  41616226341 scantime  42384 x:  2616 y:  1197
+finger num:  2 timestamp:  41616283343 scantime  42440 x:  2607 y:  1130
+finger num:  2 timestamp:  41616348314 scantime  42496 x:  2601 y:  1061
+finger num:  2 timestamp:  41616395962 scantime  42552 x:  2597 y:  996
+finger num:  2 timestamp:  41616453286 scantime  42608 x:  2596 y:  935
+finger num:  2 timestamp:  41616511903 scantime  42664 x:  2595 y:  877
+finger num:  2 timestamp:  41616564390 scantime  42720 x:  2595 y:  823
+finger num:  2 timestamp:  41616619646 scantime  42776 x:  2596 y:  776
+finger num:  2 timestamp:  41616681508 scantime  42832 x:  2596 y:  776
+finger num:  2 timestamp:  41616726055 scantime  42888 x:  2596 y:  776
+finger num:  2 timestamp:  41616786232 scantime  42944 x:  2596 y:  776
+finger num:  1 timestamp:  41616849160 scantime  43000 x:  3215 y:  359
+finger num:  1 timestamp:  41616901990 scantime  43056 x:  3215 y:  359
+finger num:  1 timestamp:  41616909523 scantime  43116 x:  3215 y:  359
 handleMode for end 34
-finger num:  1 timestamp:  30584110357 scantime  45672
-finger num:  1 timestamp:  30584164853 scantime  45728
-finger num:  1 timestamp:  30584221150 scantime  45784
-finger num:  1 timestamp:  30584277319 scantime  45840
-finger num:  1 timestamp:  30584333507 scantime  45896
-finger num:  1 timestamp:  30584389862 scantime  45952
-finger num:  1 timestamp:  30584445954 scantime  46008
-finger num:  1 timestamp:  30584501630 scantime  46064
-finger num:  1 timestamp:  30584557728 scantime  46120
-finger num:  1 timestamp:  30584612301 scantime  46176
-finger num:  1 timestamp:  30584668388 scantime  46232
-finger num:  1 timestamp:  30584724868 scantime  46288
-finger num:  1 timestamp:  30584781443 scantime  46344
+finger num:  1 timestamp:  41621237911 scantime  47256 x:  2867 y:  1306
+finger num:  1 timestamp:  41621240552 scantime  47312 x:  2867 y:  1306
+finger num:  1 timestamp:  41621246852 scantime  47368 x:  2865 y:  1305
+finger num:  1 timestamp:  41621302266 scantime  47424 x:  2860 y:  1303
+finger num:  1 timestamp:  41621363132 scantime  47480 x:  2853 y:  1301
+finger num:  2 timestamp:  41621420300 scantime  47536 x:  2845 y:  1298
+finger num:  2 timestamp:  41621475939 scantime  47592 x:  2835 y:  1295
+finger num:  2 timestamp:  41621532250 scantime  47648 x:  2823 y:  1291
+finger num:  2 timestamp:  41621594388 scantime  47704 x:  2810 y:  1287
+finger num:  2 timestamp:  41621653393 scantime  47760 x:  2796 y:  1282
+finger num:  2 timestamp:  41621707303 scantime  47816 x:  2782 y:  1277
+finger num:  2 timestamp:  41621759998 scantime  47872 x:  2765 y:  1274
+finger num:  2 timestamp:  41621814223 scantime  47928 x:  2748 y:  1271
+finger num:  2 timestamp:  41621876630 scantime  47984 x:  2732 y:  1269
+finger num:  2 timestamp:  41621929831 scantime  48040 x:  2714 y:  1265
+finger num:  2 timestamp:  41621985268 scantime  48096 x:  2696 y:  1262
+finger num:  2 timestamp:  41622041524 scantime  48152 x:  2678 y:  1259
+finger num:  2 timestamp:  41622099466 scantime  48208 x:  2659 y:  1256
+finger num:  2 timestamp:  41622154608 scantime  48264 x:  2640 y:  1254
+finger num:  2 timestamp:  41622209794 scantime  48320 x:  2618 y:  1253
+finger num:  2 timestamp:  41622269479 scantime  48376 x:  2595 y:  1251
+finger num:  2 timestamp:  41622325164 scantime  48432 x:  2574 y:  1251
+finger num:  2 timestamp:  41622381784 scantime  48488 x:  2551 y:  1250
+finger num:  2 timestamp:  41622437215 scantime  48544 x:  2529 y:  1250
+finger num:  2 timestamp:  41622492433 scantime  48600 x:  2505 y:  1250
+finger num:  2 timestamp:  41622549274 scantime  48656 x:  2479 y:  1252
+finger num:  2 timestamp:  41622606971 scantime  48712 x:  2453 y:  1254
+finger num:  2 timestamp:  41622663326 scantime  48768 x:  2428 y:  1256
+finger num:  2 timestamp:  41622720473 scantime  48824 x:  2402 y:  1259
+finger num:  2 timestamp:  41622776684 scantime  48880 x:  2377 y:  1262
+finger num:  2 timestamp:  41622839557 scantime  48936 x:  2350 y:  1266
+finger num:  2 timestamp:  41622897751 scantime  48992 x:  2323 y:  1271
+finger num:  2 timestamp:  41622946188 scantime  49048 x:  2294 y:  1277
+finger num:  2 timestamp:  41623002923 scantime  49104 x:  2265 y:  1283
+finger num:  2 timestamp:  41623059053 scantime  49160 x:  2236 y:  1291
+finger num:  2 timestamp:  41623106204 scantime  49216 x:  2207 y:  1298
+finger num:  2 timestamp:  41623171222 scantime  49272 x:  2179 y:  1306
+finger num:  2 timestamp:  41623227116 scantime  49328 x:  2152 y:  1313
+finger num:  2 timestamp:  41623288093 scantime  49384 x:  2125 y:  1320
+finger num:  2 timestamp:  41623342599 scantime  49440 x:  2100 y:  1329
+finger num:  2 timestamp:  41623398181 scantime  49496 x:  2074 y:  1338
+finger num:  2 timestamp:  41623454543 scantime  49552 x:  2050 y:  1346
+finger num:  2 timestamp:  41623511124 scantime  49608 x:  2027 y:  1353
+finger num:  2 timestamp:  41623567869 scantime  49664 x:  2004 y:  1360
+finger num:  2 timestamp:  41623621832 scantime  49720 x:  1983 y:  1365
+finger num:  2 timestamp:  41623678076 scantime  49776 x:  1959 y:  1371
+finger num:  2 timestamp:  41623737566 scantime  49832 x:  1937 y:  1377
+finger num:  2 timestamp:  41623793270 scantime  49888 x:  1915 y:  1382
+finger num:  2 timestamp:  41623854916 scantime  49944 x:  1894 y:  1387
+finger num:  2 timestamp:  41623906288 scantime  50000 x:  1873 y:  1391
+finger num:  2 timestamp:  41623964890 scantime  50056 x:  1853 y:  1395
+finger num:  2 timestamp:  41624030511 scantime  50112 x:  1833 y:  1399
+finger num:  2 timestamp:  41624076911 scantime  50168 x:  1812 y:  1403
+finger num:  2 timestamp:  41624134113 scantime  50224 x:  1791 y:  1408
+finger num:  2 timestamp:  41624188909 scantime  50280 x:  1771 y:  1412
+finger num:  2 timestamp:  41624247324 scantime  50336 x:  1752 y:  1417
+finger num:  2 timestamp:  41624301676 scantime  50392 x:  1733 y:  1420
+finger num:  2 timestamp:  41624358019 scantime  50448 x:  1715 y:  1424
+finger num:  2 timestamp:  41624415397 scantime  50504 x:  1696 y:  1428
+finger num:  2 timestamp:  41624468959 scantime  50560 x:  1676 y:  1432
+finger num:  2 timestamp:  41624525085 scantime  50616 x:  1656 y:  1436
+finger num:  2 timestamp:  41624582091 scantime  50672 x:  1635 y:  1440
+finger num:  2 timestamp:  41624640943 scantime  50728 x:  1615 y:  1443
+finger num:  2 timestamp:  41624697297 scantime  50784 x:  1593 y:  1447
+finger num:  2 timestamp:  41624759209 scantime  50840 x:  1571 y:  1453
+finger num:  2 timestamp:  41624809804 scantime  50896 x:  1549 y:  1458
+finger num:  2 timestamp:  41624864755 scantime  50952 x:  1528 y:  1463
+finger num:  2 timestamp:  41624920748 scantime  51008 x:  1506 y:  1469
+finger num:  2 timestamp:  41624978803 scantime  51064 x:  1486 y:  1476
+finger num:  2 timestamp:  41625034369 scantime  51120 x:  1466 y:  1484
+finger num:  2 timestamp:  41625092183 scantime  51176 x:  1447 y:  1493
+finger num:  2 timestamp:  41625150592 scantime  51232 x:  1429 y:  1504
+finger num:  2 timestamp:  41625205887 scantime  51288 x:  1413 y:  1514
+finger num:  2 timestamp:  41625261941 scantime  51344 x:  1397 y:  1525
+finger num:  2 timestamp:  41625320481 scantime  51400 x:  1380 y:  1538
+finger num:  2 timestamp:  41625376166 scantime  51456 x:  1363 y:  1549
+finger num:  2 timestamp:  41625429303 scantime  51512 x:  1363 y:  1549
+finger num:  2 timestamp:  41625485228 scantime  51568 x:  1363 y:  1549
+finger num:  2 timestamp:  41625536927 scantime  51624 x:  1363 y:  1549
+finger num:  1 timestamp:  41625595044 scantime  51680 x:  1810 y:  1094
+finger num:  1 timestamp:  41625651694 scantime  51736 x:  1810 y:  1094
+finger num:  1 timestamp:  41625706908 scantime  51792 x:  1810 y:  1094
+finger num:  1 timestamp:  41625709823 scantime  51852 x:  1810 y:  1094
 handleMode for end 35
-finger num:  1 timestamp:  30585459203 scantime  47016
-finger num:  1 timestamp:  30585517378 scantime  47072
-finger num:  1 timestamp:  30585571008 scantime  47128
-finger num:  1 timestamp:  30585627102 scantime  47184
-finger num:  1 timestamp:  30585683317 scantime  47240
-finger num:  1 timestamp:  30585739996 scantime  47296
-finger num:  1 timestamp:  30585795230 scantime  47352
-finger num:  1 timestamp:  30585851627 scantime  47408
-finger num:  1 timestamp:  30585905738 scantime  47464
-finger num:  1 timestamp:  30585961738 scantime  47520
-finger num:  1 timestamp:  30586018399 scantime  47576
-finger num:  1 timestamp:  30586075987 scantime  47632
+finger num:  1 timestamp:  41634560176 scantime  60528 x:  2179 y:  900
+finger num:  2 timestamp:  41634616010 scantime  60584 x:  2179 y:  900
+finger num:  2 timestamp:  41634674537 scantime  60640 x:  2181 y:  899
+finger num:  2 timestamp:  41634734323 scantime  60696 x:  2185 y:  898
+finger num:  2 timestamp:  41634790622 scantime  60752 x:  2190 y:  897
+finger num:  2 timestamp:  41634842041 scantime  60808 x:  2198 y:  897
+finger num:  2 timestamp:  41634900126 scantime  60864 x:  2208 y:  897
+finger num:  2 timestamp:  41634955251 scantime  60920 x:  2220 y:  897
+finger num:  2 timestamp:  41635011202 scantime  60976 x:  2234 y:  899
+finger num:  2 timestamp:  41635081223 scantime  61032 x:  2251 y:  902
+finger num:  2 timestamp:  41635126335 scantime  61088 x:  2272 y:  909
+finger num:  2 timestamp:  41635182213 scantime  61144 x:  2297 y:  918
+finger num:  2 timestamp:  41635239808 scantime  61200 x:  2328 y:  930
+finger num:  2 timestamp:  41635295169 scantime  61256 x:  2361 y:  945
+finger num:  2 timestamp:  41635349385 scantime  61312 x:  2398 y:  962
+finger num:  2 timestamp:  41635408457 scantime  61368 x:  2439 y:  982
+finger num:  2 timestamp:  41635463243 scantime  61424 x:  2480 y:  1003
+finger num:  2 timestamp:  41635519142 scantime  61480 x:  2523 y:  1025
+finger num:  2 timestamp:  41635577128 scantime  61536 x:  2570 y:  1043
+finger num:  2 timestamp:  41635632042 scantime  61592 x:  2616 y:  1060
+finger num:  2 timestamp:  41635688633 scantime  61648 x:  2662 y:  1077
+finger num:  2 timestamp:  41635747805 scantime  61704 x:  2709 y:  1092
+finger num:  2 timestamp:  41635810111 scantime  61760 x:  2757 y:  1106
+finger num:  2 timestamp:  41635862810 scantime  61816 x:  2805 y:  1115
+finger num:  2 timestamp:  41635915140 scantime  61872 x:  2853 y:  1124
+finger num:  2 timestamp:  41635976779 scantime  61928 x:  2902 y:  1131
+finger num:  2 timestamp:  41636031886 scantime  61984 x:  2951 y:  1134
+finger num:  2 timestamp:  41636084635 scantime  62040 x:  2999 y:  1137
+finger num:  2 timestamp:  41636142854 scantime  62096 x:  3048 y:  1140
+finger num:  2 timestamp:  41636198651 scantime  62152 x:  3098 y:  1138
+finger num:  2 timestamp:  41636254062 scantime  62208 x:  3144 y:  1138
+finger num:  2 timestamp:  41636310571 scantime  62264 x:  3192 y:  1137
+finger num:  2 timestamp:  41636369372 scantime  62320 x:  3237 y:  1137
+finger num:  2 timestamp:  41636424980 scantime  62376 x:  3279 y:  1136
+finger num:  2 timestamp:  41636483434 scantime  62432 x:  3316 y:  1136
+finger num:  2 timestamp:  41636537536 scantime  62488 x:  3352 y:  1137
+finger num:  2 timestamp:  41636591652 scantime  62544 x:  3385 y:  1141
+finger num:  2 timestamp:  41636645813 scantime  62600 x:  3411 y:  1149
+finger num:  2 timestamp:  41636701626 scantime  62656 x:  3411 y:  1149
+finger num:  2 timestamp:  41636756787 scantime  62712 x:  3411 y:  1149
+finger num:  1 timestamp:  41636813437 scantime  62768 x:  3411 y:  1149
 handleMode for end 36
-finger num:  1 timestamp:  30599021905 scantime  60456
-finger num:  1 timestamp:  30599077726 scantime  60512
-finger num:  1 timestamp:  30599135095 scantime  60568
-finger num:  1 timestamp:  30599189664 scantime  60624
-finger num:  1 timestamp:  30599244192 scantime  60680
-finger num:  1 timestamp:  30599300298 scantime  60736
-finger num:  1 timestamp:  30599355021 scantime  60792
-finger num:  1 timestamp:  30599410602 scantime  60848
-finger num:  1 timestamp:  30599466088 scantime  60904
-finger num:  1 timestamp:  30599523364 scantime  60960
+finger num:  1 timestamp:  41649490320 scantime  9720 x:  2763 y:  1785
+finger num:  2 timestamp:  41649547504 scantime  9776 x:  2763 y:  1785
+finger num:  2 timestamp:  41649601979 scantime  9832 x:  2763 y:  1785
+finger num:  2 timestamp:  41649658247 scantime  9888 x:  2763 y:  1785
+finger num:  2 timestamp:  41649714047 scantime  9944 x:  2764 y:  1783
+finger num:  2 timestamp:  41649766806 scantime  10000 x:  2763 y:  1777
+finger num:  2 timestamp:  41649827187 scantime  10056 x:  2762 y:  1767
+finger num:  2 timestamp:  41649883460 scantime  10112 x:  2759 y:  1754
+finger num:  2 timestamp:  41649944847 scantime  10168 x:  2755 y:  1736
+finger num:  2 timestamp:  41649998589 scantime  10224 x:  2750 y:  1713
+finger num:  2 timestamp:  41650054203 scantime  10280 x:  2743 y:  1686
+finger num:  2 timestamp:  41650114289 scantime  10336 x:  2736 y:  1654
+finger num:  2 timestamp:  41650168716 scantime  10392 x:  2728 y:  1617
+finger num:  2 timestamp:  41650225044 scantime  10448 x:  2719 y:  1576
+finger num:  2 timestamp:  41650282422 scantime  10504 x:  2710 y:  1532
+finger num:  2 timestamp:  41650340385 scantime  10560 x:  2700 y:  1482
+finger num:  2 timestamp:  41650395255 scantime  10616 x:  2692 y:  1432
+finger num:  2 timestamp:  41650459832 scantime  10672 x:  2681 y:  1379
+finger num:  2 timestamp:  41650515158 scantime  10728 x:  2671 y:  1326
+finger num:  2 timestamp:  41650564721 scantime  10784 x:  2663 y:  1273
+finger num:  2 timestamp:  41650620932 scantime  10840 x:  2654 y:  1218
+finger num:  2 timestamp:  41650677321 scantime  10896 x:  2647 y:  1165
+finger num:  2 timestamp:  41650733099 scantime  10952 x:  2640 y:  1112
+finger num:  2 timestamp:  41650794706 scantime  11008 x:  2634 y:  1059
+finger num:  2 timestamp:  41650847000 scantime  11064 x:  2629 y:  1009
+finger num:  2 timestamp:  41650905467 scantime  11120 x:  2627 y:  961
+finger num:  2 timestamp:  41650960856 scantime  11176 x:  2624 y:  916
+finger num:  2 timestamp:  41651022961 scantime  11232 x:  2622 y:  874
+finger num:  2 timestamp:  41651072775 scantime  11288 x:  2620 y:  835
+finger num:  2 timestamp:  41651126949 scantime  11344 x:  2619 y:  800
+finger num:  2 timestamp:  41651183092 scantime  11400 x:  2619 y:  800
+finger num:  2 timestamp:  41651232743 scantime  11456 x:  2619 y:  800
+finger num:  2 timestamp:  41651292174 scantime  11512 x:  2619 y:  800
+finger num:  2 timestamp:  41651294775 scantime  11572 x:  2619 y:  800
 handleMode for end 37
-finger num:  1 timestamp:  30600313896 scantime  61744
-finger num:  1 timestamp:  30600369231 scantime  61800
-finger num:  1 timestamp:  30600425087 scantime  61856
-finger num:  1 timestamp:  30600482084 scantime  61912
-finger num:  1 timestamp:  30600537585 scantime  61968
-finger num:  1 timestamp:  30600593567 scantime  62024
-finger num:  1 timestamp:  30600647438 scantime  62080
-finger num:  1 timestamp:  30600703794 scantime  62136
-finger num:  1 timestamp:  30600760163 scantime  62192
-finger num:  1 timestamp:  30600817494 scantime  62248
+finger num:  1 timestamp:  41657192498 scantime  17336 x:  3330 y:  636
+finger num:  1 timestamp:  41657246784 scantime  17392 x:  3330 y:  636
+finger num:  1 timestamp:  41657301672 scantime  17448 x:  3330 y:  636
+finger num:  1 timestamp:  41657358403 scantime  17504 x:  3330 y:  636
+finger num:  2 timestamp:  41657416038 scantime  17560 x:  3329 y:  638
+finger num:  2 timestamp:  41657471889 scantime  17616 x:  3327 y:  641
+finger num:  2 timestamp:  41657527197 scantime  17672 x:  3325 y:  645
+finger num:  2 timestamp:  41657583635 scantime  17728 x:  3321 y:  653
+finger num:  2 timestamp:  41657639642 scantime  17784 x:  3318 y:  663
+finger num:  2 timestamp:  41657695223 scantime  17840 x:  3314 y:  677
+finger num:  2 timestamp:  41657760406 scantime  17896 x:  3310 y:  695
+finger num:  2 timestamp:  41657810656 scantime  17952 x:  3307 y:  715
+finger num:  2 timestamp:  41657864461 scantime  18008 x:  3307 y:  737
+finger num:  2 timestamp:  41657926763 scantime  18064 x:  3307 y:  763
+finger num:  2 timestamp:  41657979488 scantime  18120 x:  3307 y:  792
+finger num:  2 timestamp:  41658034252 scantime  18176 x:  3307 y:  824
+finger num:  2 timestamp:  41658090236 scantime  18232 x:  3307 y:  857
+finger num:  2 timestamp:  41658145569 scantime  18288 x:  3307 y:  893
+finger num:  2 timestamp:  41658201117 scantime  18344 x:  3307 y:  931
+finger num:  2 timestamp:  41658258632 scantime  18400 x:  3307 y:  972
+finger num:  2 timestamp:  41658325247 scantime  18456 x:  3307 y:  1017
+finger num:  2 timestamp:  41658372543 scantime  18512 x:  3307 y:  1066
+finger num:  2 timestamp:  41658425064 scantime  18568 x:  3343 y:  1121
+finger num:  2 timestamp:  41658483857 scantime  18624 x:  3353 y:  1177
+finger num:  2 timestamp:  41658525404 scantime  18680 x:  3363 y:  1239
+finger num:  2 timestamp:  41658592669 scantime  18736 x:  3373 y:  1303
+finger num:  2 timestamp:  41658647886 scantime  18792 x:  3384 y:  1369
+finger num:  2 timestamp:  41658704056 scantime  18848 x:  3393 y:  1434
+finger num:  2 timestamp:  41658748150 scantime  18904 x:  3403 y:  1497
+finger num:  2 timestamp:  41658815637 scantime  18960 x:  3412 y:  1557
+finger num:  2 timestamp:  41658870892 scantime  19016 x:  3419 y:  1614
+finger num:  2 timestamp:  41658927078 scantime  19072 x:  3427 y:  1664
+finger num:  2 timestamp:  41658989812 scantime  19128 x:  3433 y:  1710
+finger num:  2 timestamp:  41659038426 scantime  19184 x:  3439 y:  1753
+finger num:  2 timestamp:  41659094254 scantime  19240 x:  3445 y:  1793
+finger num:  2 timestamp:  41659149185 scantime  19296 x:  3451 y:  1832
+finger num:  2 timestamp:  41659203352 scantime  19352 x:  3456 y:  1868
+finger num:  2 timestamp:  41659255435 scantime  19408 x:  3460 y:  1901
+finger num:  2 timestamp:  41659317606 scantime  19464 x:  3460 y:  1901
+finger num:  2 timestamp:  41659364929 scantime  19520 x:  3460 y:  1901
+finger num:  2 timestamp:  41659422476 scantime  19576 x:  3460 y:  1901
+finger num:  2 timestamp:  41659424974 scantime  19636 x:  3460 y:  1901
 handleMode for end 38
-双指双击
-finger num:  1 timestamp:  30932577668 scantime  38200
-finger num:  1 timestamp:  30932621953 scantime  38256
-finger num:  2 timestamp:  30932679294 scantime  38312
-finger num:  2 timestamp:  30932734918 scantime  38368
-finger num:  2 timestamp:  30932790976 scantime  38424
-finger num:  2 timestamp:  30932846833 scantime  38480
-finger num:  2 timestamp:  30932900487 scantime  38536
-finger num:  2 timestamp:  30932956640 scantime  38592
-finger num:  2 timestamp:  30933011547 scantime  38648
-finger num:  2 timestamp:  30933066226 scantime  38704
-finger num:  1 timestamp:  30933121749 scantime  38760
-finger num:  1 timestamp:  30933176759 scantime  38816
-finger num:  1 timestamp:  30933232720 scantime  38872
-finger num:  1 timestamp:  30933289680 scantime  38928
-finger num:  1 timestamp:  30933345651 scantime  38984
-handleMode for end 39
-finger num:  1 timestamp:  30934197049 scantime  39824
-finger num:  2 timestamp:  30934253244 scantime  39880
-finger num:  2 timestamp:  30934310188 scantime  39936
-finger num:  2 timestamp:  30934364918 scantime  39992
-finger num:  2 timestamp:  30934417978 scantime  40048
-finger num:  2 timestamp:  30934473919 scantime  40104
-finger num:  2 timestamp:  30934526091 scantime  40160
-finger num:  2 timestamp:  30934582153 scantime  40216
-finger num:  1 timestamp:  30934638741 scantime  40272
-finger num:  1 timestamp:  30934695568 scantime  40328
-handleMode for end 40
-finger num:  1 timestamp:  30943457054 scantime  49008
-finger num:  1 timestamp:  30943512763 scantime  49064
-finger num:  2 timestamp:  30943569879 scantime  49120
-finger num:  2 timestamp:  30943626165 scantime  49176
-finger num:  2 timestamp:  30943682444 scantime  49232
-finger num:  2 timestamp:  30943739298 scantime  49288
-finger num:  2 timestamp:  30943795278 scantime  49344
-finger num:  2 timestamp:  30943852134 scantime  49400
-finger num:  2 timestamp:  30943907907 scantime  49456
-finger num:  2 timestamp:  30943965198 scantime  49512
-finger num:  2 timestamp:  30944024267 scantime  49568
-finger num:  2 timestamp:  30944073720 scantime  49624
-finger num:  2 timestamp:  30944128883 scantime  49680
-finger num:  2 timestamp:  30944184662 scantime  49736
-handleMode for end 41
-finger num:  1 timestamp:  30944926470 scantime  50464
-finger num:  2 timestamp:  30944985081 scantime  50520
-finger num:  2 timestamp:  30945039027 scantime  50576
-finger num:  2 timestamp:  30945095337 scantime  50632
-finger num:  2 timestamp:  30945152189 scantime  50688
-finger num:  2 timestamp:  30945208581 scantime  50744
-finger num:  2 timestamp:  30945265787 scantime  50800
-finger num:  2 timestamp:  30945321806 scantime  50856
-finger num:  2 timestamp:  30945377599 scantime  50912
-finger num:  2 timestamp:  30945431731 scantime  50968
-finger num:  2 timestamp:  30945484723 scantime  51024
-finger num:  2 timestamp:  30945540449 scantime  51080
-finger num:  2 timestamp:  30945600559 scantime  51136
-finger num:  1 timestamp:  30945653533 scantime  51192
-handleMode for end 42
-finger num:  1 timestamp:  30954563410 scantime  59984
-finger num:  2 timestamp:  30954619148 scantime  60040
-finger num:  2 timestamp:  30954677403 scantime  60096
-finger num:  2 timestamp:  30954732392 scantime  60152
-finger num:  2 timestamp:  30954788259 scantime  60208
-finger num:  2 timestamp:  30954845331 scantime  60264
-finger num:  2 timestamp:  30954901661 scantime  60320
-finger num:  2 timestamp:  30954957182 scantime  60376
-finger num:  2 timestamp:  30955011269 scantime  60432
-finger num:  2 timestamp:  30955067006 scantime  60488
-finger num:  2 timestamp:  30955121545 scantime  60544
-finger num:  2 timestamp:  30955175643 scantime  60600
-finger num:  1 timestamp:  30955231921 scantime  60656
-finger num:  1 timestamp:  30955289041 scantime  60712
-finger num:  1 timestamp:  30955346004 scantime  60768
-handleMode for end 43
-finger num:  1 timestamp:  30956369827 scantime  61776
-finger num:  2 timestamp:  30956425886 scantime  61832
-finger num:  2 timestamp:  30956481380 scantime  61888
-finger num:  2 timestamp:  30956538308 scantime  61944
-finger num:  2 timestamp:  30956594789 scantime  62000
-finger num:  2 timestamp:  30956651190 scantime  62056
-finger num:  2 timestamp:  30956706006 scantime  62112
-finger num:  2 timestamp:  30956761265 scantime  62168
-finger num:  2 timestamp:  30956817176 scantime  62224
-finger num:  2 timestamp:  30956870435 scantime  62280
-finger num:  2 timestamp:  30956926044 scantime  62336
-finger num:  1 timestamp:  30956986262 scantime  62392
-finger num:  1 timestamp:  30957041660 scantime  62448
-handleMode for end 44
-finger num:  2 timestamp:  30964483810 scantime  4248
-finger num:  2 timestamp:  30964538259 scantime  4304
-finger num:  2 timestamp:  30964595130 scantime  4360
-finger num:  2 timestamp:  30964651507 scantime  4416
-finger num:  2 timestamp:  30964707819 scantime  4472
-finger num:  2 timestamp:  30964764185 scantime  4528
-finger num:  2 timestamp:  30964817430 scantime  4584
-finger num:  2 timestamp:  30964873494 scantime  4640
-finger num:  2 timestamp:  30964926915 scantime  4696
-finger num:  2 timestamp:  30964982966 scantime  4752
-finger num:  1 timestamp:  30965039723 scantime  4808
-finger num:  1 timestamp:  30965096375 scantime  4864
-handleMode for end 45
-finger num:  1 timestamp:  30966008823 scantime  5760
-finger num:  1 timestamp:  30966062366 scantime  5816
-finger num:  2 timestamp:  30966120243 scantime  5872
-finger num:  2 timestamp:  30966175898 scantime  5928
-finger num:  2 timestamp:  30966233115 scantime  5984
-finger num:  2 timestamp:  30966288812 scantime  6040
-finger num:  2 timestamp:  30966344808 scantime  6096
-finger num:  2 timestamp:  30966396479 scantime  6152
-finger num:  2 timestamp:  30966451783 scantime  6208
-finger num:  2 timestamp:  30966507803 scantime  6264
-finger num:  1 timestamp:  30966570330 scantime  6320
-handleMode for end 46
-finger num:  2 timestamp:  30974684585 scantime  14328
-finger num:  2 timestamp:  30974738787 scantime  14384
-finger num:  2 timestamp:  30974795770 scantime  14440
-finger num:  2 timestamp:  30974851431 scantime  14496
-finger num:  2 timestamp:  30974905843 scantime  14552
-finger num:  2 timestamp:  30974962121 scantime  14608
-finger num:  2 timestamp:  30975019695 scantime  14664
-finger num:  2 timestamp:  30975074306 scantime  14720
-finger num:  1 timestamp:  30975130064 scantime  14776
-finger num:  1 timestamp:  30975184963 scantime  14832
-finger num:  1 timestamp:  30975241325 scantime  14888
-finger num:  1 timestamp:  30975298608 scantime  14944
-finger num:  1 timestamp:  30975355825 scantime  15000
-handleMode for end 47
-finger num:  1 timestamp:  30976264963 scantime  15896
-finger num:  1 timestamp:  30976320061 scantime  15952
-finger num:  1 timestamp:  30976377518 scantime  16008
-finger num:  2 timestamp:  30976434996 scantime  16064
-finger num:  2 timestamp:  30976491409 scantime  16120
-finger num:  2 timestamp:  30976547961 scantime  16176
-finger num:  2 timestamp:  30976606158 scantime  16232
-finger num:  2 timestamp:  30976661436 scantime  16288
-finger num:  2 timestamp:  30976712974 scantime  16344
-finger num:  2 timestamp:  30976769227 scantime  16400
-finger num:  2 timestamp:  30976825009 scantime  16456
-finger num:  2 timestamp:  30976881209 scantime  16512
-handleMode for end 48
