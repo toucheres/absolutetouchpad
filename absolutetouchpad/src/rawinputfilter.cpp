@@ -369,9 +369,12 @@ bool TouchPadRawInputFilter::processRawInput(HRAWINPUT rawInputHandle)
     // qDebug() << contacts.size();
     m_touchpadframes.push_back(Touchpadframe{contacts, timestamp});
     m_lastFrameTimestamp = timestamp;
-
+    // qDebug() << "timestamp" << timestamp;
     // 启动定时器以确保在无输入时也能处理缓冲区
     startProcessingTimer();
+
+    qDebug() << "finger num: " << contacts.size() << "timestamp: " << timestamp << "scantime "
+             << scanTime;
 
     return !contacts.empty();
 }
@@ -392,11 +395,10 @@ void TouchPadRawInputFilter::handleMode()
     // }
     // 这里先只考虑且默认全局pen模式
     InputSenderT<InputSender::Type::mouse> sender;
-    constexpr size_t cached_frames_nums = 10;
     // qDebug() << "m_touchpadframes.size()" << m_touchpadframes.size();
     if (m_touchpadframes.size() <= 1)
     {
-        // 滑动的第一帧，不处理
+        // 滑动的第一帧,帧(第一次触摸)，不处理
         return;
     }
     // 检查是否是新滑动
@@ -415,13 +417,13 @@ void TouchPadRawInputFilter::handleMode()
         m_touchpadframes.push_back(tp);
         return;
     }
-    if (m_touchpadframes.size() <= cached_frames_nums)
+    if (m_touchpadframes.size() <= m_max_touchpadframes)
     {
         // 继续积累帧
         return;
     }
 
-    if (m_touchpadframes.size() >= cached_frames_nums)
+    if (m_touchpadframes.size() >= m_max_touchpadframes)
     {
         // 计算 m_touchpadframes 中每帧 contacts.size() 的众数视为这n帧的触摸数
         std::unordered_map<size_t, int> freq;
@@ -494,9 +496,11 @@ void TouchPadRawInputFilter::startProcessingTimer()
 {
     if (!m_timerActive && m_targetWindow)
     {
+        // qDebug() << "startProcessingTimer";
         // [TODO] 会多次注册吗
         if (::SetTimer(m_targetWindow, TIMER_ID, TIMER_INTERVAL_MS, nullptr))
         {
+            // qDebug() << "SetTimer";
             m_timerActive = true;
         }
     }
@@ -513,6 +517,7 @@ void TouchPadRawInputFilter::stopProcessingTimer()
 
 void TouchPadRawInputFilter::onTimer()
 {
+    // qDebug() << "onTimer\n";
     // 定时器回调：处理缓冲区并检测触摸板释放
     if (m_touchpadframes.empty())
     {
@@ -529,12 +534,16 @@ void TouchPadRawInputFilter::onTimer()
     const int64_t elapsedTicks = currentTime - m_lastFrameTimestamp;
     const double elapsedMs = (elapsedTicks * 1000.0) / freq.QuadPart;
 
+    // qDebug() << "elapsedMs:" << elapsedMs;
     // 如果超过 10ms 没有新帧，认为触摸板已释放
+    // [TODO] 当前通过定时轮训判断最后一帧与现在时间戳之差，由于轮询频率低60Hz(16.7ms), 不一定准确
     if (elapsedMs > 10.0)
     {
         // 处理剩余帧
+        static int tp = 0;
+        qDebug() << "handleMode for end" << tp++;
         // handleMode();
-        if (m_touchpadframes.size() >= 1 && m_touchpadframes.size() < 10) // 点击
+        if (m_touchpadframes.size() >= 1 && m_touchpadframes.size() < m_max_touchpadframes) // 点击
         {
             auto tp = m_touchpadframes.back();
             m_touchpadframes.clear();
@@ -542,7 +551,7 @@ void TouchPadRawInputFilter::onTimer()
         }
 
         // 触发释放事件
-        fingerReleased();
+        // fingerReleased();
 
         // 停止定时器
         stopProcessingTimer();
@@ -550,14 +559,17 @@ void TouchPadRawInputFilter::onTimer()
         // 通知状态管理器
         if (m_stateManager)
         {
+            // 主动判断
             m_stateManager->deactivateTouchpad();
         }
     }
     else
     {
+        // qDebug() << "Timer handle";
         // 定期处理缓冲区
-        handleMode();
+        // handleMode();
     }
+    // handleMode();
 }
 
 #endif // _WIN32

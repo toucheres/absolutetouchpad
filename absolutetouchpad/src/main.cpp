@@ -41,15 +41,16 @@ bool handleTouchpadMouseEvent(WindowContext* ctx, WPARAM e, const MSLLHOOKSTRUCT
     }
 
     // 超时或非活动状态，请求恢复光标
-    if (stateManager->hasTimedOut() || !stateManager->isTouchpadActive())
-    {
-        stateManager->deactivateTouchpad();
-        stateManager->requestCursorRestore(WM_APP_RESTORE_CURSOR);
-    }
+    // if (stateManager->hasTimedOut() || !stateManager->isTouchpadActive())
+    // {
+    //     stateManager->deactivateTouchpad();
+    //     stateManager->requestCursorRestore(WM_APP_RESTORE_CURSOR);
+    // }
 
     return false;
 }
 
+// [TODO] mosue noteMouseActivity 可能包含touchpad造成的 noteMouseActivity?
 void noteMouseActivity(WindowContext* ctx)
 {
     if (!ctx || !ctx->filter)
@@ -67,9 +68,10 @@ void noteMouseActivity(WindowContext* ctx)
     {
         return;
     }
-
+    // 被动检查(鼠标事件时判断)触控板超时
     if (stateManager->hasTimedOut())
     {
+        // qDebug() << "deactivateTouchpad noteMouseActivity";
         stateManager->deactivateTouchpad();
         stateManager->requestCursorRestore(WM_APP_RESTORE_CURSOR);
     }
@@ -157,6 +159,7 @@ LRESULT CALLBACK RawInputWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPAR
             }
             else if (stateManager)
             {
+                qDebug() << "RawInputWindowProc";
                 stateManager->deactivateTouchpad();
                 stateManager->requestCursorRestore(WM_APP_RESTORE_CURSOR);
             }
@@ -193,7 +196,7 @@ LRESULT CALLBACK RawInputWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPAR
     }
     case WM_APP_RESTORE_CURSOR:
     {
-        qDebug() << "label";
+        // qDebug() << "label";
         if (ctx && ctx->filter)
         {
             auto* stateManager = ctx->filter->getStateManager();
@@ -212,8 +215,7 @@ LRESULT CALLBACK RawInputWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPAR
         if (ctx && ctx->filter && wParam == 1) // TIMER_ID = 1
         {
             // [TODO] 似乎有bug
-            // ctx->filter->onTimer();
-            // qDebug() << "WM_TIMER";
+            ctx->filter->onTimer();
         }
         return 0;
     }
