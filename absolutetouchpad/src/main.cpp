@@ -4,12 +4,12 @@
 #include <cstdlib>
 
 #ifdef _WIN32
+#include <TouchpadStateManager.h>
 #include <Windows.h>
 #include <memory>
 #include <mousehook.h>
-#include <rawinputfilter.h>
-#include <TouchpadStateManager.h>
 #include <qdebug.h>
+#include <rawinputfilter.h>
 constexpr UINT WM_APP_RESTORE_CURSOR = WM_APP + 1;
 
 struct WindowContext
@@ -41,11 +41,11 @@ bool handleTouchpadMouseEvent(WindowContext* ctx, WPARAM e, const MSLLHOOKSTRUCT
     }
 
     // 超时或非活动状态，请求恢复光标
-    // if (stateManager->hasTimedOut() || !stateManager->isTouchpadActive())
-    // {
-    //     stateManager->deactivateTouchpad();
-    //     stateManager->requestCursorRestore(WM_APP_RESTORE_CURSOR);
-    // }
+    if (!stateManager->isTouchpadActive())
+    {
+        // stateManager->deactivateTouchpad();
+        stateManager->requestCursorRestore(WM_APP_RESTORE_CURSOR);
+    }
 
     return false;
 }
@@ -72,7 +72,16 @@ void noteMouseActivity(WindowContext* ctx)
     if (stateManager->hasTimedOut())
     {
         // qDebug() << "deactivateTouchpad noteMouseActivity";
-        stateManager->deactivateTouchpad();
+        if (stateManager->isTouchpadActive())
+        {
+            stateManager->deactivateTouchpad();
+            TouchPadRawInputFilter::instance()->handleMode();
+        }
+        else
+        {
+            stateManager->deactivateTouchpad();
+        }
+
         stateManager->requestCursorRestore(WM_APP_RESTORE_CURSOR);
     }
 }
@@ -96,7 +105,7 @@ LRESULT CALLBACK RawInputWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPAR
         {
             ctx->hwnd = hwnd;
             ctx->filter = std::make_unique<TouchPadRawInputFilter>(hwnd);
-            
+
             if (!ctx->filter->isRegistered())
             {
                 ::OutputDebugStringW(L"Precision touchpad RAWINPUT registration failed.\n");
@@ -107,14 +116,15 @@ LRESULT CALLBACK RawInputWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPAR
             }
 
             // 安装鼠标钩子
-            ctx->mouseHook = std::make_unique<MouseHook>([ctx](WPARAM e, const MSLLHOOKSTRUCT& info) -> bool
-            {
-                if (info.flags & LLMHF_INJECTED)
+            ctx->mouseHook = std::make_unique<MouseHook>(
+                [ctx](WPARAM e, const MSLLHOOKSTRUCT& info) -> bool
                 {
-                    return false;
-                }
-                return handleTouchpadMouseEvent(ctx, e, info);
-            });
+                    if (info.flags & LLMHF_INJECTED)
+                    {
+                        return false;
+                    }
+                    return handleTouchpadMouseEvent(ctx, e, info);
+                });
         }
 
         // 注册鼠标 RAWINPUT 以接收被动活动检测
@@ -138,8 +148,8 @@ LRESULT CALLBACK RawInputWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPAR
 
         RAWINPUTHEADER header{};
         UINT headerSize = sizeof(header);
-        if (::GetRawInputData(reinterpret_cast<HRAWINPUT>(lParam), RID_HEADER, &header,
-                              &headerSize, sizeof(RAWINPUTHEADER)) != sizeof(header))
+        if (::GetRawInputData(reinterpret_cast<HRAWINPUT>(lParam), RID_HEADER, &header, &headerSize,
+                              sizeof(RAWINPUTHEADER)) != sizeof(header))
         {
             ::OutputDebugStringW(L"Failed to query RAWINPUT header.\n");
             break;
@@ -147,9 +157,10 @@ LRESULT CALLBACK RawInputWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPAR
 
         if (header.dwType == RIM_TYPEHID)
         {
-            const bool active = ctx->filter && ctx->filter->processRawInput(reinterpret_cast<HRAWINPUT>(lParam));
+            const bool active =
+                ctx->filter && ctx->filter->processRawInput(reinterpret_cast<HRAWINPUT>(lParam));
             auto* stateManager = ctx->filter ? ctx->filter->getStateManager() : nullptr;
-            
+
             if (active && stateManager)
             {
                 stateManager->saveCursorIfNeeded();
@@ -214,7 +225,6 @@ LRESULT CALLBACK RawInputWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPAR
         // 定时器驱动帧处理，确保无输入时也能及时响应释放
         if (ctx && ctx->filter && wParam == 1) // TIMER_ID = 1
         {
-            // [TODO] 似乎有bug
             ctx->filter->onTimer();
         }
         return 0;

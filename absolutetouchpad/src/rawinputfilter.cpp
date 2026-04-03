@@ -95,6 +95,13 @@ TouchPadRawInputFilter::TouchPadRawInputFilter(HWND targetWindow) : m_targetWind
     {
         ::OutputDebugStringW(L"Precision touchpad RAWINPUT registration successful.\n");
     }
+
+    // Register singleton instance (warn if one already exists)
+    if (s_instance && s_instance != this)
+    {
+        ::OutputDebugStringW(L"Warning: multiple TouchPadRawInputFilter instances created.\n");
+    }
+    s_instance = this;
 }
 
 TouchPadRawInputFilter::~TouchPadRawInputFilter()
@@ -112,6 +119,19 @@ TouchPadRawInputFilter::~TouchPadRawInputFilter()
             logWin32Failure(L"Failed to unregister RAWINPUT device");
         }
     }
+
+    if (s_instance == this)
+    {
+        s_instance = nullptr;
+    }
+}
+
+// Define static member
+TouchPadRawInputFilter* TouchPadRawInputFilter::s_instance = nullptr;
+
+TouchPadRawInputFilter* TouchPadRawInputFilter::instance()
+{
+    return s_instance;
 }
 
 bool TouchPadRawInputFilter::registerRawInput()
@@ -373,8 +393,8 @@ bool TouchPadRawInputFilter::processRawInput(HRAWINPUT rawInputHandle)
     // 启动定时器以确保在无输入时也能处理缓冲区
     startProcessingTimer();
 
-    qDebug() << "finger num: " << contacts.size() << "timestamp: " << timestamp << "scantime "
-             << scanTime << "x: " << contacts[0].x << "y: " << contacts[0].y;
+    // qDebug() << "finger num: " << contacts.size() << "timestamp: " << timestamp << "scantime "
+    //          << scanTime << "x: " << contacts[0].x << "y: " << contacts[0].y;
 
     return !contacts.empty();
 }
@@ -394,6 +414,8 @@ void TouchPadRawInputFilter::handleMode()
     //     m_touchpadframes.clear();
     // }
     // 这里先只考虑且默认全局pen模式
+    qDebug() << "size: " << m_touchpadframes.size() << " " << "active? "
+             << m_stateManager->isTouchpadActive();
     InputSenderT<InputSender::Type::mouse> sender;
     // qDebug() << "m_touchpadframes.size()" << m_touchpadframes.size();
     if (m_touchpadframes.size() <= 1)
@@ -541,7 +563,7 @@ void TouchPadRawInputFilter::onTimer()
     {
         // 处理剩余帧
         static int tp = 0;
-        qDebug() << "handleMode for end" << tp++;
+        // qDebug() << "handleMode for end" << tp++;
         // handleMode();
         if (m_touchpadframes.size() >= 1 && m_touchpadframes.size() < m_max_touchpadframes) // 点击
         {
@@ -560,7 +582,15 @@ void TouchPadRawInputFilter::onTimer()
         if (m_stateManager)
         {
             // 主动判断
-            m_stateManager->deactivateTouchpad();
+            if (m_stateManager->isTouchpadActive())
+            {
+                m_stateManager->deactivateTouchpad();
+                handleMode(); // 发送轨迹结束通知
+            }
+            else
+            {
+                m_stateManager->deactivateTouchpad();
+            }
         }
     }
     else

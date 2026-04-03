@@ -19,8 +19,17 @@ class TouchpadStateManager;
 class TouchPadRawInputFilter
 {
   public:
-    explicit TouchPadRawInputFilter(HWND targetWindow);
-    ~TouchPadRawInputFilter();
+        explicit TouchPadRawInputFilter(HWND targetWindow);
+        ~TouchPadRawInputFilter();
+
+        // Singleton accessor: returns the global TouchPadRawInputFilter instance if any
+        static TouchPadRawInputFilter* instance();
+
+        // Non-copyable and non-movable
+        TouchPadRawInputFilter(const TouchPadRawInputFilter&) = delete;
+        TouchPadRawInputFilter& operator=(const TouchPadRawInputFilter&) = delete;
+        TouchPadRawInputFilter(TouchPadRawInputFilter&&) = delete;
+        TouchPadRawInputFilter& operator=(TouchPadRawInputFilter&&) = delete;
 
     // Parse a single RAWINPUT HID report and update contact state
     bool processRawInput(HRAWINPUT rawInputHandle);
@@ -98,6 +107,9 @@ class TouchPadRawInputFilter
     HWND m_targetWindow = nullptr;
     bool m_registered = false;
     std::unique_ptr<TouchpadStateManager> m_stateManager;
+
+    // Singleton storage
+    static TouchPadRawInputFilter* s_instance;
 
     // 定时器相关
     static constexpr UINT_PTR TIMER_ID = 1;
