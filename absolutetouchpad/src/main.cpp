@@ -40,7 +40,8 @@ bool handleTouchpadMouseEvent(WindowContext* ctx, WPARAM e, const MSLLHOOKSTRUCT
         return true; // 阻断此鼠标事件
     }
 
-    // 超时或非活动状态，请求恢复光标
+    // 触控板造成的mouseclick也会触发
+    // 非活动状态，请求恢复光标
     if (!stateManager->isTouchpadActive())
     {
         // stateManager->deactivateTouchpad();

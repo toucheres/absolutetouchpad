@@ -9,6 +9,7 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <cmath>
 
 #include "InputSender.h"
 #include <QDebug>
@@ -379,8 +380,13 @@ bool TouchPadRawInputFilter::processRawInput(HRAWINPUT rawInputHandle)
         contacts.push_back(ContactLog{*state.contactId, *state.x, *state.y});
     }
 
+    // Remove empty/zero contacts and keep only valid samples.
     std::erase_if(contacts, [](const auto& it) { return it.x == 0 && it.y == 0; });
-    contacts.resize(contactCount);
+
+    // Ensure deterministic ordering by contact id (LinkCollection ordering from HID may vary).
+    std::sort(contacts.begin(), contacts.end(), [](const ContactLog& a, const ContactLog& b) {
+        return a.id < b.id;
+    });
 
     // 使用高精度系统时间戳而非 HID scanTime（可能循环）
     LARGE_INTEGER perfCounter;
@@ -392,9 +398,9 @@ bool TouchPadRawInputFilter::processRawInput(HRAWINPUT rawInputHandle)
     // qDebug() << "timestamp" << timestamp;
     // 启动定时器以确保在无输入时也能处理缓冲区
     startProcessingTimer();
-
-    // qDebug() << "finger num: " << contacts.size() << "timestamp: " << timestamp << "scantime "
-    //          << scanTime << "x: " << contacts[0].x << "y: " << contacts[0].y;
+    // [BUG] 移动过快丢帧，尤其是末尾, 尝试补偿
+    qDebug() << "finger num: " << contacts.size() << "timestamp: " << timestamp << "scantime "
+             << scanTime << "x: " << contacts[0].x << "y: " << contacts[0].y;
 
     return !contacts.empty();
 }
@@ -414,10 +420,16 @@ void TouchPadRawInputFilter::handleMode()
     //     m_touchpadframes.clear();
     // }
     // 这里先只考虑且默认全局pen模式
-    qDebug() << "size: " << m_touchpadframes.size() << " " << "active? "
-             << m_stateManager->isTouchpadActive();
+    // qDebug() << "size: " << m_touchpadframes.size() << " " << "active? "
+    //          << m_stateManager->isTouchpadActive();
+    // if (!m_stateManager->isTouchpadActive())
+    // {
+    //     qDebug() << "lastpoint: " << "x: " << m_touchpadframes.back().contacts[0].x
+    //              << "y: " << m_touchpadframes.back().contacts[0].y << '\n';
+    // }
     InputSenderT<InputSender::Type::mouse> sender;
     // qDebug() << "m_touchpadframes.size()" << m_touchpadframes.size();
+    // [BUG][TODO] 移动轨迹最后4帧x,y固定，丢失最后三帧x,y信息(可能还少录一帧), 计划补帧
     if (m_touchpadframes.size() <= 1)
     {
         // 滑动的第一帧,帧(第一次触摸)，不处理
@@ -475,7 +487,9 @@ void TouchPadRawInputFilter::handleMode()
             if (!frame.contacts.empty())
             {
                 const auto& c = frame.contacts.back();
-                sender.moveTo(c.x / 3, c.y / 3);
+                // Use floating mapping to avoid integer-division quantization.
+                sender.moveTo(static_cast<int>(std::lround(c.x / 3.0)),
+                              static_cast<int>(std::lround(c.y / 3.0)));
                 // qDebug() << "want to :" << c.x << c.y;
                 // [TODO] 映射到
             }
@@ -561,16 +575,18 @@ void TouchPadRawInputFilter::onTimer()
     // [TODO] 当前通过定时轮训判断最后一帧与现在时间戳之差，由于轮询频率低60Hz(16.7ms), 不一定准确
     if (elapsedMs > 10.0)
     {
+        // 帧处理完全交由handlemode
         // 处理剩余帧
-        static int tp = 0;
-        // qDebug() << "handleMode for end" << tp++;
-        // handleMode();
-        if (m_touchpadframes.size() >= 1 && m_touchpadframes.size() < m_max_touchpadframes) // 点击
-        {
-            auto tp = m_touchpadframes.back();
-            m_touchpadframes.clear();
-            m_touchpadframes.push_back(tp); // 留下一帧方便后续判断
-        }
+        // static int tp = 0;
+        // // qDebug() << "handleMode for end" << tp++;
+        // // handleMode();
+        // if (m_touchpadframes.size() >= 1 && m_touchpadframes.size() < m_max_touchpadframes) //
+        // 点击
+        // {
+        //     auto tp = m_touchpadframes.back();
+        //     m_touchpadframes.clear();
+        //     m_touchpadframes.push_back(tp); // 留下一帧方便后续判断
+        // }
 
         // 触发释放事件
         // fingerReleased();
@@ -593,13 +609,6 @@ void TouchPadRawInputFilter::onTimer()
             }
         }
     }
-    else
-    {
-        // qDebug() << "Timer handle";
-        // 定期处理缓冲区
-        // handleMode();
-    }
-    // handleMode();
 }
 
 #endif // _WIN32
