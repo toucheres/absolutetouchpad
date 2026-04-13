@@ -40,14 +40,17 @@ bool handleTouchpadMouseEvent(WindowContext* ctx, WPARAM e, const MSLLHOOKSTRUCT
         return true; // 阻断此鼠标事件
     }
 
-    // 触控板造成的mouseclick也会触发
+    // 触控板造成的mouseclick也会触发, 因此这里只认可move
     // 非活动状态，请求恢复光标
-    if (!stateManager->isTouchpadActive())
+    if (!stateManager->isTouchpadActive() && !(inf.flags & LLMHF_INJECTED))
     {
+        // qDebug() << "handleTouchpadMouseEvent requestCursorRestore";
         // stateManager->deactivateTouchpad();
-        stateManager->requestCursorRestore(WM_APP_RESTORE_CURSOR);
+        if (e == WM_MOUSEMOVE)
+        {
+            stateManager->requestCursorRestore(WM_APP_RESTORE_CURSOR);
+        }
     }
-
     return false;
 }
 

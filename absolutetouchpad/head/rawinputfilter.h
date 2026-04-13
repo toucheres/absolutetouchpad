@@ -19,17 +19,17 @@ class TouchpadStateManager;
 class TouchPadRawInputFilter
 {
   public:
-        explicit TouchPadRawInputFilter(HWND targetWindow);
-        ~TouchPadRawInputFilter();
+    explicit TouchPadRawInputFilter(HWND targetWindow);
+    ~TouchPadRawInputFilter();
 
-        // Singleton accessor: returns the global TouchPadRawInputFilter instance if any
-        static TouchPadRawInputFilter* instance();
+    // Singleton accessor: returns the global TouchPadRawInputFilter instance if any
+    static TouchPadRawInputFilter* instance();
 
-        // Non-copyable and non-movable
-        TouchPadRawInputFilter(const TouchPadRawInputFilter&) = delete;
-        TouchPadRawInputFilter& operator=(const TouchPadRawInputFilter&) = delete;
-        TouchPadRawInputFilter(TouchPadRawInputFilter&&) = delete;
-        TouchPadRawInputFilter& operator=(TouchPadRawInputFilter&&) = delete;
+    // Non-copyable and non-movable
+    TouchPadRawInputFilter(const TouchPadRawInputFilter&) = delete;
+    TouchPadRawInputFilter& operator=(const TouchPadRawInputFilter&) = delete;
+    TouchPadRawInputFilter(TouchPadRawInputFilter&&) = delete;
+    TouchPadRawInputFilter& operator=(TouchPadRawInputFilter&&) = delete;
 
     // Parse a single RAWINPUT HID report and update contact state
     bool processRawInput(HRAWINPUT rawInputHandle);
@@ -92,17 +92,18 @@ class TouchPadRawInputFilter
     }
 
   private:
-    enum class mouseStates
+    enum class MouseStates
     {
         not_init,
-        inited,
-        is_signal_finger,
-        touchstart_and_judging_fingernums,
-    } states = mouseStates::not_init;
+        click,
+        move,
+    } states = MouseStates::not_init;
+    int fingernum = 0;
     bool registerRawInput();
     bool ensurePrecisionTouchpadPresent();
 
     std::deque<Touchpadframe> m_touchpadframes;
+    std::deque<Touchpadframe> m_touchpadframes_dealed;
     size_t m_max_touchpadframes = 4;
     HWND m_targetWindow = nullptr;
     bool m_registered = false;

@@ -5,11 +5,12 @@
 #ifdef _WIN32
 
 #include <algorithm>
+#include <cmath>
+#include <deque>
 #include <optional>
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include <cmath>
 
 #include "InputSender.h"
 #include <QDebug>
@@ -66,6 +67,105 @@ namespace
         return cap.IsRange ? cap.Range.UsageMin : cap.NotRange.Usage;
     }
 } // namespace
+
+// Extrapolate a small number of trailing frames using simple per-contact linear velocity.
+// history must contain at least two frames; we use the last two frames to estimate velocity.
+static std::deque<TouchPadRawInputFilter::Touchpadframe> extrapolateTrailingFrames(
+    const std::deque<TouchPadRawInputFilter::Touchpadframe>& history, size_t missingCount)
+{
+    std::deque<TouchPadRawInputFilter::Touchpadframe> result;
+    if (missingCount == 0 || history.size() < 2)
+    {
+        return result;
+    }
+
+    // We'll prefer using last 3 frames to estimate velocity and acceleration.
+    const size_t n = history.size();
+    const auto& last = history[n - 1];
+    const auto& prev = history[n - 2];
+    const bool havePrev2 = (n >= 3);
+    const auto& prev2 = havePrev2 ? history[n - 3] : prev;
+
+    // Time deltas in ticks
+    int64_t dt1 = prev.scantime - prev2.scantime; // between prev2 and prev
+    int64_t dt2 = last.scantime - prev.scantime;  // between prev and last
+    if (dt1 <= 0)
+        dt1 = dt2 > 0 ? dt2 : 1;
+    if (dt2 <= 0)
+        dt2 = dt1 > 0 ? dt1 : 1;
+
+    // Build maps of positions by contact id for prev2, prev and last
+    std::unordered_map<uint32_t, std::pair<double, double>> pos2;
+    std::unordered_map<uint32_t, std::pair<double, double>> pos1;
+    std::unordered_map<uint32_t, std::pair<double, double>> pos0;
+    for (const auto& c : prev2.contacts)
+        pos2[c.id] = {static_cast<double>(c.x), static_cast<double>(c.y)};
+    for (const auto& c : prev.contacts)
+        pos1[c.id] = {static_cast<double>(c.x), static_cast<double>(c.y)};
+    for (const auto& c : last.contacts)
+        pos0[c.id] = {static_cast<double>(c.x), static_cast<double>(c.y)};
+
+    // For each requested trailing frame, extrapolate using constant acceleration model:
+    // x(t) = x_last + v_last * t + 0.5 * a * t^2
+    for (size_t step = 1; step <= missingCount; ++step)
+    {
+        TouchPadRawInputFilter::Touchpadframe f;
+        f.scantime = last.scantime + dt2 * static_cast<int64_t>(step);
+
+        for (const auto& kv : pos0)
+        {
+            const uint32_t id = kv.first;
+            const double x0 = kv.second.first;
+            const double y0 = kv.second.second;
+
+            double vx = 0.0;
+            double vy = 0.0;
+            double ax = 0.0;
+            double ay = 0.0;
+
+            auto it1 = pos1.find(id);
+            if (it1 != pos1.end())
+            {
+                const double x1 = it1->second.first;
+                const double y1 = it1->second.second;
+                // last velocity (per tick)
+                vx = (x0 - x1) / static_cast<double>(dt2);
+                vy = (y0 - y1) / static_cast<double>(dt2);
+
+                if (havePrev2)
+                {
+                    auto it2 = pos2.find(id);
+                    if (it2 != pos2.end())
+                    {
+                        const double x2 = it2->second.first;
+                        const double y2 = it2->second.second;
+                        // previous velocity
+                        const double vx_prev = (x1 - x2) / static_cast<double>(dt1);
+                        const double vy_prev = (y1 - y2) / static_cast<double>(dt1);
+                        // acceleration per tick^2
+                        ax = (vx - vx_prev) / static_cast<double>(dt2);
+                        ay = (vy - vy_prev) / static_cast<double>(dt2);
+                    }
+                }
+            }
+
+            // time offset in ticks from last frame
+            const double t = static_cast<double>(dt2 * static_cast<int64_t>(step));
+            const double nx = x0 + vx * t + 0.5 * ax * t * t;
+            const double ny = y0 + vy * t + 0.5 * ay * t * t;
+
+            TouchPadRawInputFilter::ContactLog contact;
+            contact.id = id;
+            contact.x = static_cast<int32_t>(std::lround(nx));
+            contact.y = static_cast<int32_t>(std::lround(ny));
+            f.contacts.push_back(contact);
+        }
+
+        result.push_back(std::move(f));
+    }
+
+    return result;
+}
 
 TouchPadRawInputFilter::TouchPadRawInputFilter(HWND targetWindow) : m_targetWindow(targetWindow)
 {
@@ -384,9 +484,8 @@ bool TouchPadRawInputFilter::processRawInput(HRAWINPUT rawInputHandle)
     std::erase_if(contacts, [](const auto& it) { return it.x == 0 && it.y == 0; });
 
     // Ensure deterministic ordering by contact id (LinkCollection ordering from HID may vary).
-    std::sort(contacts.begin(), contacts.end(), [](const ContactLog& a, const ContactLog& b) {
-        return a.id < b.id;
-    });
+    std::sort(contacts.begin(), contacts.end(),
+              [](const ContactLog& a, const ContactLog& b) { return a.id < b.id; });
 
     // 使用高精度系统时间戳而非 HID scanTime（可能循环）
     LARGE_INTEGER perfCounter;
@@ -399,8 +498,8 @@ bool TouchPadRawInputFilter::processRawInput(HRAWINPUT rawInputHandle)
     // 启动定时器以确保在无输入时也能处理缓冲区
     startProcessingTimer();
     // [BUG] 移动过快丢帧，尤其是末尾, 尝试补偿
-    qDebug() << "finger num: " << contacts.size() << "timestamp: " << timestamp << "scantime "
-             << scanTime << "x: " << contacts[0].x << "y: " << contacts[0].y;
+    // qDebug() << "finger num: " << contacts.size() << "timestamp: " << timestamp << "scantime "
+    //          << scanTime << "x: " << contacts[0].x << "y: " << contacts[0].y;
 
     return !contacts.empty();
 }
@@ -427,81 +526,220 @@ void TouchPadRawInputFilter::handleMode()
     //     qDebug() << "lastpoint: " << "x: " << m_touchpadframes.back().contacts[0].x
     //              << "y: " << m_touchpadframes.back().contacts[0].y << '\n';
     // }
-    InputSenderT<InputSender::Type::mouse> sender;
     // qDebug() << "m_touchpadframes.size()" << m_touchpadframes.size();
     // [BUG][TODO] 移动轨迹最后4帧x,y固定，丢失最后三帧x,y信息(可能还少录一帧), 计划补帧
-    if (m_touchpadframes.size() <= 1)
+    InputSenderT<InputSender::Type::mouse> sender;
+    if (states == MouseStates::not_init)
     {
-        // 滑动的第一帧,帧(第一次触摸)，不处理
-        return;
-    }
-    // 检查是否是新滑动
-    if (m_touchpadframes.back().scantime - m_touchpadframes[m_touchpadframes.size() - 2].scantime >
-        100000)
-    {
-        // [Bug]
-        // 点击时，若持续时间小于10帧会被抛弃，急需机制在无鼠标/触控板输入时触发事件循环以及时响应触控板释放时间
-        // 是新滑动
-        // m_touchpadframes.back()为这次滑动的第一帧,m_touchpadframes[m_touchpadframes.size()-
-        // 2]为上一次滑动的最后一帧
-        // 清除上一次滑动的过时帧
-        // qDebug() << "新滑动";
-        auto tp = m_touchpadframes.back();
-        m_touchpadframes.clear();
-        m_touchpadframes.push_back(tp);
-        return;
-    }
-    if (m_touchpadframes.size() <= m_max_touchpadframes)
-    {
-        // 继续积累帧
-        return;
-    }
-
-    if (m_touchpadframes.size() >= m_max_touchpadframes)
-    {
-        // 计算 m_touchpadframes 中每帧 contacts.size() 的众数视为这n帧的触摸数
-        std::unordered_map<size_t, int> freq;
-        for (const auto& f : m_touchpadframes)
+        if (m_stateManager->isTouchpadActive())
         {
-            ++freq[f.contacts.size()];
-        }
-
-        size_t modeContacts = 0;
-        int modeCount = 0;
-        for (const auto& kv : freq)
-        {
-            if (kv.second > modeCount || (kv.second == modeCount && kv.first < modeContacts))
+            if (m_touchpadframes.size() >= 5)
             {
-                modeContacts = kv.first;
-                modeCount = kv.second;
+                auto movedsize = sqrtf(pow(m_touchpadframes.back().contacts[0].x -
+                                               m_touchpadframes.front().contacts[0].x,
+                                           2) +
+                                       pow(m_touchpadframes.back().contacts[0].y -
+                                               m_touchpadframes.front().contacts[0].y,
+                                           2));
+                if (movedsize > 1.5 * m_touchpadframes.size())
+                {
+                    // 提前判断为move
+                    sender.pressLeft();
+                    states = MouseStates::move;
+                    return;
+                }
+            }
+            if (m_touchpadframes.size() <= 10) // 累计10帧
+            {
+                return;
+            }
+            else
+            {
+                sender.pressLeft();
+                states = MouseStates::move;
+                return;
             }
         }
-
-        // qDebug() << "mode contacts size:" << static_cast<int>(modeContacts)
-        //          << "count:" << modeCount;
-
-        if (modeContacts == 1)
+        else // 为轨迹结束
         {
-            // 单指模式处理
-            const Touchpadframe& frame = m_touchpadframes.back();
-            if (!frame.contacts.empty())
+            // 点击时长小于10帧, 可能是点击
+            auto movedsize = sqrtf(
+                pow(m_touchpadframes.back().contacts[0].x - m_touchpadframes.front().contacts[0].x,
+                    2) +
+                pow(m_touchpadframes.back().contacts[0].y - m_touchpadframes.front().contacts[0].y,
+                    2));
+            if (movedsize < 1.5 * m_touchpadframes.size())
             {
-                const auto& c = frame.contacts.back();
-                // Use floating mapping to avoid integer-division quantization.
-                sender.moveTo(static_cast<int>(std::lround(c.x / 3.0)),
-                              static_cast<int>(std::lround(c.y / 3.0)));
-                // qDebug() << "want to :" << c.x << c.y;
-                // [TODO] 映射到
+                // 视为点击
+                sender.releaseLeft();
+                sender.moveTo(m_touchpadframes.front().contacts[0].x,
+                              m_touchpadframes.front().contacts[0].y);
+                sender.pressLeft();
+                sender.releaseLeft();
+                m_touchpadframes.clear();
+                m_touchpadframes_dealed.clear();
+                states = MouseStates::not_init; // 等待下一次轨迹
+            }
+            else
+            {
+                // 视为短距离滑动
+                sender.releaseLeft();
+                sender.pressLeft();
+                for (int i = 0; i < m_touchpadframes.size(); i++)
+                {
+                    sender.moveTo(m_touchpadframes.front().contacts[i].x,
+                                  m_touchpadframes.front().contacts[i].y);
+                }
+                sender.releaseLeft();
+                m_touchpadframes.clear();
+                m_touchpadframes_dealed.clear();
+                states = MouseStates::not_init; // 等待下一次轨迹
             }
         }
-        // qDebug() << "滑动";
-        for (int i = 0; i < 2; i++) // 减少频率
+    }
+    else // 已判断为move
+    {
+        if (m_stateManager->isTouchpadActive())
         {
-            m_touchpadframes.pop_front(); // 滑动窗口
+            // if (m_touchpadframes.size() <= 4) // 至少缓存3帧, 因为后3帧位置信息不确定, 这里是恒等
+            // {
+            //     return;
+            // }
+            // else
+            {
+                while (m_touchpadframes.size() > 4)
+                {
+                    sender.moveRelative(
+                        m_touchpadframes[1].contacts[0].x - m_touchpadframes[0].contacts[0].x,
+                        m_touchpadframes[1].contacts[0].y - m_touchpadframes[0].contacts[0].y);
+                    m_touchpadframes_dealed.push_back(m_touchpadframes.front());
+                    m_touchpadframes.pop_front();
+                }
+                return;
+            }
+        }
+        else
+        {
+            // 滑动结束了, 补全后3帧轨迹
+            // 使用已处理帧历史对最后的若干帧做线性外推，减少末尾丢帧带来的突变
+            if (!m_touchpadframes_dealed.empty())
+            {
+                const size_t missing = 3;
+                auto extra = extrapolateTrailingFrames(m_touchpadframes_dealed, missing);
+                // 将外推帧当作继续的移动事件发送并追加到已处理队列
+                for (const auto& ef : extra)
+                {
+                    if (ef.contacts.empty())
+                        continue;
+                    const auto& c = ef.contacts.front();
+                    // 以相对移动发送（与最后一个已处理帧相比）
+                    const auto& last = m_touchpadframes_dealed.back();
+                    // 找到同 id 的最后位置（若找不到则以 last.contacts.front() 为基准）
+                    int32_t lastX = 0, lastY = 0;
+                    bool found = false;
+                    for (const auto& lc : last.contacts)
+                    {
+                        if (lc.id == c.id)
+                        {
+                            lastX = lc.x;
+                            lastY = lc.y;
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found && !last.contacts.empty())
+                    {
+                        lastX = last.contacts.front().x;
+                        lastY = last.contacts.front().y;
+                    }
+
+                    const int32_t dx = c.x - lastX;
+                    const int32_t dy = c.y - lastY;
+                    if (dx != 0 || dy != 0)
+                    {
+                        sender.moveRelative(dx, dy);
+                    }
+                    // 即便不需要移动，也将外推帧记为已处理，保持历史连续性
+                    m_touchpadframes_dealed.push_back(ef);
+                }
+            }
+            sender.releaseLeft();
+            m_touchpadframes.clear();
+            m_touchpadframes_dealed.clear();
+            states = MouseStates::not_init;
         }
     }
-
     return;
+    // 检查是否是新滑动
+    // if (m_touchpadframes.back().scantime - m_touchpadframes[m_touchpadframes.size() - 2].scantime
+    // >
+    //     100000)
+    // {
+    //     // [Bug]
+    //     //
+    //     点击时，若持续时间小于10帧会被抛弃，急需机制在无鼠标/触控板输入时触发事件循环以及时响应触控板释放时间
+    //     // 是新滑动
+    //     // m_touchpadframes.back()为这次滑动的第一帧,m_touchpadframes[m_touchpadframes.size()-
+    //     // 2]为上一次滑动的最后一帧
+    //     // 清除上一次滑动的过时帧
+    //     // qDebug() << "新滑动";
+    //     auto tp = m_touchpadframes.back();
+    //     m_touchpadframes.clear();
+    //     m_touchpadframes.push_back(tp);
+
+    //     return;
+    // }
+    // if (m_touchpadframes.size() <= m_max_touchpadframes)
+    // {
+    //     // 继续积累帧
+    //     return;
+    // }
+
+    // if (m_touchpadframes.size() >= m_max_touchpadframes)
+    // {
+    //     // 计算 m_touchpadframes 中每帧 contacts.size() 的众数视为这n帧的触摸数
+    //     std::unordered_map<size_t, int> freq;
+    //     for (const auto& f : m_touchpadframes)
+    //     {
+    //         ++freq[f.contacts.size()];
+    //     }
+
+    //     size_t modeContacts = 0;
+    //     int modeCount = 0;
+    //     for (const auto& kv : freq)
+    //     {
+    //         if (kv.second > modeCount || (kv.second == modeCount && kv.first < modeContacts))
+    //         {
+    //             modeContacts = kv.first;
+    //             modeCount = kv.second;
+    //         }
+    //     }
+
+    //     // qDebug() << "mode contacts size:" << static_cast<int>(modeContacts)
+    //     //          << "count:" << modeCount;
+
+    //     if (modeContacts == 1)
+    //     {
+    //         // 单指模式处理
+    //         const Touchpadframe& frame = m_touchpadframes.back();
+    //         if (!frame.contacts.empty())
+    //         {
+    //             const auto& c = frame.contacts.back();
+    //             // Use floating mapping to avoid integer-division quantization.
+    //             sender.moveTo(static_cast<int>(std::lround(c.x / 3.0)),
+    //                           static_cast<int>(std::lround(c.y / 3.0)));
+    //             // qDebug() << "want to :" << c.x << c.y;
+    //             // [TODO] 映射到
+    //         }
+    //     }
+    //     // qDebug() << "滑动";
+    //     for (int i = 0; i < 2; i++) // 减少频率
+    //     {
+    //         m_touchpadframes.pop_front(); // 滑动窗口
+    //     }
+    // }
+
+    // return;
     // if (m_touchpadframes.size() % 3 == 0)
     // {
     //     const Touchpadframe& frame = m_touchpadframes.back();
