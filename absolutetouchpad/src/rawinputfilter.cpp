@@ -544,17 +544,24 @@ void TouchPadRawInputFilter::handleMode()
                 if (movedsize > 1.5 * m_touchpadframes.size())
                 {
                     // 提前判断为move
+                    qDebug() << "movedsize > 1.5 * m_touchpadframes.size()";
+                    sender.moveTo(m_touchpadframes.front().contacts.front().x,
+                                  m_touchpadframes.front().contacts.front().y);
                     sender.pressLeft();
                     states = MouseStates::move;
                     return;
                 }
             }
-            if (m_touchpadframes.size() <= 10) // 累计10帧
+            if (m_touchpadframes.size() <= 15) // 累计10帧
             {
                 return;
             }
             else
             {
+                // 提前判断为move
+                qDebug() << "m_touchpadframes.size() > 10";
+                sender.moveTo(m_touchpadframes.front().contacts.front().x,
+                              m_touchpadframes.front().contacts.front().y);
                 sender.pressLeft();
                 states = MouseStates::move;
                 return;
@@ -571,6 +578,7 @@ void TouchPadRawInputFilter::handleMode()
             if (movedsize < 1.5 * m_touchpadframes.size())
             {
                 // 视为点击
+                qDebug() << "movedsize < 1.5 * m_touchpadframes.size()";
                 sender.releaseLeft();
                 sender.moveTo(m_touchpadframes.front().contacts[0].x,
                               m_touchpadframes.front().contacts[0].y);
@@ -583,6 +591,7 @@ void TouchPadRawInputFilter::handleMode()
             else
             {
                 // 视为短距离滑动
+                qDebug() << "movedsize >= 1.5 * m_touchpadframes.size()";
                 sender.releaseLeft();
                 sender.pressLeft();
                 for (int i = 0; i < m_touchpadframes.size(); i++)
@@ -670,90 +679,6 @@ void TouchPadRawInputFilter::handleMode()
         }
     }
     return;
-    // 检查是否是新滑动
-    // if (m_touchpadframes.back().scantime - m_touchpadframes[m_touchpadframes.size() - 2].scantime
-    // >
-    //     100000)
-    // {
-    //     // [Bug]
-    //     //
-    //     点击时，若持续时间小于10帧会被抛弃，急需机制在无鼠标/触控板输入时触发事件循环以及时响应触控板释放时间
-    //     // 是新滑动
-    //     // m_touchpadframes.back()为这次滑动的第一帧,m_touchpadframes[m_touchpadframes.size()-
-    //     // 2]为上一次滑动的最后一帧
-    //     // 清除上一次滑动的过时帧
-    //     // qDebug() << "新滑动";
-    //     auto tp = m_touchpadframes.back();
-    //     m_touchpadframes.clear();
-    //     m_touchpadframes.push_back(tp);
-
-    //     return;
-    // }
-    // if (m_touchpadframes.size() <= m_max_touchpadframes)
-    // {
-    //     // 继续积累帧
-    //     return;
-    // }
-
-    // if (m_touchpadframes.size() >= m_max_touchpadframes)
-    // {
-    //     // 计算 m_touchpadframes 中每帧 contacts.size() 的众数视为这n帧的触摸数
-    //     std::unordered_map<size_t, int> freq;
-    //     for (const auto& f : m_touchpadframes)
-    //     {
-    //         ++freq[f.contacts.size()];
-    //     }
-
-    //     size_t modeContacts = 0;
-    //     int modeCount = 0;
-    //     for (const auto& kv : freq)
-    //     {
-    //         if (kv.second > modeCount || (kv.second == modeCount && kv.first < modeContacts))
-    //         {
-    //             modeContacts = kv.first;
-    //             modeCount = kv.second;
-    //         }
-    //     }
-
-    //     // qDebug() << "mode contacts size:" << static_cast<int>(modeContacts)
-    //     //          << "count:" << modeCount;
-
-    //     if (modeContacts == 1)
-    //     {
-    //         // 单指模式处理
-    //         const Touchpadframe& frame = m_touchpadframes.back();
-    //         if (!frame.contacts.empty())
-    //         {
-    //             const auto& c = frame.contacts.back();
-    //             // Use floating mapping to avoid integer-division quantization.
-    //             sender.moveTo(static_cast<int>(std::lround(c.x / 3.0)),
-    //                           static_cast<int>(std::lround(c.y / 3.0)));
-    //             // qDebug() << "want to :" << c.x << c.y;
-    //             // [TODO] 映射到
-    //         }
-    //     }
-    //     // qDebug() << "滑动";
-    //     for (int i = 0; i < 2; i++) // 减少频率
-    //     {
-    //         m_touchpadframes.pop_front(); // 滑动窗口
-    //     }
-    // }
-
-    // return;
-    // if (m_touchpadframes.size() % 3 == 0)
-    // {
-    //     const Touchpadframe& frame = m_touchpadframes.back();
-    //     if (frame.contacts.size() == 1) // 单指时视为鼠标move
-    //     {
-    //         const auto& contact = frame.contacts[0]; // 使用第一个触点
-    //         InputSenderT<InputSender::Type::mouse> sender;
-    //         // sender.moveTo(contact.x / 3, contact.y / 3);
-    //         // qDebug() << m_touchpadframes.size();
-    //         // 映射到 absMapRect 并调用 InputSender::moveTo()
-    //     }
-
-    //     m_touchpadframes.clear();
-    // }
 }
 
 void TouchPadRawInputFilter::fingerReleased()
